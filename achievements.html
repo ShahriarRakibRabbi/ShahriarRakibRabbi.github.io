@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skills | Md. Shahriar Rakib Rabbi</title>
+    <meta name="description" content="Technical skills and expertise of Md. Shahriar Rakib Rabbi, AI & ML specialist">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="index.html" class="logo">
+                    <span class="logo__text">Shahriar Rabbi</span>
+                </a>
+                <nav class="nav">
+                    <ul class="nav__list">
+                        <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                        <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
+                        <li class="nav__item"><a href="skills.html" class="nav__link active">Skills</a></li>
+                        <li class="nav__item"><a href="projects.html" class="nav__link">Projects</a></li>
+                        <li class="nav__item"><a href="achievements.html" class="nav__link">Achievements</a></li>
+                        <li class="nav__item"><a href="gallery.html" class="nav__link">Gallery</a></li>
+                        <li class="nav__item"><a href="testimonials.html" class="nav__link">Testimonials</a></li>
+                        <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="header__buttons">
+                    <a href="assets/docs/resume.pdf" class="btn btn--primary" download>Download CV</a>
+                </div>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span class="nav-toggle__bar"></span>
+                    <span class="nav-toggle__bar"></span>
+                    <span class="nav-toggle__bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header__title">Technical Arsenal</h1>
+            <p class="page-header__subtitle">My skills, technologies and tools</p>
+        </div>
+        <div class="page-header__shape"></div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="skills-page section">
+        <div class="container">
+            <div class="skills-categories">
+                <button class="skills-categories__btn active" data-category="all">All</button>
+                <button class="skills-categories__btn" data-category="languages">Languages</button>
+                <button class="skills-categories__btn" data-category="frontend">Frontend</button>
+                <button class="skills-categories__btn" data-category="tools">Tools</button>
+                <button class="skills-categories__btn" data-category="aiml">AI/ML</button>
+            </div>
+            
+            <div class="skills-grid" id="skills-full-grid">
+                <!-- Skills will be loaded dynamically from skills.json -->
+            </div>
+
+            <!-- Skill Groups with Progress Bars -->
+            <div class="skill-groups">
+                <div class="skill-group">
+                    <h3 class="skill-group__title">Programming</h3>
+                    <div class="skill-bar">
+                        <div class="skill-bar__info">
+                            <span class="skill-bar__name">C/C++</span>
+                            <span class="skill-bar__percentage">85%</span>
+                        </div>
+                        <div class="skill-bar__bar">
+                            <div class="skill-bar__progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-bar__info">
+                            <span class="skill-bar__name">Java</span>
+                            <span class="skill-bar__percentage">75%</span>
+                        </div>
+                        <div class="skill-bar__bar">
+                            <div class="skill-bar__progress" style="width: 75%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3 class="skill-group__title">Web Development</h3>
+                    <div class="skill-bar">
+                        <div class="skill-bar__info">
+                            <span class="skill-bar__name">HTML</span>
+                            <span class="skill-bar__percentage">90%</span>
+                        </div>
+                        <div class="skill-bar__bar">
+                            <div class="skill-bar__progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-bar">
+                        <div class="skill-bar__info">
+                            <span class="skill-bar__name">CSS</span>
+                            <span class="skill-bar__percentage">80%</span>
+                        </div>
+                        <div class="skill-bar__bar">
+                            <div class="skill-bar__progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-group">
+                    <h3 class="skill-group__title">Design</h3>
+                    <div class="skill-bar">
+                        <div class="skill-bar__info">
+                            <span class="skill-bar__name">Figma</span>
+                            <span class="skill-bar__percentage">70%</span>
+                        </div>
+                        <div class="skill-bar__bar">
+                            <div class="skill-bar__progress" style="width: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__copyright">
+                    <p>&copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi. All rights

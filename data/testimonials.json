@@ -1,0 +1,100 @@
+{
+    "testimonials": [
+      {
+        "id": "1",
+        "name": "Sarah Johnson",
+        "position": "CEO",
+        "company": "TechStart Solutions",
+        "avatar": "assets/images/testimonials/testimonial-1.jpg",
+        "testimonial": "Working with Rakib was an absolute pleasure! He took our vague concept and transformed it into a beautiful, functional website that perfectly represents our brand. His attention to detail and technical expertise are unmatched. Not only did he deliver exactly what we needed, but he also provided valuable suggestions that improved our overall online presence.",
+        "rating": 5,
+        "project": "E-commerce Platform",
+        "featured": true,
+        "date": "2023-07-15"
+      },
+      {
+        "id": "2",
+        "name": "Michael Chen",
+        "position": "Product Manager",
+        "company": "Innovate Labs",
+        "avatar": "assets/images/testimonials/testimonial-2.jpg",
+        "testimonial": "Rakib's ability to translate complex technical requirements into elegant, user-friendly solutions is remarkable. He led the development of our task management application, which has significantly improved our team's productivity. His communication was clear and consistent throughout the project, and he was always quick to address any concerns or changes we requested.",
+        "rating": 5,
+        "project": "Task Management Application",
+        "featured": true,
+        "date": "2023-05-20"
+      },
+      {
+        "id": "3",
+        "name": "Priya Patel",
+        "position": "Marketing Director",
+        "company": "Brand Elevate",
+        "avatar": "assets/images/testimonials/testimonial-3.jpg",
+        "testimonial": "We hired Rakib to redesign our outdated website, and the results exceeded all expectations! The new site is not only visually stunning but also performs exceptionally well on all devices. Our conversion rate has increased by 45% since launch. Rakib's expertise in both design and development made the process smooth from start to finish.",
+        "rating": 5,
+        "project": "Website Redesign",
+        "featured": true,
+        "date": "2023-03-12"
+      },
+      {
+        "id": "4",
+        "name": "David Wilson",
+        "position": "Founder",
+        "company": "Fitness Revolution",
+        "avatar": "assets/images/testimonials/testimonial-4.jpg",
+        "testimonial": "Rakib developed a mobile fitness application for our gym that has transformed how we engage with our members. The app is intuitive, reliable, and packed with features our members love. Throughout the development process, Rakib demonstrated exceptional problem-solving skills and was always willing to go the extra mile to ensure our vision was realized.",
+        "rating": 5,
+        "project": "Health & Fitness Mobile App",
+        "featured": false,
+        "date": "2022-11-28"
+      },
+      {
+        "id": "5",
+        "name": "Jennifer Lopez",
+        "position": "Real Estate Broker",
+        "company": "Premier Properties",
+        "avatar": "assets/images/testimonials/testimonial-5.jpg",
+        "testimonial": "The real estate platform Rakib built for our agency has revolutionized how we showcase properties. The virtual tour feature in particular has been a game-changer, allowing us to reach clients who can't visit properties in person. The system is robust, user-friendly, and has helped us close sales faster than ever before.",
+        "rating": 4,
+        "project": "Real Estate Listing Platform",
+        "featured": false,
+        "date": "2022-09-15"
+      },
+      {
+        "id": "6",
+        "name": "Robert Kim",
+        "position": "Head of Training",
+        "company": "EduTech Solutions",
+        "avatar": "assets/images/testimonials/testimonial-6.jpg",
+        "testimonial": "Rakib's learning management system exceeded our expectations in every way. The user interface is clean and intuitive, making it easy for both instructors and students to navigate. The course builder tool is particularly impressive—it's powerful yet simple to use. Rakib was responsive to our feedback throughout the development process and delivered a product that perfectly suits our needs.",
+        "rating": 5,
+        "project": "Learning Management System",
+        "featured": false,
+        "date": "2022-06-29"
+      },
+      {
+        "id": "7",
+        "name": "Emma Thompson",
+        "position": "CTO",
+        "company": "Smart Living Inc.",
+        "avatar": "assets/images/testimonials/testimonial-7.jpg",
+        "testimonial": "We engaged Rakib to develop a smart home control dashboard that could integrate with various IoT devices and protocols. His technical expertise and innovative approach resulted in a solution that's both powerful and user-friendly. The energy consumption analytics feature has been particularly valuable for our customers. Rakib's work has significantly enhanced our product offering.",
+        "rating": 5,
+        "project": "Smart Home Control Dashboard",
+        "featured": false,
+        "date": "2022-04-17"
+      },
+      {
+        "id": "8",
+        "name": "Carlos Rodriguez",
+        "position": "Financial Advisor",
+        "company": "Wealth Wise Partners",
+        "avatar": "assets/images/testimonials/testimonial-8.jpg",
+        "testimonial": "The financial portfolio tracker that Rakib developed has become an invaluable tool for both our advisors and clients. The platform provides clear insights and analytics that make complex financial data accessible and actionable. Rakib's attention to security details was particularly impressive, given the sensitive nature of financial information. I would not hesitate to recommend him for any financial technology project.",
+        "rating": 4,
+        "project": "Financial Portfolio Tracker",
+        "featured": false,
+        "date": "2022-02-08"
+      }
+    ]
+  }

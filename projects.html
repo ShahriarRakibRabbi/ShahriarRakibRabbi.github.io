@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projects | Md. Shahriar Rakib Rabbi</title>
+    <meta name="description" content="Explore the portfolio of projects by Md. Shahriar Rakib Rabbi, AI & ML specialist">
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="header">
+        <div class="container">
+            <div class="header__inner">
+                <a href="index.html" class="logo">
+                    <span class="logo__text">Shahriar Rabbi</span>
+                </a>
+                <nav class="nav">
+                    <ul class="nav__list">
+                        <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
+                        <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
+                        <li class="nav__item"><a href="skills.html" class="nav__link">Skills</a></li>
+                        <li class="nav__item"><a href="projects.html" class="nav__link active">Projects</a></li>
+                        <li class="nav__item"><a href="achievements.html" class="nav__link">Achievements</a></li>
+                        <li class="nav__item"><a href="gallery.html" class="nav__link">Gallery</a></li>
+                        <li class="nav__item"><a href="testimonials.html" class="nav__link">Testimonials</a></li>
+                        <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="header__buttons">
+                    <a href="assets/docs/resume.pdf" class="btn btn--primary" download>Download CV</a>
+                </div>
+                <button class="nav-toggle" aria-label="Toggle navigation">
+                    <span class="nav-toggle__bar"></span>
+                    <span class="nav-toggle__bar"></span>
+                    <span class="nav-toggle__bar"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1 class="page-header__title">My Projects</h1>
+            <p class="page-header__subtitle">A collection of my work and side projects</p>
+        </div>
+        <div class="page-header__shape"></div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects-page section">
+        <div class="container">
+            <div class="projects-filter">
+                <button class="projects-filter__btn active" data-filter="all">All Projects</button>
+                <button class="projects-filter__btn" data-filter="webapp">Web Apps</button>
+                <button class="projects-filter__btn" data-filter="aiml">AI/ML</button>
+                <button class="projects-filter__btn" data-filter="desktop">Desktop Apps</button>
+            </div>
+            
+            <div class="projects-grid" id="projects-full-grid">
+                <!-- Projects will be loaded dynamically from projects.json -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer__inner">
+                <div class="footer__copyright">
+                    <p>&copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi. All rights reserved.</p>
+                </div>
+                <div class="footer__social">
+                    <a href="https://github.com/ShahriarRakibRabbi" class="footer__social-link" aria-label="GitHub" target="_blank"><i class="fab fa-github"></i></a>
+                    <a href="https://www.linkedin.com/in/md-shahriar-rakib-rabbi/" class="footer__social-link" aria-label="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/data-loader.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+{
+    "gallery": [
+      {
+        "id": "ecommerce-dashboard",
+        "title": "E-Commerce Dashboard UI",
+        "description": "Admin dashboard interface for the e-commerce platform, featuring analytics, inventory management, and order processing systems.",
+        "thumbnailUrl": "assets/images/gallery/ecommerce-dashboard-sm.jpg",
+        "largeUrl": "assets/images/gallery/ecommerce-dashboard-lg.jpg",
+        "type": "image",
+        "categories": ["UI/UX", "Web Design"],
+        "date": "2023-08-15",
+        "featured": true
+      },
+      {
+        "id": "mobile-app-screens",
+        "title": "Fitness App Screens",
+        "description": "User interface designs for the fitness tracking mobile application, showing workout tracking, progress graphs, and nutrition logging.",
+        "thumbnailUrl": "assets/images/gallery/fitness-app-sm.jpg",
+        "largeUrl": "assets/images/gallery/fitness-app-lg.jpg",
+        "type": "image",
+        "categories": ["UI/UX", "Mobile Design"],
+        "date": "2023-04-03",
+        "featured": true
+      },
+      {
+        "id": "product-landing-page",
+        "title": "Product Landing Page",
+        "description": "Conversion-focused landing page design for a SaaS product launch, featuring animated illustrations and testimonial sections.",
+        "thumbnailUrl": "assets/images/gallery/landing-page-sm.jpg",
+        "largeUrl": "assets/images/gallery/landing-page-lg.jpg",
+        "type": "image",
+        "categories": ["Web Design", "UI/UX"],
+        "date": "2023-02-20",
+        "featured": false
+      },
+      {
+        "id": "responsive-website",
+        "title": "Responsive Website Showcase",
+        "description": "Demonstration of responsive design principles applied to a corporate website, showing adaptations across desktop, tablet, and mobile devices.",
+        "thumbnailUrl": "assets/images/gallery/responsive-design-sm.jpg",
+        "largeUrl": "assets/images/gallery/responsive-design-lg.jpg",
+        "type": "image",
+        "categories": ["Web Design", "Front-end Development"],
+        "date": "2022-12-05",
+        "featured": true
+      },
+      {
+        "id": "brand-identity",
+        "title": "Brand Identity Design",
+        "description": "Comprehensive brand identity for a tech startup, including logo variations, color palette, typography, and application examples.",
+        "thumbnailUrl": "assets/images/gallery/brand-identity-sm.jpg",
+        "largeUrl": "assets/images/gallery/brand-identity-lg.jpg",
+        "type": "image",
+        "categories": ["Branding", "Graphic Design"],
+        "date": "2022-10-18",
+        "featured": false
+      },
+      {
+        "id": "animation-demo",
+        "title": "UI Animation Showcase",
+        "description": "Demonstration of micro-interactions and UI animations designed to enhance user experience and provide feedback.",
+        "thumbnailUrl": "assets/images/gallery/ui-animation-sm.jpg",
+        "largeUrl": "assets/images/gallery/ui-animation-lg.jpg",
+        "type": "video",
+        "videoUrl": "assets/videos/ui-animation-demo.mp4",
+        "categories": ["UI/UX", "Animation"],
+        "date": "2022-09-02",
+        "featured": true
+      },
+      {
+        "id": "dashboard-components",
+        "title": "Dashboard Component Library",
+        "description": "Collection of reusable dashboard components designed for data visualization and analytics interfaces.",
+        "thumbnailUrl": "assets/images/gallery/dashboard-components-sm.jpg",
+        "largeUrl": "assets/images/gallery/dashboard-components-lg.jpg",
+        "type": "image",
+        "categories": ["UI/UX", "Design Systems"],
+        "date": "2022-07-14",
+        "featured": false
+      },
+      {
+        "id": "application-prototype",
+        "title": "Web Application Prototype",
+        "description": "Interactive prototype for a task management application, showcasing user flows and interaction patterns.",
+        "thumbnailUrl": "assets/images/gallery/app-prototype-sm.jpg",
+        "largeUrl": "assets/images/gallery/app-prototype-lg.jpg",
+        "type": "image",
+        "categories": ["UI/UX", "Prototyping"],
+        "date": "2022-06-08",
+        "featured": false
+      },
+      {
+        "id": "icon-set",
+        "title": "Custom Icon Set",
+        "description": "Custom-designed icon library for a healthcare application, featuring consistent styling and clear visual metaphors.",
+        "thumbnailUrl": "assets/images/gallery/icon-set-sm.jpg",
+        "largeUrl": "assets/images/gallery/icon-set-lg.jpg",
+        "type": "image",
+        "categories": ["Graphic Design", "UI/UX"],
+        "date": "2022-04-22",
+        "featured": false
+      },
+      {
+        "id": "mobile-checkout-flow",
+        "title": "Mobile Checkout Flow",
+        "description": "Streamlined checkout process designed for mobile e-commerce applications, focusing on reducing friction and cart abandonment.",
+        "thumbnailUrl": "assets/images/gallery/checkout-flow-sm.jpg",
+        "largeUrl": "assets/images/gallery/checkout-flow-lg.jpg",
+        "type": "image",
+        "categories": ["UI/UX", "Mobile Design"],
+        "date": "2022-03-15",
+        "featured": true
+      },
+      {
+        "id": "data-visualization",
+        "title": "Interactive Data Visualization",
+        "description": "Interactive charts and graphs designed for financial data analysis with filtering and drill-down capabilities.",
+        "thumbnailUrl": "assets/images/gallery/data-viz-sm.jpg",
+        "largeUrl": "assets/images/gallery/data-viz-lg.jpg",
+        "type": "image",
+        "categories": ["Data Visualization", "Front-end Development"],
+        "date": "2022-02-10",
+        "featured": false
+      },
+      {
+        "id": "website-redesign",
+        "title": "Website Redesign Case Study",
+        "description": "Before and after comparison of a website redesign project, highlighting improvements in usability, performance, and conversion rates.",
+        "thumbnailUrl": "assets/images/gallery/redesign-sm.jpg",
+        "largeUrl": "assets/images/gallery/redesign-lg.jpg",
+        "type": "image",
+        "categories": ["Web Design", "Case Study"],
+        "date": "2022-01-05",
+        "featured": true
+      },
+      {
+        "id": "design-system",
+        "title": "Design System Documentation",
+        "description": "Comprehensive documentation of a design system created for a financial services platform, including components, patterns, and guidelines.",
+        "thumbnailUrl": "assets/images/gallery/design-system-sm.jpg",
+        "largeUrl": "assets/images/gallery/design-system-lg.jpg",
+        "type": "image",
+        "categories": ["Design Systems", "Documentation"],
+        "date": "2021-11-18",
+        "featured": false
+      },
+      {
+        "id": "accessibility-demo",
+        "title": "Accessibility Improvements",
+        "description": "Demonstration of accessibility enhancements made to a web application, highlighting WCAG compliance and inclusive design practices.",
+        "thumbnailUrl": "assets/images/gallery/accessibility-sm.jpg",
+        "largeUrl": "assets/images/gallery/accessibility-lg.jpg",
+        "type": "image",
+        "categories": ["Accessibility", "Front-end Development"],
+        "date": "2021-10-12",
+        "featured": false
+      },
+      {
+        "id": "app-onboarding",
+        "title": "App Onboarding Sequence",
+        "description": "User onboarding flow designed for a fintech application, guiding new users through key features and account setup.",
+        "thumbnailUrl": "assets/images/gallery/onboarding-sm.jpg",
+        "largeUrl": "assets/images/gallery/onboarding-lg.jpg",
+        "type": "image",
+        "categories": ["UI/UX", "Mobile Design"],
+        "date": "2021-09-05",
+        "featured": false
+      },
+      {
+        "id": "dark-mode-implementation",
+        "title": "Dark Mode Implementation",
+        "description": "Design and implementation of dark mode for a web application, showcasing color system adaptations and user preference handling.",
+        "thumbnailUrl": "assets/images/gallery/dark-mode-sm.jpg",
+        "largeUrl": "assets/images/gallery/dark-mode-lg.jpg",
+        "type": "image",
+        "categories": ["UI/UX", "Front-end Development"],
+        "date": "2021-08-20",
+        "featured": true
+      }
+    ],
+    "categories": [
+      {
+        "id": "ui-ux",
+        "name": "UI/UX",
+        "description": "User interface and user experience design work"
+      },
+      {
+        "id": "web-design",
+        "name": "Web Design",
+        "description": "Website design and layout projects"
+      },
+      {
+        "id": "mobile-design",
+        "name": "Mobile Design",
+        "description": "Mobile app interface design and user flows"
+      },
+      {
+        "id": "front-end-development",
+        "name": "Front-end Development",
+        "description": "Implementation of designs using HTML, CSS, and JavaScript"
+      },
+      {
+        "id": "graphic-design",
+        "name": "Graphic Design",
+        "description": "Visual design elements including icons, illustrations, and graphics"
+      },
+      {
+        "id": "branding",
+        "name": "Branding",
+        "description": "Brand identity and logo design work"
+      },
+      {
+        "id": "design-systems",
+        "name": "Design Systems",
+        "description": "Creation and documentation of design systems and component libraries"
+      },
+      {
+        "id": "animation",
+        "name": "Animation",
+        "description": "Motion design and interactive animations"
+      },
+      {
+        "id": "data-visualization",
+        "name": "Data Visualization",
+        "description": "Charts, graphs, and interactive data displays"
+      },
+      {
+        "id": "accessibility",
+        "name": "Accessibility",
+        "description": "Projects focusing on inclusive design and WCAG compliance"
+      }
+    ]
+  }

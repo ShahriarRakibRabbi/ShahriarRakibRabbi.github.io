@@ -1,0 +1,163 @@
+{
+    "achievements": [
+      {
+        "id": "masters-degree",
+        "title": "Master's Degree in Computer Science",
+        "subtitle": "University of Technology, Dhaka",
+        "description": "Graduated with distinction, specializing in Web Technologies and Human-Computer Interaction. Thesis on 'Improving User Experience in Progressive Web Applications'.",
+        "date": "May 2021",
+        "type": "education",
+        "tags": ["Computer Science", "HCI", "Web Technologies"],
+        "icon": "graduation-cap",
+        "featured": true,
+        "url": "https://uotdhaka.edu/alumni/mrakib"
+      },
+      {
+        "id": "bachelors-degree",
+        "title": "Bachelor's Degree in Computer Science",
+        "subtitle": "National University of Bangladesh",
+        "description": "Graduated with First Class Honors. Recipient of the Dean's Award for Academic Excellence for three consecutive years.",
+        "date": "June 2019",
+        "type": "education",
+        "tags": ["Computer Science", "Programming", "Software Engineering"],
+        "icon": "graduation-cap",
+        "featured": false,
+        "url": "https://nub.edu/alumni/mrakib"
+      },
+      {
+        "id": "frontend-specialization",
+        "title": "Frontend Development Specialization",
+        "subtitle": "Coursera & Meta",
+        "description": "Completed the 6-course specialization covering advanced React, performance optimization, and modern frontend architecture patterns.",
+        "date": "September 2022",
+        "type": "education",
+        "tags": ["React", "Frontend", "Performance"],
+        "icon": "certificate",
+        "featured": false,
+        "url": "https://coursera.org/verify/specialization/FRONTEND123"
+      },
+      {
+        "id": "aws-certification",
+        "title": "AWS Certified Developer - Associate",
+        "subtitle": "Amazon Web Services",
+        "description": "Earned certification demonstrating proficiency in developing, deploying, and debugging cloud-based applications using AWS.",
+        "date": "March 2023",
+        "type": "certification",
+        "tags": ["AWS", "Cloud", "DevOps"],
+        "icon": "cloud",
+        "featured": true,
+        "url": "https://aws.amazon.com/verification/12345"
+      },
+      {
+        "id": "senior-developer",
+        "title": "Senior Frontend Developer",
+        "subtitle": "TechVision Solutions",
+        "description": "Led a team of 5 developers to build enterprise-grade applications. Implemented design systems and CI/CD pipelines that reduced deployment time by 40%.",
+        "date": "January 2022 - Present",
+        "type": "professional",
+        "tags": ["Leadership", "React", "Design Systems"],
+        "icon": "briefcase",
+        "featured": true,
+        "company": "TechVision Solutions",
+        "location": "Dhaka, Bangladesh"
+      },
+      {
+        "id": "frontend-developer",
+        "title": "Frontend Developer",
+        "subtitle": "DataSoft Systems Bangladesh",
+        "description": "Developed responsive web applications for government and private sector clients. Implemented accessibility standards that improved WCAG compliance scores by 95%.",
+        "date": "June 2019 - December 2021",
+        "type": "professional",
+        "tags": ["React", "Accessibility", "TypeScript"],
+        "icon": "briefcase",
+        "featured": false,
+        "company": "DataSoft Systems Bangladesh",
+        "location": "Dhaka, Bangladesh"
+      },
+      {
+        "id": "intern-developer",
+        "title": "Web Development Intern",
+        "subtitle": "Bangladesh Computer Council",
+        "description": "Assisted in developing web applications for digital government initiatives. Gained practical experience in full-stack development with MERN stack.",
+        "date": "January 2019 - May 2019",
+        "type": "professional",
+        "tags": ["MERN", "Government", "Internship"],
+        "icon": "briefcase",
+        "featured": false,
+        "company": "Bangladesh Computer Council",
+        "location": "Dhaka, Bangladesh"
+      },
+      {
+        "id": "hackathon-winner",
+        "title": "First Place Winner",
+        "subtitle": "National Hackathon for Sustainable Development",
+        "description": "Led a team of 4 to develop a sustainable agriculture monitoring solution using IoT sensors and data analytics. Awarded 1st place among 50+ teams.",
+        "date": "October 2022",
+        "type": "award",
+        "tags": ["Hackathon", "IoT", "Sustainability"],
+        "icon": "trophy",
+        "featured": true,
+        "organizer": "ICT Division, Bangladesh"
+      },
+      {
+        "id": "design-award",
+        "title": "Excellence in UI Design",
+        "subtitle": "Bangladesh ICT Awards",
+        "description": "Received award for outstanding UI/UX design in the e-commerce platform project. Recognized for innovation in accessibility and mobile responsiveness.",
+        "date": "April 2023",
+        "type": "award",
+        "tags": ["UI/UX", "Design", "Accessibility"],
+        "icon": "award",
+        "featured": false,
+        "organizer": "Bangladesh Association of Software and Information Services"
+      },
+      {
+        "id": "speaker-webconf",
+        "title": "Conference Speaker",
+        "subtitle": "WebConf Asia 2023",
+        "description": "Delivered a talk on 'Building Accessible Web Applications with React' to an audience of 500+ developers and designers.",
+        "date": "July 2023",
+        "type": "award",
+        "tags": ["Speaking", "Accessibility", "React"],
+        "icon": "microphone",
+        "featured": true,
+        "url": "https://webconfasia.com/speakers/2023"
+      },
+      {
+        "id": "open-source-contribution",
+        "title": "Major Contributor",
+        "subtitle": "React Bootstrap",
+        "description": "Contributed significant accessibility improvements and new components to the React Bootstrap library, benefiting thousands of developers worldwide.",
+        "date": "2022 - 2023",
+        "type": "project",
+        "tags": ["Open Source", "React", "Accessibility"],
+        "icon": "code-branch",
+        "featured": false,
+        "url": "https://github.com/react-bootstrap/react-bootstrap/pulls?q=author%3Amrakib"
+      },
+      {
+        "id": "community-mentor",
+        "title": "Technical Mentor",
+        "subtitle": "Bangladesh Women in Technology",
+        "description": "Mentored 15+ women beginning careers in web development. Provided technical guidance and career advice to promote diversity in tech.",
+        "date": "2021 - Present",
+        "type": "project",
+        "tags": ["Mentoring", "Community", "Diversity"],
+        "icon": "users",
+        "featured": true,
+        "url": "https://bdwomenintech.org/mentors"
+      },
+      {
+        "id": "tech-article-author",
+        "title": "Technical Author",
+        "subtitle": "CSS-Tricks & Medium",
+        "description": "Published 12+ technical articles on frontend development best practices, React patterns, and performance optimization techniques.",
+        "date": "2020 - Present",
+        "type": "project",
+        "tags": ["Writing", "Frontend", "Education"],
+        "icon": "pen-fancy",
+        "featured": false,
+        "url": "https://medium.com/@mrakib"
+      }
+    ]
+  }
