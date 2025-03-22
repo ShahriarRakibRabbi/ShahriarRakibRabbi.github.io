@@ -1,150 +1,170 @@
-{
-    "projects": [
-      {
-        "id": "1",
-        "title": "Modern E-commerce Platform",
-        "description": "A fully responsive e-commerce platform built with React and Node.js, featuring user authentication, product filtering, and secure payment processing.",
-        "thumbnailUrl": "assets/images/projects/ecommerce.jpg",
-        "imageUrls": [
-          "assets/images/projects/ecommerce-1.jpg",
-          "assets/images/projects/ecommerce-2.jpg",
-          "assets/images/projects/ecommerce-3.jpg"
-        ],
-        "categories": ["Web Development", "E-commerce"],
-        "technologies": ["React", "Node.js", "MongoDB", "Express", "Stripe API"],
-        "featured": true,
-        "demoUrl": "https://demo-ecommerce.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/ecommerce-platform",
-        "details": "This modern e-commerce platform was built to provide small businesses with an affordable yet powerful online store solution. The application features a responsive design that works across all devices, user authentication with different permission levels, product filtering and search functionality, shopping cart with persistent storage, and secure payment processing through Stripe API. The admin dashboard allows store owners to manage products, track orders, and analyze sales data without technical knowledge.",
-        "challenges": "The biggest challenge was implementing a real-time inventory management system that could handle concurrent user sessions without overselling products. I solved this by using MongoDB transactions and implementing a reservation system for products added to cart.",
-        "outcomes": "The platform has helped multiple small businesses establish their online presence, with one client reporting a 45% increase in sales within the first three months of launch."
-      },
-      {
-        "id": "2",
-        "title": "Task Management Application",
-        "description": "A collaborative task management application with real-time updates, drag-and-drop interface, and team collaboration features.",
-        "thumbnailUrl": "assets/images/projects/task-manager.jpg",
-        "imageUrls": [
-          "assets/images/projects/task-manager-1.jpg",
-          "assets/images/projects/task-manager-2.jpg"
-        ],
-        "categories": ["Web Application", "Productivity"],
-        "technologies": ["Vue.js", "Firebase", "Vuex", "CSS Grid"],
-        "featured": true,
-        "demoUrl": "https://task-app.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/task-management-app",
-        "details": "This task management application was designed for remote teams to collaborate effectively. It features customizable workspaces, real-time updates using Firebase, drag-and-drop interfaces for task prioritization, file attachments, commenting system, and detailed analytics to track team productivity. The application supports multiple view options including Kanban boards, lists, and calendar views.",
-        "challenges": "Implementing real-time synchronization across multiple clients while maintaining performance was challenging. I optimized the Firebase queries and implemented debouncing to reduce unnecessary updates.",
-        "outcomes": "The application is currently used by 12 teams with over 500 active users, helping them increase their productivity by approximately 30%."
-      },
-      {
-        "id": "3",
-        "title": "Health & Fitness Mobile App",
-        "description": "A cross-platform mobile application for tracking workouts, nutrition, and health metrics with personalized recommendations.",
-        "thumbnailUrl": "assets/images/projects/fitness-app.jpg",
-        "imageUrls": [
-          "assets/images/projects/fitness-app-1.jpg",
-          "assets/images/projects/fitness-app-2.jpg",
-          "assets/images/projects/fitness-app-3.jpg"
-        ],
-        "categories": ["Mobile Development", "Health"],
-        "technologies": ["React Native", "Redux", "Node.js", "MongoDB", "Chart.js"],
-        "featured": true,
-        "demoUrl": "https://fitnessapp.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/fitness-tracker-app",
-        "details": "This fitness application helps users track their fitness journey across multiple dimensions: workout plans, nutrition, sleep, and health metrics. The app features customizable workout routines, a barcode scanner for easy food logging, integration with wearable devices to import health data, visual progress reports, and AI-powered recommendations based on user goals and progress.",
-        "challenges": "Integrating with various health APIs and wearable devices required handling multiple data formats and protocols. I created a unified data model and adapter pattern to normalize the data.",
-        "outcomes": "The app has been downloaded over 10,000 times with a 4.7/5 rating on app stores. Users report an average 65% better adherence to their fitness goals."
-      },
-      {
-        "id": "4",
-        "title": "Real Estate Listing Platform",
-        "description": "A comprehensive real estate platform with advanced search, virtual tours, and mortgage calculator features.",
-        "thumbnailUrl": "assets/images/projects/real-estate.jpg",
-        "imageUrls": [
-          "assets/images/projects/real-estate-1.jpg",
-          "assets/images/projects/real-estate-2.jpg"
-        ],
-        "categories": ["Web Development", "Real Estate"],
-        "technologies": ["Angular", ".NET Core", "SQL Server", "Google Maps API", "Three.js"],
-        "featured": false,
-        "demoUrl": "https://realestate.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/real-estate-platform",
-        "details": "This real estate platform helps connect property buyers, sellers, and agents. It features geo-location based property search, advanced filtering options, virtual 3D property tours, appointment scheduling with agents, mortgage calculator with personalized rate options, and a comprehensive dashboard for real estate agents to manage listings and client communications.",
-        "challenges": "Implementing the 3D virtual tour feature required optimizing large 3D models for web delivery. I implemented lazy loading and progressive rendering to improve performance.",
-        "outcomes": "The platform helped a local real estate agency increase their digital leads by 78% and reduced their average property sale time by 23 days."
-      },
-      {
-        "id": "5",
-        "title": "Learning Management System",
-        "description": "An interactive learning platform with course creation tools, progress tracking, and gamification elements.",
-        "thumbnailUrl": "assets/images/projects/lms.jpg",
-        "imageUrls": [
-          "assets/images/projects/lms-1.jpg",
-          "assets/images/projects/lms-2.jpg"
-        ],
-        "categories": ["Web Application", "Education"],
-        "technologies": ["React", "Node.js", "MongoDB", "WebSockets", "AWS S3"],
-        "featured": false,
-        "demoUrl": "https://lms-demo.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/learning-management-system",
-        "details": "This learning management system enables educators to create and deliver interactive online courses. The platform includes a drag-and-drop course builder, interactive quizzes and assignments, progress tracking for both students and instructors, discussion forums with real-time notifications, video conferencing integration, and gamification elements like badges and leaderboards to increase student engagement.",
-        "challenges": "Designing an intuitive course creation interface that non-technical educators could use was challenging. I conducted multiple user testing sessions and iterations to optimize the UX.",
-        "outcomes": "The system has been adopted by 3 educational institutions, serving over 2,000 students and 50 instructors with a 92% satisfaction rate."
-      },
-      {
-        "id": "6",
-        "title": "Smart Home Control Dashboard",
-        "description": "A centralized dashboard for managing IoT devices, with automation rules and energy consumption analytics.",
-        "thumbnailUrl": "assets/images/projects/smart-home.jpg",
-        "imageUrls": [
-          "assets/images/projects/smart-home-1.jpg",
-          "assets/images/projects/smart-home-2.jpg"
-        ],
-        "categories": ["IoT", "Web Application"],
-        "technologies": ["Vue.js", "Python", "MQTT", "GraphQL", "D3.js"],
-        "featured": true,
-        "demoUrl": "https://smarthome.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/smart-home-dashboard",
-        "details": "This smart home control dashboard provides a unified interface for managing various IoT devices from different manufacturers. The system features a customizable dashboard with interactive widgets, automation rule builder with conditional logic, energy consumption monitoring and analytics, security camera feeds with motion alerts, and voice control integration with popular voice assistants.",
-        "challenges": "Integrating with a wide range of IoT protocols and manufacturers' APIs required creating an extensible architecture. I implemented an adapter pattern and plugin system to allow for easy addition of new device types.",
-        "outcomes": "The dashboard has reduced energy consumption by an average of 23% for users through its optimization recommendations and automated rules."
-      },
-      {
-        "id": "7",
-        "title": "Financial Portfolio Tracker",
-        "description": "A comprehensive financial tracking application with investment analytics, goal planning, and market insights.",
-        "thumbnailUrl": "assets/images/projects/finance.jpg",
-        "imageUrls": [
-          "assets/images/projects/finance-1.jpg",
-          "assets/images/projects/finance-2.jpg"
-        ],
-        "categories": ["Web Application", "Finance"],
-        "technologies": ["React", "Python", "PostgreSQL", "Redis", "Stock APIs"],
-        "featured": false,
-        "demoUrl": "https://finance-tracker.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/financial-portfolio-tracker",
-        "details": "This financial portfolio tracker helps users manage their investments and plan their financial future. The application includes portfolio tracking across multiple accounts and asset classes, real-time market data and news, investment performance analysis with benchmarking, financial goal setting and tracking, tax optimization suggestions, and scenario planning tools for retirement and other major life events.",
-        "challenges": "Ensuring accurate and timely financial data while keeping API costs reasonable was difficult. I implemented a sophisticated caching system and used WebSockets for real-time price updates only on actively viewed assets.",
-        "outcomes": "Users report making more informed investment decisions with an average portfolio performance improvement of 4.2% compared to their pre-app performance."
-      },
-      {
-        "id": "8",
-        "title": "Restaurant Management System",
-        "description": "A comprehensive system for restaurant operations including ordering, inventory, reservations, and analytics.",
-        "thumbnailUrl": "assets/images/projects/restaurant.jpg",
-        "imageUrls": [
-          "assets/images/projects/restaurant-1.jpg",
-          "assets/images/projects/restaurant-2.jpg"
-        ],
-        "categories": ["Web Application", "Business"],
-        "technologies": ["Angular", "Java Spring Boot", "MySQL", "WebSockets", "Chart.js"],
-        "featured": false,
-        "demoUrl": "https://restaurant-system.rakibrabby.com",
-        "codeUrl": "https://github.com/mrakibbd/restaurant-management-system",
-        "details": "This restaurant management system streamlines all aspects of restaurant operations. It includes digital menu management with real-time updates, table management and reservations, kitchen order display system, inventory tracking with automatic alerts, staff scheduling and time tracking, customer relationship management with loyalty program, and comprehensive reporting and analytics.",
-        "challenges": "Creating a system that could work effectively both online and offline (in case of internet outages) required implementing a sophisticated data synchronization system.",
-        "outcomes": "Restaurants using this system report a 15% reduction in food waste, 22% improvement in order accuracy, and a 10% increase in table turnover rate."
-      }
-    ]
+[
+  {
+    "id": "ai-image-recognition",
+    "title": "AI Image Recognition Platform",
+    "description": "An AI-powered image recognition platform that can identify objects, scenes, and people in images with high accuracy.",
+    "longDescription": "I developed a comprehensive image recognition platform that leverages deep learning models to analyze visual content. The system can identify thousands of objects, recognize famous landmarks, detect faces, and even understand the sentiment and context of photos. Built with TensorFlow and deployed on AWS, it provides both a web interface and API access for developers. This project represented a significant challenge in processing large datasets and optimizing model performance for real-time analysis.",
+    "image": "assets/images/projects/ai-image-recognition.jpg",
+    "category": "aiml",
+    "technologies": ["TensorFlow", "Python", "React", "AWS", "Docker", "OpenCV"],
+    "date": "2024-01-15",
+    "featured": true,
+    "liveUrl": "https://ai-recognition-demo.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/ai-image-recognition",
+    "screenshots": ["screenshot1.jpg", "screenshot2.jpg", "screenshot3.jpg"]
+  },
+  {
+    "id": "ecommerce-platform",
+    "title": "NextGen E-commerce Solution",
+    "description": "A full-featured e-commerce platform with advanced inventory management, payment processing, and customer analytics.",
+    "longDescription": "This comprehensive e-commerce solution provides businesses with everything they need to sell products online effectively. Features include inventory management, multi-currency support, diverse payment gateways integration, advanced product search, personalized recommendations, and detailed analytics. The platform is built with scalability in mind, able to handle thousands of concurrent users and process hundreds of transactions per minute.",
+    "image": "assets/images/projects/ecommerce-platform.jpg",
+    "category": "webapp",
+    "technologies": ["React", "Node.js", "MongoDB", "Redis", "Stripe API", "AWS"],
+    "date": "2023-08-20",
+    "featured": false,
+    "liveUrl": "https://nextgen-shop-demo.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/nextgen-ecommerce",
+    "screenshots": ["dashboard.jpg", "product-page.jpg", "analytics.jpg"]
+  },
+  {
+    "id": "task-management-app",
+    "title": "TaskFlow - Project Management Tool",
+    "description": "A collaborative task management application for teams with real-time updates, file sharing, and progress tracking.",
+    "longDescription": "TaskFlow is designed to streamline team collaboration and project management. It features customizable Kanban boards, task dependencies, time tracking, file sharing, and real-time notifications. The application also includes reporting tools to visualize team productivity and project progress over time. With both web and mobile interfaces, team members can stay connected and productive from anywhere.",
+    "image": "assets/images/projects/taskflow.jpg",
+    "category": "webapp",
+    "technologies": ["Vue.js", "Firebase", "Express", "Websockets", "Chart.js"],
+    "date": "2023-11-05",
+    "featured": false,
+    "liveUrl": "https://taskflow.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/taskflow",
+    "screenshots": ["board-view.jpg", "task-detail.jpg", "reports.jpg"]
+  },
+  {
+    "id": "health-tracking-app",
+    "title": "VitalTrack - Health Monitoring App",
+    "description": "A mobile application for tracking health metrics, fitness goals, and medical appointments with insightful data visualization.",
+    "longDescription": "VitalTrack helps users monitor their health and fitness progress through an intuitive mobile interface. The app integrates with wearable devices to track steps, heart rate, sleep quality, and workout data. Users can set personalized goals, receive reminders for medications and appointments, and view detailed reports about their health trends. The application also includes a nutrition tracker with a database of common foods and their nutritional values.",
+    "image": "assets/images/projects/vitaltrack.jpg",
+    "category": "mobile",
+    "technologies": ["React Native", "Redux", "Firebase", "HealthKit API", "D3.js"],
+    "date": "2023-05-12",
+    "featured": false,
+    "liveUrl": "",
+    "githubUrl": "https://github.com/mrakibbd/vital-track",
+    "screenshots": ["dashboard.jpg", "health-metrics.jpg", "goal-tracking.jpg"]
+  },
+  {
+    "id": "sentiment-analysis-tool",
+    "title": "SentiMeter - Social Media Sentiment Analyzer",
+    "description": "An AI tool that analyzes social media content to determine public sentiment about brands, products, or topics.",
+    "longDescription": "SentiMeter uses natural language processing and machine learning algorithms to analyze thousands of social media posts and comments, determining the overall sentiment (positive, negative, or neutral) about specific topics. The tool helps businesses understand public opinion about their brand, monitor reactions to marketing campaigns, and identify potential PR issues before they escalate. The dashboard provides real-time updates, trend analysis, and actionable insights based on the collected data.",
+    "image": "assets/images/projects/sentimeter.jpg",
+    "category": "aiml",
+    "technologies": ["Python", "Natural Language Processing", "BERT", "Flask", "React", "MongoDB"],
+    "date": "2023-09-30",
+    "featured": false,
+    "liveUrl": "https://sentimeter-demo.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/sentimeter",
+    "screenshots": ["sentiment-dashboard.jpg", "trend-analysis.jpg", "report.jpg"]
+  },
+  {
+    "id": "video-editing-software",
+    "title": "ClipMaster - Video Editing Suite",
+    "description": "A desktop application for professional video editing with advanced effects, transitions, and audio processing capabilities.",
+    "longDescription": "ClipMaster is a comprehensive video editing solution that balances professional features with an intuitive interface. It supports multiple video formats, offers a multi-track timeline, and includes a library of transitions and effects. The software features advanced color grading tools, audio synchronization, and supports 4K video processing. ClipMaster is optimized for performance, utilizing GPU acceleration to handle complex rendering tasks efficiently.",
+    "image": "assets/images/projects/clipmaster.jpg",
+    "category": "desktop",
+    "technologies": ["C++", "Qt", "FFmpeg", "OpenGL", "CUDA"],
+    "date": "2022-11-18",
+    "featured": false,
+    "liveUrl": "https://clipmaster.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/clipmaster",
+    "screenshots": ["editor-interface.jpg", "effects-panel.jpg", "rendering.jpg"]
+  },
+  {
+    "id": "smart-home-system",
+    "title": "HomeHub - Smart Home Control Center",
+    "description": "An IoT solution that integrates various smart home devices into a single, user-friendly control interface.",
+    "longDescription": "HomeHub connects and controls multiple smart home devices through a unified interface. The system integrates with popular smart home products like lights, thermostats, security cameras, and door locks. It features voice control, customizable automation rules, and energy usage monitoring. The application includes a scheduling system for routine tasks and sends notifications about unusual activities or potential issues detected at home.",
+    "image": "assets/images/projects/homehub.jpg",
+    "category": "webapp",
+    "technologies": ["IoT", "MQTT", "Node.js", "React", "MongoDB", "WebRTC"],
+    "date": "2023-03-25",
+    "featured": false,
+    "liveUrl": "https://homehub-demo.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/homehub",
+    "screenshots": ["dashboard.jpg", "device-control.jpg", "automation.jpg"]
+  },
+  {
+    "id": "ar-education-app",
+    "title": "EduView AR - Augmented Reality Learning",
+    "description": "An educational mobile application that uses augmented reality to make learning more interactive and engaging.",
+    "longDescription": "EduView AR transforms traditional learning materials into interactive 3D experiences using augmented reality. The app covers subjects ranging from astronomy and biology to history and architecture. Students can explore the solar system, dissect virtual organisms, or walk through historical sites—all through their mobile device. The application includes quizzes and challenges to reinforce learning and tracks progress over time. Content is regularly updated and can be customized for different educational levels.",
+    "image": "assets/images/projects/eduview-ar.jpg",
+    "category": "mobile",
+    "technologies": ["Unity", "ARKit", "ARCore", "C#", "3D Modeling", "Firebase"],
+    "date": "2023-07-08",
+    "featured": false,
+    "liveUrl": "",
+    "githubUrl": "https://github.com/mrakibbd/eduview-ar",
+    "screenshots": ["solar-system.jpg", "biology-model.jpg", "historical-site.jpg"]
+  },
+  {
+    "id": "financial-dashboard",
+    "title": "FinVision - Financial Analytics Dashboard",
+    "description": "A comprehensive financial analytics platform for tracking investments, analyzing market trends, and managing personal finances.",
+    "longDescription": "FinVision provides users with powerful tools to manage their financial portfolio and make informed investment decisions. The dashboard integrates with multiple financial institutions to provide a complete view of accounts, investments, and expenses in one place. Features include portfolio performance tracking, market trend analysis, budget management, and retirement planning calculators. The platform uses advanced data visualization to make complex financial information easy to understand.",
+    "image": "assets/images/projects/finvision.jpg",
+    "category": "webapp",
+    "technologies": ["Angular", "D3.js", "Node.js", "PostgreSQL", "Plaid API", "AWS"],
+    "date": "2022-09-14",
+    "featured": false,
+    "liveUrl": "https://finvision-demo.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/finvision",
+    "screenshots": ["portfolio-view.jpg", "market-analysis.jpg", "budget-tracker.jpg"]
+  },
+  {
+    "id": "music-production-software",
+    "title": "SoundCraft - Audio Production Studio",
+    "description": "A professional desktop application for music production, audio editing, and sound design with virtual instruments.",
+    "longDescription": "SoundCraft is a digital audio workstation (DAW) designed for music producers, sound designers, and audio engineers. The software includes multi-track recording and editing, MIDI sequencing, virtual instruments, and a comprehensive effects library. It features a modular sound engine that allows users to create complex synthesis chains and a sample management system to organize audio resources efficiently. The application is optimized for low-latency performance and supports industry-standard audio plugins and formats.",
+    "image": "assets/images/projects/soundcraft.jpg",
+    "category": "desktop",
+    "technologies": ["C++", "JUCE Framework", "DSP", "VST SDK", "OpenGL"],
+    "date": "2022-06-20",
+    "featured": false,
+    "liveUrl": "https://soundcraft.rakibrabby.com",
+    "githubUrl": "https://github.com/mrakibbd/soundcraft",
+    "screenshots": ["mixer.jpg", "arrangement-view.jpg", "synth-editor.jpg"]
+  },
+  {
+    "id": "language-learning-app",
+    "title": "LinguaLearn - Interactive Language Learning",
+    "description": "A mobile application for learning languages through interactive exercises, speech recognition, and personalized lessons.",
+    "longDescription": "LinguaLearn makes language acquisition fun and effective through a combination of interactive exercises, real-world conversations, and adaptive learning algorithms. The app uses speech recognition to help users perfect their pronunciation and includes a virtual tutor that adapts lessons based on individual progress and learning style. Features include vocabulary flashcards, grammar explanations, cultural notes, and the ability to connect with native speakers for practice. The application supports offline learning and synchronizes progress across devices.",
+    "image": "assets/images/projects/linguallearn.jpg",
+    "category": "mobile",
+    "technologies": ["Flutter", "Firebase", "TensorFlow Lite", "Speech Recognition API"],
+    "date": "2023-02-10",
+    "featured": false,
+    "liveUrl": "https://play.google.com/store/apps/details?id=com.rakibrabby.linguallearn",
+    "githubUrl": "https://github.com/mrakibbd/linguallearn",
+    "screenshots": ["lesson-screen.jpg", "conversation-practice.jpg", "vocabulary-game.jpg"]
+  },
+  {
+    "id": "autonomous-drone-system",
+    "title": "SkyNav - Autonomous Drone Navigation",
+    "description": "An AI system for autonomous drone navigation and obstacle avoidance in complex environments.",
+    "longDescription": "SkyNav enables drones to navigate autonomously in challenging environments without relying on GPS signals. The system uses computer vision and SLAM (Simultaneous Localization and Mapping) techniques to create real-time maps of surroundings and plan optimal flight paths. SkyNav can recognize and avoid obstacles, adapt to changing conditions, and complete missions with minimal human intervention. Applications include search and rescue operations, infrastructure inspection, and agricultural monitoring in areas with poor GPS coverage.",
+    "image": "assets/images/projects/skynav.jpg",
+    "category": "aiml",
+    "technologies": ["Python", "ROS", "Computer Vision", "SLAM", "TensorFlow", "C++"],
+    "date": "2022-12-05",
+    "featured": false,
+    "liveUrl": "",
+    "githubUrl": "https://github.com/mrakibbd/skynav",
+    "screenshots": ["mapping.jpg", "obstacle-detection.jpg", "flight-path.jpg"]
   }
+]

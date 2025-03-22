@@ -3,189 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | Portfolio</title>
+    <title>Admin Login | My Portfolio</title>
+    <meta name="description" content="Admin login for my portfolio website">
     <meta name="robots" content="noindex, nofollow">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
-    <link rel="stylesheet" href="../assets/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
-    <style>
-        .admin-login {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-color: #f8f9fa;
-            background-image: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-        }
-        
-        .login-card {
-            width: 100%;
-            max-width: 400px;
-            padding: 2rem;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        }
-        
-        .login-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-        
-        .login-header__title {
-            font-size: 1.5rem;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        
-        .login-form__group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .login-form__label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-            color: #555;
-        }
-        
-        .login-form__input {
-            width: 100%;
-            padding: 0.75rem 1rem;
-            font-size: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            transition: border-color 0.3s;
-        }
-        
-        .login-form__input:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-        
-        .login-form__button {
-            width: 100%;
-            padding: 0.75rem;
-            background-color: var(--primary-color);
-            color: #fff;
-            font-size: 1rem;
-            font-weight: 500;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        
-        .login-form__button:hover {
-            background-color: var(--primary-color-dark);
-        }
-        
-        .login-form__error {
-            color: #e53935;
-            font-size: 0.875rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-        
-        .login-form__error.show {
-            display: block;
-        }
-        
-        .login-footer {
-            text-align: center;
-            margin-top: 2rem;
-        }
-        
-        .login-footer__link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.875rem;
-            transition: color 0.3s;
-        }
-        
-        .login-footer__link:hover {
-            color: var(--primary-color-dark);
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/admin.css">
 </head>
-<body>
-    <div class="admin-login">
+<body class="login-page">
+    <div class="admin-login-container">
         <div class="login-card">
-            <div class="login-header">
-                <h1 class="login-header__title">Admin Login</h1>
-                <p class="login-header__subtitle">Enter your credentials to access the admin panel</p>
+            <div class="login-card-header">
+                <div class="login-logo">
+                    <i class="fas fa-code"></i>
+                    <h1>Portfolio Admin</h1>
+                </div>
+                <p class="login-subtitle">Enter your credentials to access the admin panel</p>
             </div>
             
-            <form id="login-form" class="login-form">
-                <div class="login-form__group">
-                    <label for="username" class="login-form__label">Username</label>
-                    <input type="text" id="username" class="login-form__input" placeholder="Enter your username" required>
-                </div>
+            <div class="login-card-body">
+                <!-- Alert Messages -->
+                <div id="login-error" class="alert alert-danger hidden"></div>
+                <div id="login-success" class="alert alert-success hidden"></div>
                 
-                <div class="login-form__group">
-                    <label for="password" class="login-form__label">Password</label>
-                    <div class="login-form__password-wrapper">
-                        <input type="password" id="password" class="login-form__input" placeholder="Enter your password" required>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user"></i>
+                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" autocomplete="username" required>
+                        </div>
                     </div>
-                </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" autocomplete="current-password" required>
+                            <button type="button" id="password-toggle" class="password-toggle" tabindex="-1">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group login-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember-me" name="remember-me">
+                            <label for="remember-me">Remember me</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block btn-submit">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </div>
+                </form>
                 
-                <div class="login-form__error" id="login-error">
-                    Invalid username or password. Please try again.
+                <div class="login-security-notice">
+                    <i class="fas fa-shield-alt"></i>
+                    <p>This area is protected by secure password hashing and session management. Multiple failed login attempts will result in temporary lockout.</p>
                 </div>
-                
-                <button type="submit" class="login-form__button">
-                    <span>Login</span>
-                </button>
-            </form>
+            </div>
             
-            <div class="login-footer">
-                <a href="../index.html" class="login-footer__link">
-                    <i class="fas fa-arrow-left"></i> Back to Website
+            <div class="login-card-footer">
+                <a href="../index.html" class="back-to-site">
+                    <i class="fas fa-arrow-left"></i> Back to website
                 </a>
+                
+                <div class="password-recovery">
+                    <a href="#" id="forgot-password-link" data-modal-target="password-recovery-modal">Forgot password?</a>
+                </div>
             </div>
         </div>
+        
+        <div class="login-theme-toggle">
+            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+                <i class="fas fa-moon"></i>
+            </button>
+        </div>
     </div>
-
+    
+    <!-- Modal Templates -->
+    <div id="modal-container"></div>
+    
+    <template id="password-recovery-modal">
+        <div class="modal-header">
+            <h2>Password Recovery</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>For security reasons, password recovery must be performed manually.</p>
+            <p>Please contact the site administrator for assistance.</p>
+            
+            <div class="info-box info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <p>Alternative recovery methods:</p>
+                    <ol>
+                        <li>Edit the auth.json file in the data folder with a new hashed password</li>
+                        <li>Use the password reset utility in the GitHub repository</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Close</button>
+        </div>
+    </template>
+    
+    <!-- Scripts -->
     <script src="../assets/js/auth.js"></script>
     <script>
+        // Password visibility toggle
         document.addEventListener('DOMContentLoaded', function() {
-            // Prevent search engines from indexing admin pages
-            if (navigator.userAgent.toLowerCase().indexOf('bot') > -1) {
-                window.location.href = '../index.html';
+            const passwordField = document.getElementById('password');
+            const toggleBtn = document.getElementById('password-toggle');
+            
+            if (toggleBtn && passwordField) {
+                toggleBtn.addEventListener('click', function() {
+                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+                    passwordField.setAttribute('type', type);
+                    
+                    // Toggle icon
+                    const icon = toggleBtn.querySelector('i');
+                    icon.classList.toggle('fa-eye');
+                    icon.classList.toggle('fa-eye-slash');
+                });
             }
             
-            // Check if user is already logged in
-            if (isLoggedIn()) {
-                window.location.href = 'dashboard.html';
+            // Theme toggle
+            const themeToggle = document.getElementById('theme-toggle');
+            const html = document.documentElement;
+            
+            if (themeToggle) {
+                themeToggle.addEventListener('click', function() {
+                    html.classList.toggle('dark-mode');
+                    
+                    // Update localStorage
+                    const isDarkMode = html.classList.contains('dark-mode');
+                    localStorage.setItem('theme_preference', isDarkMode ? 'dark' : 'light');
+                    
+                    // Update toggle icon
+                    const icon = themeToggle.querySelector('i');
+                    if (isDarkMode) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                });
+                
+                // Check saved theme preference
+                const savedPreference = localStorage.getItem('theme_preference');
+                const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                
+                if (savedPreference === 'dark' || (savedPreference === null && prefersDarkMode)) {
+                    html.classList.add('dark-mode');
+                    const icon = themeToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    }
+                }
             }
             
-            // Handle form submission
-            const form = document.getElementById('login-form');
-            const errorMessage = document.getElementById('login-error');
-            
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
+            // Modal handling
+            document.addEventListener('click', function(e) {
+                if (e.target.matches('[data-modal-target]')) {
+                    const modalId = e.target.getAttribute('data-modal-target');
+                    openModal(modalId);
+                }
                 
-                const username = document.getElementById('username').value;
-                const password = document.getElementById('password').value;
-                
-                // Use the authenticate function from auth.js
-                authenticate(username, password)
-                    .then(result => {
-                        if (result.success) {
-                            // Set authentication token and redirect
-                            setAuthToken(result.token);
-                            window.location.href = 'dashboard.html';
-                        } else {
-                            // Show error message
-                            errorMessage.classList.add('show');
-                            // Clear password field
-                            document.getElementById('password').value = '';
-                        }
-                    });
+                if (e.target.matches('.modal-close') || e.target.matches('.modal-backdrop')) {
+                    closeModal();
+                }
             });
+            
+            function openModal(modalId) {
+                const modalTemplate = document.querySelector(`#${modalId}`);
+                if (!modalTemplate) return;
+                
+                const modalContainer = document.getElementById('modal-container');
+                const modal = document.createElement('div');
+                modal.className = 'modal-wrapper';
+                modal.innerHTML = `
+                    <div class="modal-backdrop"></div>
+                    <div class="modal">
+                        ${modalTemplate.innerHTML}
+                    </div>
+                `;
+                
+                modalContainer.appendChild(modal);
+                
+                setTimeout(() => {
+                    modal.classList.add('active');
+                }, 10);
+                
+                document.body.classList.add('modal-open');
+            }
+            
+            function closeModal() {
+                const modal = document.querySelector('.modal-wrapper');
+                if (!modal) return;
+                
+                modal.classList.remove('active');
+                
+                setTimeout(() => {
+                    modal.remove();
+                    document.body.classList.remove('modal-open');
+                }, 300);
+            }
         });
     </script>
 </body>

@@ -1,494 +1,440 @@
 /**
- * Authentication Module for Portfolio Website
- * Author: Md. Shahriar Rakib Rabbi
- * 
- * This file handles the authentication system for the portfolio admin area,
- * including login, logout, token management, and session validation.
+ * Authentication Module
+ * Handles user authentication with secure password handling
+ * @author: Md. Shahriar Rakib Rabbi
  */
 
-// Namespace to prevent global scope pollution
-const Auth = (function() {
-    // Configuration
-    const config = {
-        tokenName: 'portfolio_auth_token',
-        refreshTokenName: 'portfolio_refresh_token',
-        userDataName: 'portfolio_user',
-        tokenExpiry: 'portfolio_token_expiry',
-        authEndpoint: 'data/auth.json', // In a real app, this would be an API endpoint
-        loginRedirect: '/admin/dashboard.html',
-        logoutRedirect: '/admin/index.html',
-        unauthorizedRedirect: '/admin/index.html',
-        sessionTimeout: 3600000, // 1 hour in milliseconds
-        refreshThreshold: 300000 // 5 minutes before expiry
-    };
+const AuthModule = (function() {
+    // Private variables
+    const SESSION_KEY = 'auth_session';
+    const AUTH_DATA_PATH = '../data/auth.json';
+    let currentUser = null;
 
     /**
-     * Check if user is currently authenticated
-     * @returns {boolean} Authentication status
+     * Initialize the authentication module
      */
-    function isAuthenticated() {
-        const token = localStorage.getItem(config.tokenName);
-        const expiry = localStorage.getItem(config.tokenExpiry);
+    async function init() {
+        // Check if we're on login page or admin page
+        const isLoginPage = window.location.pathname.endsWith('index.html') && 
+                           window.location.pathname.includes('/admin/');
         
-        if (!token || !expiry) {
-            return false;
+        if (!isLoginPage) {
+            // Check session on admin pages
+            await checkSession();
         }
-        
-        // Check if token has expired
-        return parseInt(expiry) > Date.now();
-    }
-    
-    /**
-     * Attempt to login with provided credentials
-     * @param {string} username - Username to login with
-     * @param {string} password - Password to authenticate with
-     * @param {boolean} rememberMe - Whether to extend session duration
-     * @returns {Promise} Promise resolving to authentication result
-     */
-    function login(username, password, rememberMe = false) {
-        return new Promise((resolve, reject) => {
-            // In a real application, this would be an API call
-            // For this demo, we'll use the data-loader to fetch auth data
-            
-            if (typeof loadData !== 'function') {
-                reject(new Error('Data loader not available'));
-                return;
+
+        // Bind login form events if on login page
+        if (isLoginPage) {
+            const loginForm = document.getElementById('login-form');
+            if (loginForm) {
+                loginForm.addEventListener('submit', handleLogin);
             }
-            
-            loadData(config.authEndpoint)
-                .then(authData => {
-                    // Find matching user
-                    const user = authData.users.find(u => 
-                        u.username === username && u.password === password
-                    );
-                    
-                    if (user) {
-                        // Generate demo token
-                        const token = generateToken();
-                        const refreshToken = generateToken();
-                        
-                        // Calculate expiry
-                        const now = Date.now();
-                        const expiry = now + (rememberMe ? config.sessionTimeout * 24 : config.sessionTimeout);
-                        
-                        // Store auth data
-                        localStorage.setItem(config.tokenName, token);
-                        localStorage.setItem(config.refreshTokenName, refreshToken);
-                        localStorage.setItem(config.tokenExpiry, expiry.toString());
-                        
-                        // Store user data without sensitive information
-                        const safeUserData = {
-                            id: user.id,
-                            username: user.username,
-                            name: user.name,
-                            role: user.role,
-                            email: user.email,
-                            avatar: user.avatar,
-                            lastLogin: now
-                        };
-                        
-                        localStorage.setItem(config.userDataName, JSON.stringify(safeUserData));
-                        
-                        // Set up auto refresh for token
-                        setUpTokenRefresh(expiry);
-                        
-                        resolve({
-                            success: true,
-                            message: "Login successful",
-                            user: safeUserData
-                        });
-                    } else {
-                        reject({
-                            success: false,
-                            message: "Invalid username or password"
-                        });
-                    }
-                })
-                .catch(error => {
-                    reject({
-                        success: false,
-                        message: "Authentication failed",
-                        error: error
-                    });
-                });
-        });
+        }
     }
-    
+
     /**
-     * Log out the current user
-     * @param {boolean} redirect - Whether to redirect after logout
-     * @returns {boolean} Success status
+     * Handle login form submission
+     * @param {Event} e - The submit event
      */
-    function logout(redirect = true) {
-        // Clear auth data
-        localStorage.removeItem(config.tokenName);
-        localStorage.removeItem(config.refreshTokenName);
-        localStorage.removeItem(config.tokenExpiry);
-        localStorage.removeItem(config.userDataName);
+    async function handleLogin(e) {
+        e.preventDefault();
+
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.querySelector('#login-form .btn-submit');
+        const rememberMe = document.getElementById('remember-me');
         
-        // Clear any token refresh timers
-        if (window.tokenRefreshTimer) {
-            clearTimeout(window.tokenRefreshTimer);
+        // Basic validation
+        if (!usernameInput.value.trim() || !passwordInput.value.trim()) {
+            showLoginError('Please enter both username and password');
+            return;
         }
-        
-        // Redirect if requested
-        if (redirect) {
-            window.location.href = config.logoutRedirect;
-        }
-        
-        return true;
-    }
-    
-    /**
-     * Get current user data
-     * @returns {Object|null} User data or null if not authenticated
-     */
-    function getCurrentUser() {
-        if (!isAuthenticated()) {
-            return null;
-        }
-        
+
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging in...';
+        clearLoginError();
+
         try {
-            const userData = localStorage.getItem(config.userDataName);
-            return userData ? JSON.parse(userData) : null;
+            // Authenticate user
+            const user = await authenticateUser(usernameInput.value, passwordInput.value);
+            
+            if (user) {
+                // Create session
+                createSession(user, rememberMe?.checked);
+                
+                // Show success message
+                showLoginSuccess('Login successful! Redirecting...');
+                
+                // Redirect after a short delay
+                setTimeout(() => {
+                    window.location.href = 'dashboard.html';
+                }, 1000);
+            } else {
+                // Show error
+                showLoginError('Invalid username or password');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = 'Login';
+            }
         } catch (error) {
-            console.error('Error parsing user data:', error);
+            showLoginError(`Authentication error: ${error.message}`);
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = 'Login';
+        }
+    }
+
+    /**
+     * Authenticate a user with username and password
+     * @param {string} username - The username to authenticate
+     * @param {string} password - The password to authenticate
+     * @returns {Promise<Object|null>} The authenticated user or null
+     */
+    async function authenticateUser(username, password) {
+        try {
+            // Fetch authentication data
+            const response = await fetch(AUTH_DATA_PATH);
+            if (!response.ok) {
+                throw new Error('Authentication data not available');
+            }
+            
+            const authData = await response.json();
+            const users = authData.users || [];
+            
+            // Find the user
+            const user = users.find(u => u.username === username);
+            if (!user) {
+                return null;
+            }
+            
+            // Verify the password using PBKDF2
+            const isValid = await verifyPassword(password, user.password);
+            
+            if (isValid) {
+                // Return user data (excluding password)
+                const { password: _, ...userData } = user;
+                return userData;
+            }
+            
             return null;
+        } catch (error) {
+            console.error('Authentication error:', error);
+            throw error;
         }
     }
-    
+
     /**
-     * Set up token auto-refresh
-     * @param {number} expiry - Token expiry timestamp
+     * Verify a password against a stored hash
+     * @param {string} password - The password to verify
+     * @param {string} storedHash - The stored hash (format: algorithm:iterations:salt:hash)
+     * @returns {Promise<boolean>} True if the password is valid
      */
-    function setUpTokenRefresh(expiry) {
-        // Clear any existing timer
-        if (window.tokenRefreshTimer) {
-            clearTimeout(window.tokenRefreshTimer);
-        }
-        
-        // Calculate time until refresh (configured threshold before expiry)
-        const now = Date.now();
-        const timeToRefresh = Math.max(0, expiry - now - config.refreshThreshold);
-        
-        // Set up timer to refresh token
-        window.tokenRefreshTimer = setTimeout(() => {
-            refreshToken();
-        }, timeToRefresh);
-    }
-    
-    /**
-     * Refresh the authentication token
-     * @returns {Promise} Promise resolving to refresh result
-     */
-    function refreshToken() {
-        return new Promise((resolve, reject) => {
-            // In a real application, this would send the refresh token to an API
-            // For this demo, we'll just generate a new token and extend expiry
+    async function verifyPassword(password, storedHash) {
+        try {
+            // Split the hash into its components
+            const [algorithm, iterations, salt, hash] = storedHash.split(':');
             
-            const refreshToken = localStorage.getItem(config.refreshTokenName);
-            if (!refreshToken) {
-                reject({
-                    success: false,
-                    message: "No refresh token found"
-                });
-                return;
+            // Verify algorithm is supported
+            if (algorithm !== 'PBKDF2') {
+                throw new Error('Unsupported hash algorithm');
             }
             
-            // Generate new token
-            const token = generateToken();
-            const newRefreshToken = generateToken();
+            // Convert iterations to number
+            const iterCount = parseInt(iterations, 10);
             
-            // Calculate new expiry
-            const now = Date.now();
-            const expiry = now + config.sessionTimeout;
+            // Convert salt to Uint8Array
+            const saltArray = base64ToUint8Array(salt);
             
-            // Store updated auth data
-            localStorage.setItem(config.tokenName, token);
-            localStorage.setItem(config.refreshTokenName, newRefreshToken);
-            localStorage.setItem(config.tokenExpiry, expiry.toString());
+            // Hash the input password with the same parameters
+            const derivedKey = await pbkdf2(password, saltArray, iterCount);
             
-            // Set up next token refresh
-            setUpTokenRefresh(expiry);
+            // Convert to base64 for comparison
+            const derivedHash = uint8ArrayToBase64(derivedKey);
             
-            resolve({
-                success: true,
-                message: "Token refreshed",
-                expiry: expiry
-            });
-        });
-    }
-    
-    /**
-     * Generate a random token
-     * @returns {string} Generated token
-     */
-    function generateToken() {
-        const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-        let token = 'tk_';
-        for (let i = 0; i < 32; i++) {
-            token += charset.charAt(Math.floor(Math.random() * charset.length));
-        }
-        return token;
-    }
-    
-    /**
-     * Check if current user has required role
-     * @param {string|Array} requiredRole - Role or roles required
-     * @returns {boolean} Whether user has required role
-     */
-    function hasRole(requiredRole) {
-        const user = getCurrentUser();
-        if (!user) return false;
-        
-        if (Array.isArray(requiredRole)) {
-            return requiredRole.includes(user.role);
-        }
-        
-        return user.role === requiredRole;
-    }
-    
-    /**
-     * Protect a page by redirecting if not authenticated
-     * @param {string|Array} requiredRole - Optional role requirement
-     * @returns {boolean} Authentication status
-     */
-    function protectPage(requiredRole) {
-        if (!isAuthenticated()) {
-            // Redirect to login page with return URL
-            const returnUrl = encodeURIComponent(window.location.pathname);
-            window.location.href = `${config.unauthorizedRedirect}?returnUrl=${returnUrl}`;
+            // Compare the hashes
+            return derivedHash === hash;
+        } catch (error) {
+            console.error('Password verification error:', error);
             return false;
         }
-        
-        // Check role if specified
-        if (requiredRole && !hasRole(requiredRole)) {
-            // Redirect to unauthorized page
-            window.location.href = config.unauthorizedRedirect;
-            return false;
-        }
-        
-        return true;
     }
-    
+
     /**
-     * Initialize the authentication system
+     * Hash a password using PBKDF2
+     * @param {string} password - The password to hash
+     * @returns {Promise<string>} The hashed password in format: algorithm:iterations:salt:hash
      */
-    function init() {
-        // Handle session expiry while page is open
-        window.addEventListener('storage', function(event) {
-            if (event.key === config.tokenName && event.newValue === null) {
-                // Token was removed in another tab
-                window.location.reload();
-            }
-        });
-        
-        // Check for token expiry and set up refresh if needed
-        if (isAuthenticated()) {
-            const expiry = parseInt(localStorage.getItem(config.tokenExpiry));
-            setUpTokenRefresh(expiry);
-        }
-        
-        // Auto-redirect from login page if already authenticated
-        const isLoginPage = window.location.pathname.includes(config.logoutRedirect);
-        if (isAuthenticated() && isLoginPage) {
-            // Check for intended destination
-            const urlParams = new URLSearchParams(window.location.search);
-            const returnUrl = urlParams.get('returnUrl');
+    async function hashPassword(password) {
+        try {
+            // Generate a random salt
+            const saltArray = crypto.getRandomValues(new Uint8Array(16));
             
-            window.location.href = returnUrl || config.loginRedirect;
+            // Number of iterations
+            const iterations = 310000;
+            
+            // Derive key using PBKDF2
+            const keyArray = await pbkdf2(password, saltArray, iterations);
+            
+            // Convert salt and key to base64
+            const saltBase64 = uint8ArrayToBase64(saltArray);
+            const keyBase64 = uint8ArrayToBase64(keyArray);
+            
+            // Format: algorithm:iterations:salt:hash
+            return `PBKDF2:${iterations}:${saltBase64}:${keyBase64}`;
+        } catch (error) {
+            console.error('Password hashing error:', error);
+            throw error;
         }
     }
-    
+
     /**
-     * Get authentication token (for API requests)
-     * @returns {string|null} Current auth token
+     * Implement PBKDF2 key derivation
+     * @param {string} password - The password to hash
+     * @param {Uint8Array} salt - The salt to use
+     * @param {number} iterations - The number of iterations
+     * @returns {Promise<Uint8Array>} The derived key
      */
-    function getToken() {
-        return isAuthenticated() ? localStorage.getItem(config.tokenName) : null;
+    async function pbkdf2(password, salt, iterations) {
+        try {
+            // Convert password to an ArrayBuffer
+            const encoder = new TextEncoder();
+            const passwordBuffer = encoder.encode(password);
+            
+            // Import the password as a key
+            const baseKey = await crypto.subtle.importKey(
+                'raw', 
+                passwordBuffer, 
+                { name: 'PBKDF2' }, 
+                false, 
+                ['deriveBits']
+            );
+            
+            // Derive bits using PBKDF2
+            const derivedBits = await crypto.subtle.deriveBits(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: iterations,
+                    hash: 'SHA-256'
+                },
+                baseKey,
+                256 // 32 bytes (256 bits)
+            );
+            
+            // Convert to Uint8Array
+            return new Uint8Array(derivedBits);
+        } catch (error) {
+            console.error('PBKDF2 error:', error);
+            throw error;
+        }
     }
-    
+
     /**
-     * Update stored user data
-     * @param {Object} userData - Updated user data
-     * @returns {boolean} Success status
+     * Create a session for an authenticated user
+     * @param {Object} user - The authenticated user
+     * @param {boolean} remember - Whether to remember the user
      */
-    function updateUserData(userData) {
-        if (!isAuthenticated()) {
+    function createSession(user, remember) {
+        currentUser = user;
+        
+        // Create session object
+        const session = {
+            user,
+            expires: remember 
+                ? new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString() // 7 days
+                : new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),   // 1 day
+            token: generateSessionToken()
+        };
+        
+        // Save to localStorage
+        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+    }
+
+    /**
+     * Generate a random session token
+     * @returns {string} A random token
+     */
+    function generateSessionToken() {
+        const array = new Uint8Array(24);
+        crypto.getRandomValues(array);
+        return uint8ArrayToBase64(array);
+    }
+
+    /**
+     * Check if there is a valid session
+     * @returns {Promise<boolean>} True if the session is valid
+     */
+    async function checkSession() {
+        const sessionData = localStorage.getItem(SESSION_KEY);
+        
+        if (!sessionData) {
+            redirectToLogin();
             return false;
         }
         
         try {
-            const currentData = getCurrentUser();
-            const updatedData = { ...currentData, ...userData };
-            localStorage.setItem(config.userDataName, JSON.stringify(updatedData));
+            const session = JSON.parse(sessionData);
+            
+            // Check if session has expired
+            if (new Date(session.expires) < new Date()) {
+                logout();
+                redirectToLogin('Your session has expired. Please login again.');
+                return false;
+            }
+            
+            // Set current user
+            currentUser = session.user;
             return true;
         } catch (error) {
-            console.error('Error updating user data:', error);
+            console.error('Session check error:', error);
+            logout();
+            redirectToLogin('Invalid session. Please login again.');
             return false;
         }
     }
 
-    // Initialize on script load
-    init();
-    
+    /**
+     * Redirect to login page
+     * @param {string} message - Optional error message to display
+     */
+    function redirectToLogin(message) {
+        // Only redirect if not already on login page
+        if (!window.location.pathname.endsWith('index.html')) {
+            if (message) {
+                // Store message to display after redirect
+                sessionStorage.setItem('login_message', message);
+            }
+            
+            window.location.href = 'index.html';
+        } else if (message) {
+            // Already on login page, show message
+            showLoginError(message);
+        }
+    }
+
+    /**
+     * Log the user out
+     * @returns {Promise<void>}
+     */
+    async function logout() {
+        // Clear current user
+        currentUser = null;
+        
+        // Remove session from localStorage
+        localStorage.removeItem(SESSION_KEY);
+        
+        // For security, we'll also remove any GitHub tokens
+        localStorage.removeItem('github_credentials');
+        
+        return Promise.resolve();
+    }
+
+    /**
+     * Get the current user session
+     * @returns {Object|null} The current user session
+     */
+    function getCurrentSession() {
+        const sessionData = localStorage.getItem(SESSION_KEY);
+        
+        if (sessionData) {
+            try {
+                return JSON.parse(sessionData);
+            } catch (error) {
+                console.error('Error parsing session data:', error);
+            }
+        }
+        
+        return null;
+    }
+
+    /**
+     * Show a login error message
+     * @param {string} message - The error message
+     */
+    function showLoginError(message) {
+        const errorElement = document.getElementById('login-error');
+        if (errorElement) {
+            errorElement.textContent = message;
+            errorElement.classList.remove('hidden');
+        }
+    }
+
+    /**
+     * Show a login success message
+     * @param {string} message - The success message
+     */
+    function showLoginSuccess(message) {
+        const errorElement = document.getElementById('login-error');
+        const successElement = document.getElementById('login-success');
+        
+        if (errorElement) {
+            errorElement.classList.add('hidden');
+        }
+        
+        if (successElement) {
+            successElement.textContent = message;
+            successElement.classList.remove('hidden');
+        }
+    }
+
+    /**
+     * Clear login error messages
+     */
+    function clearLoginError() {
+        const errorElement = document.getElementById('login-error');
+        const successElement = document.getElementById('login-success');
+        
+        if (errorElement) {
+            errorElement.classList.add('hidden');
+        }
+        
+        if (successElement) {
+            successElement.classList.add('hidden');
+        }
+    }
+
+    /**
+     * Convert a Uint8Array to base64 string
+     * @param {Uint8Array} array - The array to convert
+     * @returns {string} The base64 string
+     */
+    function uint8ArrayToBase64(array) {
+        return btoa(String.fromCharCode.apply(null, array));
+    }
+
+    /**
+     * Convert a base64 string to Uint8Array
+     * @param {string} base64 - The base64 string
+     * @returns {Uint8Array} The resulting array
+     */
+    function base64ToUint8Array(base64) {
+        const binary = atob(base64);
+        const array = new Uint8Array(binary.length);
+        
+        for (let i = 0; i < binary.length; i++) {
+            array[i] = binary.charCodeAt(i);
+        }
+        
+        return array;
+    }
+
+    // Check for stored message when the page loads
+    window.addEventListener('DOMContentLoaded', function() {
+        const message = sessionStorage.getItem('login_message');
+        if (message) {
+            showLoginError(message);
+            sessionStorage.removeItem('login_message');
+        }
+        
+        // Initialize the module
+        init();
+    });
+
     // Public API
     return {
-        isAuthenticated,
-        login,
+        login: authenticateUser,
         logout,
-        getCurrentUser,
-        hasRole,
-        protectPage,
-        getToken,
-        refreshToken,
-        updateUserData
+        getCurrentSession,
+        hashPassword,
+        verifyPassword
     };
 })();
-
-// Handle login form submission
-document.addEventListener('DOMContentLoaded', function() {
-    const loginForm = document.getElementById('login-form');
-    
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form inputs
-            const username = document.getElementById('username').value;
-            const password = document.getElementById('password').value;
-            const rememberMe = document.getElementById('remember-me')?.checked || false;
-            
-            // Disable submit button and show loading state
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.disabled = true;
-            submitBtn.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Logging in...';
-            
-            // Clear previous error messages
-            const errorContainer = document.getElementById('login-error');
-            if (errorContainer) {
-                errorContainer.textContent = '';
-                errorContainer.style.display = 'none';
-            }
-            
-            // Attempt login
-            Auth.login(username, password, rememberMe)
-                .then(result => {
-                    // Get redirect URL from query parameters or use default
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const returnUrl = urlParams.get('returnUrl');
-                    
-                    // Redirect to dashboard or specified return URL
-                    window.location.href = returnUrl || '/admin/dashboard.html';
-                })
-                .catch(error => {
-                    // Show error message
-                    if (errorContainer) {
-                        errorContainer.textContent = error.message || 'Login failed';
-                        errorContainer.style.display = 'block';
-                    }
-                    
-                    // Reset button
-                    submitBtn.disabled = false;
-                    submitBtn.innerHTML = originalBtnText;
-                });
-        });
-    }
-    
-    // Handle logout button clicks
-    const logoutButtons = document.querySelectorAll('.logout-button');
-    logoutButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            Auth.logout();
-        });
-    });
-    
-    // Update UI with user info if logged in
-    const userInfoContainers = document.querySelectorAll('.user-info');
-    if (userInfoContainers.length > 0 && Auth.isAuthenticated()) {
-        const user = Auth.getCurrentUser();
-        
-        userInfoContainers.forEach(container => {
-            const nameElement = container.querySelector('.user-name');
-            const roleElement = container.querySelector('.user-role');
-            const avatarElement = container.querySelector('.user-avatar');
-            
-            if (nameElement && user.name) {
-                nameElement.textContent = user.name;
-            }
-            
-            if (roleElement && user.role) {
-                roleElement.textContent = user.role;
-            }
-            
-            if (avatarElement && user.avatar) {
-                avatarElement.src = user.avatar;
-                avatarElement.alt = user.name || user.username;
-            }
-        });
-    }
-    
-    // Protect admin pages (except login page)
-    const isLoginPage = window.location.pathname.includes('/admin/index.html');
-    if (!isLoginPage && window.location.pathname.includes('/admin/')) {
-        Auth.protectPage();
-    }
-});
-
-/**
- * Add authentication headers to fetch requests
- * @param {string} url - URL to fetch
- * @param {Object} options - Fetch options
- * @returns {Promise} - Fetch promise
- */
-function authenticatedFetch(url, options = {}) {
-    // Skip auth for public endpoints
-    if (url.includes('/data/') && !url.includes('/admin/')) {
-        return fetch(url, options);
-    }
-    
-    // Get token
-    const token = Auth.getToken();
-    if (!token) {
-        // Redirect to login if no token for protected endpoints
-        if (url.includes('/admin/')) {
-            Auth.logout(true);
-        }
-        return fetch(url, options);
-    }
-    
-    // Add authorization header
-    const authOptions = {
-        ...options,
-        headers: {
-            ...options.headers,
-            'Authorization': `Bearer ${token}`
-        }
-    };
-    
-    return fetch(url, authOptions)
-        .then(response => {
-            // Handle 401 Unauthorized
-            if (response.status === 401) {
-                // Try to refresh token
-                return Auth.refreshToken()
-                    .then(() => {
-                        // Retry with new token
-                        authOptions.headers['Authorization'] = `Bearer ${Auth.getToken()}`;
-                        return fetch(url, authOptions);
-                    })
-                    .catch(() => {
-                        // If refresh fails, logout
-                        Auth.logout(true);
-                        return response;
-                    });
-            }
-            return response;
-        });
-}
-
-// Export as global
-window.Auth = Auth;
-window.authenticatedFetch = authenticatedFetch;

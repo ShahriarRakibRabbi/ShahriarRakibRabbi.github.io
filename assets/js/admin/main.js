@@ -1,909 +1,1278 @@
 /**
- * Admin Panel Main JavaScript
- * Author: Md. Shahriar Rakib Rabbi
- * 
- * This file contains core functionality for the portfolio admin panel
- * including navigation, dashboard, and general UI interactions.
+ * Admin Main Module
+ * Handles core admin panel functionality
+ * @author: Md. Shahriar Rakib Rabbi
  */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize admin panel
-    initAdminPanel();
-});
-
-/**
- * Initialize the admin panel
- */
-function initAdminPanel() {
-    // Check if user is authenticated
-    if (!Auth.isAuthenticated()) {
-        return;
-    }
+const AdminModule = (function() {
+    // Private variables
+    let currentPage = '';
+    let sidebarVisible = true;
+    let darkMode = false;
+    let currentUser = null;
+    let notifications = [];
+    let dashboardStats = null;
     
-    // Initialize UI components
-    initSidebar();
-    initDashboard();
-    initNotifications();
-    initAdminUI();
-    setupEventListeners();
-    updateUserInfo();
-}
+    // Cache DOM elements
+    const domElements = {
+        body: document.body,
+        sidebar: document.getElementById('admin-sidebar'),
+        sidebarToggle: document.getElementById('sidebar-toggle'),
+        contentArea: document.getElementById('admin-content'),
+        themeToggle: document.getElementById('theme-toggle'),
+        logoutBtn: document.getElementById('logout-btn'),
+        notificationBell: document.getElementById('notification-bell'),
+        notificationCount: document.getElementById('notification-count'),
+        notificationDropdown: document.getElementById('notification-dropdown'),
+        userDropdown: document.getElementById('user-dropdown'),
+        userDisplayName: document.getElementById('user-display-name'),
+        userAvatar: document.getElementById('user-avatar'),
+        statsContainers: document.querySelectorAll('.stat-value'),
+        lastUpdatedTime: document.querySelectorAll('.last-updated'),
+        searchInput: document.getElementById('admin-search'),
+        searchResults: document.getElementById('search-results'),
+        activityFeed: document.getElementById('activity-feed'),
+        quickActions: document.getElementById('quick-actions'),
+        breadcrumbs: document.getElementById('breadcrumbs'),
+        modalContainer: document.getElementById('modal-container')
+    };
 
-/**
- * Initialize sidebar navigation
- */
-function initSidebar() {
-    const sidebarToggle = document.querySelector('.sidebar-toggle');
-    const sidebar = document.querySelector('.admin-sidebar');
-    const content = document.querySelector('.admin-content');
-    
-    if (sidebarToggle && sidebar) {
-        // Toggle sidebar on button click
-        sidebarToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('collapsed');
-            content.classList.toggle('expanded');
-            
-            // Save preference in localStorage
-            localStorage.setItem('admin_sidebar_collapsed', sidebar.classList.contains('collapsed'));
-        });
+    /**
+     * Initialize the admin module
+     */
+    function init() {
+        currentPage = getCurrentPage();
+        loadUserSession();
+        bindEvents();
+        initThemePreference();
+        updateLastUpdatedTimes();
         
-        // Check for saved preference
-        const sidebarState = localStorage.getItem('admin_sidebar_collapsed');
-        if (sidebarState === 'true') {
-            sidebar.classList.add('collapsed');
-            content.classList.add('expanded');
+        // Initialize page-specific functionality
+        initPageSpecific();
+
+        console.log('Admin module initialized');
+    }
+
+    /**
+     * Get the current page from the URL or data attribute
+     * @returns {string} The current page identifier
+     */
+    function getCurrentPage() {
+        // Try to get from data attribute
+        const pageData = document.body.dataset.adminPage;
+        if (pageData) return pageData;
+        
+        // Try to infer from URL
+        const path = window.location.pathname;
+        const pageName = path.substring(path.lastIndexOf('/') + 1);
+        
+        switch (pageName) {
+            case 'dashboard.html':
+                return 'dashboard';
+            case 'edit-projects.html':
+                return 'projects';
+            case 'edit-skills.html':
+                return 'skills';
+            case 'edit-achievements.html':
+                return 'achievements';
+            case 'edit-gallery.html':
+                return 'gallery';
+            case 'edit-testimonials.html':
+                return 'testimonials';
+            default:
+                return 'unknown';
         }
     }
-    
-    // Handle mobile sidebar
-    const mobileToggle = document.querySelector('.mobile-sidebar-toggle');
-    if (mobileToggle && sidebar) {
-        mobileToggle.addEventListener('click', function() {
-            sidebar.classList.toggle('mobile-open');
-        });
-        
-        // Close sidebar when clicking outside
-        document.addEventListener('click', function(e) {
-            if (sidebar.classList.contains('mobile-open') && 
-                !sidebar.contains(e.target) && 
-                e.target !== mobileToggle) {
-                sidebar.classList.remove('mobile-open');
-            }
-        });
-    }
-    
-    // Set active menu item based on current page
-    const currentPage = window.location.pathname;
-    document.querySelectorAll('.sidebar-menu a').forEach(link => {
-        if (currentPage.endsWith(link.getAttribute('href'))) {
-            link.classList.add('active');
-            
-            // Expand parent menu item if in a submenu
-            const parentMenuItem = link.closest('.has-submenu');
-            if (parentMenuItem) {
-                parentMenuItem.classList.add('open');
-            }
-        }
-    });
-    
-    // Toggle submenu items
-    document.querySelectorAll('.has-submenu > a').forEach(menuItem => {
-        menuItem.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const parent = this.parentElement;
-            parent.classList.toggle('open');
-            
-            // Save state in localStorage
-            const menuId = parent.getAttribute('data-menu-id');
-            if (menuId) {
-                localStorage.setItem(`admin_menu_${menuId}_open`, parent.classList.contains('open'));
-            }
-        });
-        
-        // Check for saved state
-        const parent = menuItem.parentElement;
-        const menuId = parent.getAttribute('data-menu-id');
-        if (menuId) {
-            const menuState = localStorage.getItem(`admin_menu_${menuId}_open`);
-            if (menuState === 'true') {
-                parent.classList.add('open');
-            }
-        }
-    });
-}
 
-/**
- * Initialize dashboard elements
- */
-function initDashboard() {
-    const dashboardPage = document.querySelector('.dashboard-page');
-    if (!dashboardPage) return;
-    
-    // Load dashboard statistics
-    loadDashboardStats();
-    
-    // Initialize charts if Chart.js is available
-    if (typeof Chart !== 'undefined') {
-        initDashboardCharts();
-    }
-    
-    // Load recent activities
-    loadRecentActivities();
-    
-    // Set up dashboard refresh button
-    const refreshBtn = document.getElementById('refresh-dashboard');
-    if (refreshBtn) {
-        refreshBtn.addEventListener('click', function() {
-            this.classList.add('rotating');
-            
-            // Reload dashboard data
-            Promise.all([
-                loadDashboardStats(),
-                loadRecentActivities()
-            ]).then(() => {
-                // Stop rotation and show success message
-                this.classList.remove('rotating');
-                showNotification('Dashboard data refreshed', 'success');
-            }).catch(() => {
-                this.classList.remove('rotating');
-                showNotification('Error refreshing dashboard data', 'error');
-            });
-        });
-    }
-}
-
-/**
- * Load dashboard statistics
- * @returns {Promise} Promise that resolves when stats are loaded
- */
-function loadDashboardStats() {
-    return new Promise((resolve, reject) => {
-        // In a real app, this would fetch from an API endpoint
-        // For this demo, we'll load data files and calculate stats
+    /**
+     * Load user session data
+     */
+    function loadUserSession() {
+        const session = AuthModule.getCurrentSession();
+        if (!session) {
+            // Redirect to login if not authenticated
+            window.location.href = 'index.html';
+            return;
+        }
         
-        Promise.all([
-            loadData('data/projects.json'),
-            loadData('data/skills.json'),
-            loadData('data/achievements.json'),
-            loadData('data/testimonials.json'),
-            loadData('data/gallery.json')
-        ]).then(([projects, skills, achievements, testimonials, gallery]) => {
-            // Update stats counters with animation
-            updateStatCounter('projects-count', projects.length || 0);
-            updateStatCounter('skills-count', skills.length || 0);
-            updateStatCounter('achievements-count', achievements.length || 0);
-            updateStatCounter('testimonials-count', testimonials.length || 0);
-            updateStatCounter('gallery-count', gallery.length || 0);
-            
-            // Update last updated time
-            document.querySelectorAll('.last-updated').forEach(el => {
-                el.textContent = new Date().toLocaleString();
+        currentUser = session.user;
+        
+        // Update UI with user info
+        if (domElements.userDisplayName) {
+            domElements.userDisplayName.textContent = currentUser.username;
+        }
+        
+        // Set default avatar if not provided
+        if (domElements.userAvatar) {
+            const avatarUrl = currentUser.avatar || '../assets/images/defaults/avatar.png';
+            domElements.userAvatar.setAttribute('src', avatarUrl);
+        }
+        
+        // Load notifications
+        loadNotifications();
+        
+        // Load dashboard stats if on dashboard
+        if (currentPage === 'dashboard') {
+            loadDashboardStats();
+        }
+    }
+
+    /**
+     * Bind event listeners
+     */
+    function bindEvents() {
+        // Sidebar toggle
+        if (domElements.sidebarToggle) {
+            domElements.sidebarToggle.addEventListener('click', toggleSidebar);
+        }
+        
+        // Theme toggle
+        if (domElements.themeToggle) {
+            domElements.themeToggle.addEventListener('click', toggleTheme);
+        }
+        
+        // Logout button
+        if (domElements.logoutBtn) {
+            domElements.logoutBtn.addEventListener('click', handleLogout);
+        }
+        
+        // Notification bell
+        if (domElements.notificationBell) {
+            domElements.notificationBell.addEventListener('click', toggleNotifications);
+        }
+        
+        // Admin search
+        if (domElements.searchInput) {
+            domElements.searchInput.addEventListener('input', debounce(handleSearch, 300));
+            domElements.searchInput.addEventListener('focus', function() {
+                domElements.searchResults.classList.remove('hidden');
             });
             
-            resolve();
-        }).catch(error => {
-            console.error('Failed to load dashboard statistics:', error);
-            reject(error);
-        });
-    });
-}
-
-/**
- * Initialize dashboard charts
- */
-function initDashboardCharts() {
-    // Visitor statistics chart
-    const visitorChart = document.getElementById('visitors-chart');
-    if (visitorChart) {
-        new Chart(visitorChart.getContext('2d'), {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-                datasets: [{
-                    label: 'Visitors',
-                    data: [500, 800, 1200, 1700, 1500, 1800, 2000, 2200, 1900, 2100, 2500, 2700],
-                    backgroundColor: 'rgba(78, 115, 223, 0.2)',
-                    borderColor: 'rgba(78, 115, 223, 1)',
-                    borderWidth: 2,
-                    tension: 0.3,
-                    pointBackgroundColor: 'rgba(78, 115, 223, 1)'
-                }]
-            },
-            options: {
-                maintainAspectRatio: false,
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        grid: {
-                            color: 'rgba(0, 0, 0, 0.05)'
-                        }
-                    },
-                    x: {
-                        grid: {
-                            display: false
-                        }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false
-                    }
+            // Close search results when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!domElements.searchInput.contains(e.target) && !domElements.searchResults.contains(e.target)) {
+                    domElements.searchResults.classList.add('hidden');
                 }
+            });
+        }
+        
+        // Quick action buttons
+        if (domElements.quickActions) {
+            domElements.quickActions.addEventListener('click', handleQuickAction);
+        }
+        
+        // Handle document modals
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('[data-modal-target]')) {
+                const modalId = e.target.getAttribute('data-modal-target');
+                openModal(modalId);
+            }
+            
+            if (e.target.matches('.modal-close') || e.target.matches('.modal-backdrop')) {
+                closeModal();
             }
         });
+
+        // Add active class to current sidebar item
+        if (domElements.sidebar) {
+            const sidebarItems = domElements.sidebar.querySelectorAll('.sidebar-item');
+            sidebarItems.forEach(item => {
+                const itemPage = item.getAttribute('data-page');
+                if (itemPage === currentPage) {
+                    item.classList.add('active');
+                }
+            });
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', handleResize);
+        
+        // Initialize responsive behavior
+        handleResize();
     }
-    
-    // Content distribution chart
-    const contentChart = document.getElementById('content-chart');
-    if (contentChart) {
-        Promise.all([
-            loadData('data/projects.json'),
-            loadData('data/skills.json'),
-            loadData('data/achievements.json'),
-            loadData('data/testimonials.json'),
-            loadData('data/gallery.json')
-        ]).then(([projects, skills, achievements, testimonials, gallery]) => {
-            new Chart(contentChart.getContext('2d'), {
-                type: 'doughnut',
+
+    /**
+     * Initialize page-specific functionality
+     */
+    function initPageSpecific() {
+        switch (currentPage) {
+            case 'dashboard':
+                initDashboard();
+                break;
+            case 'projects':
+                initProjectsEditor();
+                break;
+            case 'skills':
+                initSkillsEditor();
+                break;
+            case 'achievements':
+                initAchievementsEditor();
+                break;
+            case 'gallery':
+                initGalleryEditor();
+                break;
+            case 'testimonials':
+                initTestimonialsEditor();
+                break;
+            default:
+                // No specific initialization needed
+                break;
+        }
+        
+        // Set breadcrumb for current page
+        updateBreadcrumbs();
+    }
+
+    /**
+     * Initialize dashboard-specific functionality
+     */
+    function initDashboard() {
+        // Initialize charts
+        initDashboardCharts();
+        
+        // Initialize activity feed
+        loadActivityFeed();
+        
+        // Setup refresh intervals
+        setInterval(() => {
+            loadDashboardStats();
+        }, 60000); // Refresh stats every minute
+        
+        // Initialize draggable dashboard widgets if sortable library is available
+        if (typeof Sortable !== 'undefined') {
+            const dashboardGrid = document.querySelector('.dashboard-grid');
+            if (dashboardGrid) {
+                new Sortable(dashboardGrid, {
+                    animation: 150,
+                    handle: '.widget-header',
+                    ghostClass: 'widget-ghost',
+                    onEnd: function() {
+                        // Save widget order to localStorage
+                        const widgets = dashboardGrid.querySelectorAll('.widget');
+                        const order = Array.from(widgets).map(w => w.getAttribute('data-widget-id'));
+                        localStorage.setItem('dashboard_widget_order', JSON.stringify(order));
+                    }
+                });
+            }
+        }
+    }
+
+    /**
+     * Initialize dashboard charts
+     */
+    function initDashboardCharts() {
+        // Check if Chart.js is available
+        if (typeof Chart === 'undefined') {
+            console.warn('Chart.js not loaded. Charts will not be displayed.');
+            return;
+        }
+        
+        // Visits chart
+        const visitsCtx = document.getElementById('visits-chart');
+        if (visitsCtx) {
+            new Chart(visitsCtx, {
+                type: 'line',
                 data: {
-                    labels: ['Projects', 'Skills', 'Achievements', 'Testimonials', 'Gallery'],
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
                     datasets: [{
-                        data: [
-                            projects.length || 0,
-                            skills.length || 0,
-                            achievements.length || 0,
-                            testimonials.length || 0,
-                            gallery.length || 0
-                        ],
-                        backgroundColor: [
-                            '#4e73df',
-                            '#1cc88a',
-                            '#36b9cc',
-                            '#f6c23e',
-                            '#e74a3b'
-                        ]
+                        label: 'Visits',
+                        data: [1200, 1900, 3000, 2500, 2800, 3500, 4000, 3800, 4200, 4500, 5000, 5200],
+                        borderColor: '#5c6ac4',
+                        backgroundColor: 'rgba(92, 106, 196, 0.1)',
+                        fill: true,
+                        tension: 0.4
                     }]
                 },
                 options: {
+                    responsive: true,
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom'
+                            display: false
                         }
                     },
-                    cutout: '70%'
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                display: true,
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
                 }
             });
-        }).catch(error => {
-            console.error('Failed to load chart data:', error);
-        });
-    }
-}
-
-/**
- * Animate counting for statistics
- * @param {string} elementId - Element ID to update
- * @param {number} targetValue - Target value to count to
- */
-function updateStatCounter(elementId, targetValue) {
-    const element = document.getElementById(elementId);
-    if (!element) return;
-    
-    // Set starting value
-    let currentValue = 0;
-    
-    // Calculate increment and duration
-    const steps = 30; // Number of steps in the animation
-    const increment = targetValue / steps;
-    const duration = 1000; // 1 second animation
-    const interval = duration / steps;
-    
-    // Start animation
-    const timer = setInterval(() => {
-        currentValue += increment;
-        
-        // Ensure we don't exceed target
-        if (currentValue >= targetValue) {
-            clearInterval(timer);
-            currentValue = targetValue;
         }
         
-        // Update element text
-        element.textContent = Math.floor(currentValue);
-    }, interval);
-}
-
-/**
- * Load recent activities for dashboard
- */
-function loadRecentActivities() {
-    const activitiesList = document.getElementById('recent-activities');
-    if (!activitiesList) return;
-    
-    // Show loading indicator
-    activitiesList.innerHTML = '<div class="loading-indicator"><i class="fas fa-circle-notch fa-spin"></i> Loading activities...</div>';
-    
-    return new Promise((resolve, reject) => {
-        // In a real app, this would be an API call
-        // For this demo, we'll simulate a small delay and use mock data
-        setTimeout(() => {
-            // Mock activities data
-            const activities = [
-                {
-                    type: 'edit',
-                    description: 'Updated project "Portfolio Website"',
-                    user: 'Md. Shahriar Rakib Rabbi',
-                    timestamp: new Date(Date.now() - 30 * 60000).toLocaleString(),
-                    icon: 'fa-edit',
-                    color: 'text-blue'
+        // Content distribution chart
+        const distributionCtx = document.getElementById('content-distribution');
+        if (distributionCtx) {
+            new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Projects', 'Skills', 'Gallery', 'Testimonials', 'Achievements'],
+                    datasets: [{
+                        data: [15, 25, 20, 10, 30],
+                        backgroundColor: ['#5c6ac4', '#ff7e5f', '#3ecf8e', '#fed330', '#6772e5']
+                    }]
                 },
-                {
-                    type: 'add',
-                    description: 'Added new skill "React Native"',
-                    user: 'Md. Shahriar Rakib Rabbi',
-                    timestamp: new Date(Date.now() - 2 * 3600000).toLocaleString(),
-                    icon: 'fa-plus-circle',
-                    color: 'text-green'
-                },
-                {
-                    type: 'delete',
-                    description: 'Removed outdated testimonial',
-                    user: 'Md. Shahriar Rakib Rabbi',
-                    timestamp: new Date(Date.now() - 5 * 3600000).toLocaleString(),
-                    icon: 'fa-trash-alt',
-                    color: 'text-red'
-                },
-                {
-                    type: 'login',
-                    description: 'Logged in to admin panel',
-                    user: 'Md. Shahriar Rakib Rabbi',
-                    timestamp: new Date(Date.now() - 8 * 3600000).toLocaleString(),
-                    icon: 'fa-sign-in-alt',
-                    color: 'text-purple'
-                },
-                {
-                    type: 'export',
-                    description: 'Exported site data backup',
-                    user: 'Md. Shahriar Rakib Rabbi',
-                    timestamp: new Date(Date.now() - 1 * 86400000).toLocaleString(),
-                    icon: 'fa-file-export',
-                    color: 'text-orange'
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 12,
+                                padding: 15
+                            }
+                        }
+                    }
                 }
-            ];
+            });
+        }
+    }
+
+    /**
+     * Toggle sidebar visibility
+     */
+    function toggleSidebar() {
+        domElements.sidebar.classList.toggle('collapsed');
+        domElements.contentArea.classList.toggle('expanded');
+        sidebarVisible = !sidebarVisible;
+        
+        // Update toggle button icon
+        const icon = domElements.sidebarToggle.querySelector('i');
+        if (icon) {
+            if (sidebarVisible) {
+                icon.classList.remove('fa-chevron-right');
+                icon.classList.add('fa-chevron-left');
+            } else {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            }
+        }
+        
+        // Save preference
+        localStorage.setItem('admin_sidebar_visible', sidebarVisible);
+    }
+
+    /**
+     * Toggle dark/light theme
+     */
+    function toggleTheme() {
+        darkMode = !darkMode;
+        
+        if (darkMode) {
+            document.documentElement.classList.add('dark-mode');
+            localStorage.setItem('theme_preference', 'dark');
+        } else {
+            document.documentElement.classList.remove('dark-mode');
+            localStorage.setItem('theme_preference', 'light');
+        }
+        
+        // Update icon
+        const icon = domElements.themeToggle.querySelector('i');
+        if (icon) {
+            if (darkMode) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            } else {
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
+            }
+        }
+        
+        // Add animation class
+        domElements.themeToggle.classList.add('theme-toggle-animate');
+        setTimeout(() => {
+            domElements.themeToggle.classList.remove('theme-toggle-animate');
+        }, 300);
+    }
+
+    /**
+     * Initialize theme preference
+     */
+    function initThemePreference() {
+        // Check localStorage first
+        const savedPreference = localStorage.getItem('theme_preference');
+        
+        // Check if user prefers dark mode
+        const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        // Set dark mode if saved preference is dark or if user prefers dark mode
+        darkMode = savedPreference === 'dark' || (savedPreference === null && prefersDarkMode);
+        
+        if (darkMode) {
+            document.documentElement.classList.add('dark-mode');
             
-            // Clear and populate the list
-            activitiesList.innerHTML = '';
+            // Update icon if exists
+            const icon = domElements.themeToggle?.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
+            }
+        }
+        
+        // Listen for system preference changes
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', e => {
+            // Only change if user hasn't set a preference
+            if (!localStorage.getItem('theme_preference')) {
+                darkMode = e.matches;
+                if (darkMode) {
+                    document.documentElement.classList.add('dark-mode');
+                } else {
+                    document.documentElement.classList.remove('dark-mode');
+                }
+                
+                // Update icon
+                const icon = domElements.themeToggle?.querySelector('i');
+                if (icon) {
+                    if (darkMode) {
+                        icon.classList.remove('fa-moon');
+                        icon.classList.add('fa-sun');
+                    } else {
+                        icon.classList.remove('fa-sun');
+                        icon.classList.add('fa-moon');
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * Handle logout action
+     */
+    function handleLogout() {
+        // Show confirmation modal
+        openModal('logout-confirm-modal');
+        
+        // Handle confirmation
+        const confirmBtn = document.querySelector('#confirm-logout-btn');
+        if (confirmBtn) {
+            // Remove any existing event listeners
+            const newConfirmBtn = confirmBtn.cloneNode(true);
+            confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
             
-            if (activities.length === 0) {
-                activitiesList.innerHTML = '<div class="no-activities">No recent activities found</div>';
-                resolve();
+            // Add new event listener
+            newConfirmBtn.addEventListener('click', function() {
+                // Show loading indicator
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Logging out...';
+                this.disabled = true;
+                
+                // Perform logout
+                AuthModule.logout()
+                    .then(() => {
+                        // Show success message
+                        NotificationModule.showSuccess('Logged out successfully');
+                        
+                        // Redirect to login page after a short delay
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 500);
+                    })
+                    .catch(error => {
+                        NotificationModule.showError(`Logout failed: ${error.message}`);
+                        closeModal();
+                    });
+            });
+        }
+    }
+
+    /**
+     * Toggle notifications dropdown
+     */
+    function toggleNotifications() {
+        domElements.notificationDropdown.classList.toggle('hidden');
+        
+        // Mark notifications as read when opened
+        if (!domElements.notificationDropdown.classList.contains('hidden')) {
+            markNotificationsAsRead();
+        }
+    }
+
+    /**
+     * Load notifications
+     */
+    function loadNotifications() {
+        // In a real app, you would fetch from an API
+        // For demo purposes, we'll use sample data
+        notifications = [
+            {
+                id: 1,
+                type: 'info',
+                message: 'Welcome to your admin dashboard!',
+                time: new Date(Date.now() - 300000), // 5 minutes ago
+                read: false
+            },
+            {
+                id: 2,
+                type: 'warning',
+                message: 'Remember to update your content regularly',
+                time: new Date(Date.now() - 3600000), // 1 hour ago
+                read: false
+            },
+            {
+                id: 3,
+                type: 'success',
+                message: 'Your changes were published successfully',
+                time: new Date(Date.now() - 86400000), // 1 day ago
+                read: true
+            }
+        ];
+        
+        updateNotificationUI();
+    }
+
+    /**
+     * Update the notification UI
+     */
+    function updateNotificationUI() {
+        // Count unread notifications
+        const unreadCount = notifications.filter(n => !n.read).length;
+        
+        // Update notification count
+        if (domElements.notificationCount) {
+            domElements.notificationCount.textContent = unreadCount;
+            
+            if (unreadCount > 0) {
+                domElements.notificationCount.classList.remove('hidden');
+            } else {
+                domElements.notificationCount.classList.add('hidden');
+            }
+        }
+        
+        // Update notification dropdown content
+        if (domElements.notificationDropdown) {
+            let html = '';
+            
+            if (notifications.length === 0) {
+                html = '<div class="notification-item empty">No notifications</div>';
+            } else {
+                notifications.forEach(notification => {
+                    const timeAgo = formatTimeAgo(notification.time);
+                    const readClass = notification.read ? 'read' : 'unread';
+                    const typeIcon = getNotificationIcon(notification.type);
+                    
+                    html += `
+                        <div class="notification-item ${readClass}" data-id="${notification.id}">
+                            <div class="notification-icon ${notification.type}">
+                                <i class="${typeIcon}"></i>
+                            </div>
+                            <div class="notification-content">
+                                <div class="notification-message">${notification.message}</div>
+                                <div class="notification-time">${timeAgo}</div>
+                            </div>
+                            <button class="notification-dismiss" aria-label="Dismiss" data-id="${notification.id}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    `;
+                });
+            }
+            
+            domElements.notificationDropdown.innerHTML = `
+                <div class="notification-header">
+                    <h3>Notifications</h3>
+                    <button class="mark-all-read">Mark all as read</button>
+                </div>
+                <div class="notification-list">
+                    ${html}
+                </div>
+                <div class="notification-footer">
+                    <a href="#">View all notifications</a>
+                </div>
+            `;
+            
+            // Add event listeners for notification actions
+            const markAllBtn = domElements.notificationDropdown.querySelector('.mark-all-read');
+            if (markAllBtn) {
+                markAllBtn.addEventListener('click', markNotificationsAsRead);
+            }
+            
+            const dismissBtns = domElements.notificationDropdown.querySelectorAll('.notification-dismiss');
+            dismissBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const id = parseInt(this.getAttribute('data-id'), 10);
+                    dismissNotification(id);
+                });
+            });
+        }
+    }
+
+    /**
+     * Mark all notifications as read
+     */
+    function markNotificationsAsRead() {
+        notifications.forEach(notification => {
+            notification.read = true;
+        });
+        
+        updateNotificationUI();
+    }
+
+    /**
+     * Dismiss a notification
+     * @param {number} id - The notification ID to dismiss
+     */
+    function dismissNotification(id) {
+        notifications = notifications.filter(n => n.id !== id);
+        updateNotificationUI();
+    }
+
+    /**
+     * Get icon class for notification type
+     * @param {string} type - The notification type
+     * @returns {string} The font awesome icon class
+     */
+    function getNotificationIcon(type) {
+        switch (type) {
+            case 'info':
+                return 'fas fa-info-circle';
+            case 'success':
+                return 'fas fa-check-circle';
+            case 'warning':
+                return 'fas fa-exclamation-triangle';
+            case 'error':
+                return 'fas fa-times-circle';
+            default:
+                return 'fas fa-bell';
+        }
+    }
+
+    /**
+     * Load dashboard statistics
+     */
+    function loadDashboardStats() {
+        // In a real app, you would fetch this from your API
+        // For demo purposes, we'll use sample data
+        dashboardStats = {
+            projects: 15,
+            skills: 25,
+            testimonials: 10,
+            gallery: 20,
+            achievements: 15,
+            visitorsToday: 120,
+            visitorsThisMonth: 3250,
+            totalVisitors: 15800
+        };
+        
+        updateStatsUI();
+    }
+
+    /**
+     * Update statistics UI
+     */
+    function updateStatsUI() {
+        if (!dashboardStats) return;
+        
+        // Update stat containers if they exist
+        domElements.statsContainers.forEach(container => {
+            const statKey = container.getAttribute('data-stat');
+            if (statKey && dashboardStats[statKey] !== undefined) {
+                // Use animateValue for a nice counter effect
+                animateValue(container, 0, dashboardStats[statKey], 1000);
+            }
+        });
+    }
+
+    /**
+     * Load activity feed
+     */
+    function loadActivityFeed() {
+        if (!domElements.activityFeed) return;
+        
+        // In a real app, you would fetch this from your API
+        // For demo purposes, we'll use sample data
+        const activities = [
+            {
+                type: 'edit',
+                item: 'Project: Portfolio Website',
+                user: 'admin',
+                time: new Date(Date.now() - 1800000) // 30 minutes ago
+            },
+            {
+                type: 'add',
+                item: 'New testimonial from John Doe',
+                user: 'admin',
+                time: new Date(Date.now() - 86400000) // 1 day ago
+            },
+            {
+                type: 'login',
+                item: 'Admin login',
+                user: 'admin',
+                time: new Date(Date.now() - 172800000) // 2 days ago
+            },
+            {
+                type: 'update',
+                item: 'Skills section updated',
+                user: 'admin',
+                time: new Date(Date.now() - 259200000) // 3 days ago
+            }
+        ];
+        
+        // Generate activity feed HTML
+        let html = '';
+        activities.forEach(activity => {
+            const timeAgo = formatTimeAgo(activity.time);
+            const icon = getActivityIcon(activity.type);
+            
+            html += `
+                <div class="activity-item">
+                    <div class="activity-icon ${activity.type}">
+                        <i class="${icon}"></i>
+                    </div>
+                    <div class="activity-content">
+                        <div class="activity-description">
+                            <span class="user">${activity.user}</span> 
+                            <span class="action">${getActivityAction(activity.type)}</span> 
+                            <span class="item">${activity.item}</span>
+                        </div>
+                        <div class="activity-time">${timeAgo}</div>
+                    </div>
+                </div>
+            `;
+        });
+        
+        domElements.activityFeed.innerHTML = html;
+    }
+
+    /**
+     * Get icon for activity type
+     * @param {string} type - The activity type
+     * @returns {string} The icon class
+     */
+    function getActivityIcon(type) {
+        switch (type) {
+            case 'add':
+                return 'fas fa-plus-circle';
+            case 'edit':
+                return 'fas fa-edit';
+            case 'delete':
+                return 'fas fa-trash-alt';
+            case 'update':
+                return 'fas fa-sync-alt';
+            case 'login':
+                return 'fas fa-sign-in-alt';
+            case 'logout':
+                return 'fas fa-sign-out-alt';
+            default:
+                return 'fas fa-circle';
+        }
+    }
+
+    /**
+     * Get action text for activity type
+     * @param {string} type - The activity type
+     * @returns {string} The action text
+     */
+    function getActivityAction(type) {
+        switch (type) {
+            case 'add':
+                return 'added';
+            case 'edit':
+                return 'edited';
+            case 'delete':
+                return 'deleted';
+            case 'update':
+                return 'updated';
+            case 'login':
+                return 'performed';
+            case 'logout':
+                return 'performed';
+            default:
+                return 'performed action on';
+        }
+    }
+
+    /**
+     * Handle search functionality
+     * @param {Event} e - The input event
+     */
+    function handleSearch(e) {
+        const query = e.target.value.trim().toLowerCase();
+        
+        if (query.length < 2) {
+            domElements.searchResults.innerHTML = '<div class="search-empty">Enter at least 2 characters to search</div>';
+            return;
+        }
+        
+        // In a real app, you would search through your content from the database
+        // For demo purposes, we'll use sample data
+        const results = searchContent(query);
+        
+        // Update search results UI
+        if (results.length === 0) {
+            domElements.searchResults.innerHTML = '<div class="search-empty">No results found</div>';
+        } else {
+            let html = '';
+            results.forEach(result => {
+                html += `
+                    <a href="${result.url}" class="search-result-item">
+                        <div class="result-icon">
+                            <i class="${result.icon}"></i>
+                        </div>
+                        <div class="result-content">
+                            <div class="result-title">${result.title}</div>
+                            <div class="result-category">${result.category}</div>
+                        </div>
+                    </a>
+                `;
+            });
+            
+            domElements.searchResults.innerHTML = html;
+        }
+        
+        // Show search results
+        domElements.searchResults.classList.remove('hidden');
+    }
+
+    /**
+     * Search through content
+     * @param {string} query - The search query
+     * @returns {Array} Array of search results
+     */
+    function searchContent(query) {
+        // Sample data for demonstration
+        const content = [
+            {
+                title: 'Portfolio Website',
+                category: 'Projects',
+                icon: 'fas fa-briefcase',
+                url: 'edit-projects.html'
+            },
+            {
+                title: 'JavaScript Development',
+                category: 'Skills',
+                icon: 'fas fa-code',
+                url: 'edit-skills.html'
+            },
+            {
+                title: 'Frontend Developer at TechCorp',
+                category: 'Experience',
+                icon: 'fas fa-building',
+                url: 'edit-achievements.html'
+            },
+            {
+                title: 'Project Screenshots',
+                category: 'Gallery',
+                icon: 'fas fa-images',
+                url: 'edit-gallery.html'
+            },
+            {
+                title: 'John Doe Testimonial',
+                category: 'Testimonials',
+                icon: 'fas fa-comment-alt',
+                url: 'edit-testimonials.html'
+            }
+        ];
+        
+        // Filter content based on query
+        return content.filter(item => {
+            return item.title.toLowerCase().includes(query) || 
+                   item.category.toLowerCase().includes(query);
+        });
+    }
+
+    /**
+     * Handle quick actions
+     * @param {Event} e - The click event
+     */
+    function handleQuickAction(e) {
+        const action = e.target.closest('[data-action]');
+        if (!action) return;
+        
+        const actionType = action.getAttribute('data-action');
+        
+        switch (actionType) {
+            case 'add-project':
+                window.location.href = 'edit-projects.html?action=add';
+                break;
+            case 'add-skill':
+                window.location.href = 'edit-skills.html?action=add';
+                break;
+            case 'add-testimonial':
+                window.location.href = 'edit-testimonials.html?action=add';
+                break;
+            case 'add-gallery':
+                window.location.href = 'edit-gallery.html?action=add';
+                break;
+            case 'view-site':
+                window.open('../index.html', '_blank');
+                break;
+            case 'export-data':
+                exportData();
+                break;
+            default:
+                console.log('Unknown action:', actionType);
+        }
+    }
+
+    /**
+     * Handle window resize
+     */
+    function handleResize() {
+        const width = window.innerWidth;
+        
+        // Auto-collapse sidebar on small screens
+        if (width < 768 && sidebarVisible) {
+            domElements.sidebar.classList.add('collapsed');
+            domElements.contentArea.classList.add('expanded');
+            sidebarVisible = false;
+            
+            // Update toggle button icon
+            const icon = domElements.sidebarToggle?.querySelector('i');
+            if (icon) {
+                icon.classList.remove('fa-chevron-left');
+                icon.classList.add('fa-chevron-right');
+            }
+        } else if (width >= 768 && !sidebarVisible) {
+            // Check if user has manually set a preference
+            const savedPreference = localStorage.getItem('admin_sidebar_visible');
+            if (savedPreference === null || savedPreference === 'true') {
+                domElements.sidebar.classList.remove('collapsed');
+                domElements.contentArea.classList.remove('expanded');
+                sidebarVisible = true;
+                
+                // Update toggle button icon
+                const icon = domElements.sidebarToggle?.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-chevron-right');
+                    icon.classList.add('fa-chevron-left');
+                }
+            }
+        }
+    }
+
+    /**
+     * Open a modal dialog
+     * @param {string} modalId - The ID of the modal to open
+     */
+    function openModal(modalId) {
+        // Get the modal template
+        const modalTemplate = document.querySelector(`#${modalId}`);
+        if (!modalTemplate) return;
+        
+        // Create modal
+        const modal = document.createElement('div');
+        modal.className = 'modal-wrapper';
+        modal.innerHTML = `
+            <div class="modal-backdrop"></div>
+            <div class="modal">
+                ${modalTemplate.innerHTML}
+            </div>
+        `;
+        
+        // Add to container or body
+        if (domElements.modalContainer) {
+            domElements.modalContainer.appendChild(modal);
+        } else {
+            document.body.appendChild(modal);
+        }
+        
+        // Add active class after a short delay for animation
+        setTimeout(() => {
+            modal.classList.add('active');
+        }, 10);
+        
+        // Prevent body scrolling
+        document.body.classList.add('modal-open');
+    }
+
+    /**
+     * Close any open modal
+     */
+    function closeModal() {
+        const modal = document.querySelector('.modal-wrapper');
+        if (!modal) return;
+        
+        // Remove active class for animation
+        modal.classList.remove('active');
+        
+        // Remove from DOM after animation completes
+        setTimeout(() => {
+            if (modal.parentNode) {
+                modal.parentNode.removeChild(modal);
+            }
+            
+            // Re-enable body scrolling
+            if (!document.querySelector('.modal-wrapper')) {
+                document.body.classList.remove('modal-open');
+            }
+        }, 300);
+    }
+
+    /**
+     * Update last updated times
+     */
+    function updateLastUpdatedTimes() {
+        if (!domElements.lastUpdatedTime.length) return;
+        
+        // Get the last updated time for each content type
+        const contentTypes = ['projects', 'skills', 'achievements', 'gallery', 'testimonials'];
+        
+        contentTypes.forEach(type => {
+            // Try to get from localStorage first
+            const lastUpdated = localStorage.getItem(`last_updated_${type}`);
+            
+            domElements.lastUpdatedTime.forEach(element => {
+                if (element.getAttribute('data-content-type') === type) {
+                    if (lastUpdated) {
+                        element.textContent = `Last updated: ${new Date(lastUpdated).toLocaleString()}`;
+                    } else {
+                        element.textContent = 'Not updated yet';
+                    }
+                }
+            });
+            
+            // If not in localStorage, try to get from the file's last modified date
+            if (!lastUpdated) {
+                fetch(`../data/${type}.json`)
+                    .then(response => {
+                        const lastModified = response.headers.get('last-modified');
+                        if (lastModified) {
+                            const formattedDate = new Date(lastModified).toLocaleString();
+                            localStorage.setItem(`last_updated_${type}`, lastModified);
+                            
+                            domElements.lastUpdatedTime.forEach(element => {
+                                if (element.getAttribute('data-content-type') === type) {
+                                    element.textContent = `Last updated: ${formattedDate}`;
+                                }
+                            });
+                        }
+                    })
+                    .catch(error => {
+                        console.warn(`Could not get last modified date for ${type}.json:`, error);
+                    });
+            }
+        });
+    }
+
+    /**
+     * Update breadcrumbs for current page
+     */
+    function updateBreadcrumbs() {
+        if (!domElements.breadcrumbs) return;
+        
+        const pageTitles = {
+            dashboard: 'Dashboard',
+            projects: 'Edit Projects',
+            skills: 'Edit Skills',
+            achievements: 'Edit Achievements',
+            gallery: 'Edit Gallery',
+            testimonials: 'Edit Testimonials'
+        };
+        
+        const pageTitle = pageTitles[currentPage] || 'Unknown Page';
+        
+        domElements.breadcrumbs.innerHTML = `
+            <li><a href="dashboard.html">Dashboard</a></li>
+            ${currentPage !== 'dashboard' ? `<li>${pageTitle}</li>` : ''}
+        `;
+    }
+
+    /**
+     * Export data functionality
+     */
+    function exportData() {
+        openModal('export-data-modal');
+        
+        // Handle export format selection
+        const exportBtn = document.querySelector('#export-data-btn');
+        if (exportBtn) {
+            exportBtn.addEventListener('click', function() {
+                const format = document.querySelector('input[name="export-format"]:checked').value;
+                const includeImages = document.querySelector('#include-images').checked;
+                
+                this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
+                this.disabled = true;
+                
+                // In a real app, you would call your export API here
+                // For demo, simulate the export process
+                setTimeout(() => {
+                    // Success
+                    this.innerHTML = '<i class="fas fa-check"></i> Export Complete';
+                    
+                    // Generate a download link
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    const filename = `portfolio-export-${timestamp}.${format}`;
+                    
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = '#';
+                    downloadLink.classList.add('btn', 'btn-primary', 'mt-3');
+                    downloadLink.innerText = 'Download Export';
+                    downloadLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        NotificationModule.showSuccess(`Export file "${filename}" would download in a real app.`);
+                    });
+                    
+                    // Add download link to modal
+                    const modalFooter = document.querySelector('.modal .modal-footer');
+                    if (modalFooter) {
+                        modalFooter.appendChild(downloadLink);
+                    }
+                    
+                }, 2000);
+            });
+        }
+    }
+
+    /**
+     * Initialize projects editor
+     */
+    function initProjectsEditor() {
+        // This will be handled by the editor module
+        console.log('Projects editor initialized');
+    }
+
+    /**
+     * Initialize skills editor
+     */
+    function initSkillsEditor() {
+        // This will be handled by the editor module
+        console.log('Skills editor initialized');
+    }
+
+    /**
+     * Initialize achievements editor
+     */
+    function initAchievementsEditor() {
+        // This will be handled by the editor module
+        console.log('Achievements editor initialized');
+    }
+
+    /**
+     * Initialize gallery editor
+     */
+    function initGalleryEditor() {
+        // This will be handled by the editor module
+        console.log('Gallery editor initialized');
+    }
+
+    /**
+     * Initialize testimonials editor
+     */
+    function initTestimonialsEditor() {
+        // This will be handled by the editor module
+        console.log('Testimonials editor initialized');
+    }
+
+    /**
+     * Animate a value from start to end
+     * @param {HTMLElement} element - The element to update
+     * @param {number} start - The start value
+     * @param {number} end - The end value
+     * @param {number} duration - The animation duration in milliseconds
+     */
+    function animateValue(element, start, end, duration) {
+        // Use current value as start if present
+        const currentValue = parseInt(element.textContent, 10);
+        if (!isNaN(currentValue)) {
+            start = currentValue;
+        }
+        
+        const range = end - start;
+        const minFrames = 30;
+        const timeStart = new Date().getTime();
+        
+        // Don't animate small changes
+        if (Math.abs(range) <= 5) {
+            element.textContent = end;
+            return;
+        }
+        
+        const updateValue = () => {
+            const timeNow = new Date().getTime();
+            const elapsed = timeNow - timeStart;
+            
+            if (elapsed > duration) {
+                element.textContent = end;
                 return;
             }
             
-            activities.forEach(activity => {
-                const item = document.createElement('div');
-                item.className = 'activity-item';
-                item.innerHTML = `
-                    <div class="activity-icon ${activity.color}">
-                        <i class="fas ${activity.icon}"></i>
-                    </div>
-                    <div class="activity-content">
-                        <div class="activity-description">${activity.description}</div>
-                        <div class="activity-meta">
-                            <span class="activity-user">${activity.user}</span>
-                            <span class="activity-time">${activity.timestamp}</span>
-                        </div>
-                    </div>
-                `;
-                activitiesList.appendChild(item);
-            });
+            const progress = elapsed / duration;
+            const currentValue = Math.floor(start + range * progress);
+            element.textContent = currentValue;
             
-            resolve();
-        }, 800);
-    });
-}
-
-/**
- * Initialize notification system
- */
-function initNotifications() {
-    // Check for notifications on load
-    checkForNotifications();
-    
-    // Notification center toggle
-    const notificationToggle = document.querySelector('.notification-toggle');
-    const notificationCenter = document.querySelector('.notification-center');
-    
-    if (notificationToggle && notificationCenter) {
-        notificationToggle.addEventListener('click', function(e) {
-            e.stopPropagation();
-            notificationCenter.classList.toggle('show');
-            
-            // Mark as read when opened
-            if (notificationCenter.classList.contains('show')) {
-                markNotificationsAsRead();
-            }
-        });
+            requestAnimationFrame(updateValue);
+        };
         
-        // Close when clicking outside
-        document.addEventListener('click', function(e) {
-            if (notificationCenter.classList.contains('show') && 
-                !notificationCenter.contains(e.target) && 
-                e.target !== notificationToggle) {
-                notificationCenter.classList.remove('show');
-            }
-        });
-        
-        // Prevent clicks inside notification center from closing it
-        notificationCenter.addEventListener('click', function(e) {
-            e.stopPropagation();
-        });
-        
-        // Mark all as read button
-        const markReadBtn = notificationCenter.querySelector('.mark-all-read');
-        if (markReadBtn) {
-            markReadBtn.addEventListener('click', function() {
-                markNotificationsAsRead();
-                showNotification('All notifications marked as read', 'success');
-            });
-        }
+        requestAnimationFrame(updateValue);
     }
-}
 
-/**
- * Check for new notifications
- */
-function checkForNotifications() {
-    // In a real app, this would fetch from an API
-    // For this demo, we'll use mock notifications
-    const notifications = [
-        {
-            id: 1,
-            title: 'New comment received',
-            message: 'Someone commented on your latest project',
-            time: '10 minutes ago',
-            read: false,
-            type: 'comment'
-        },
-        {
-            id: 2,
-            title: 'System update available',
-            message: 'A new version of the admin panel is available',
-            time: '1 hour ago',
-            read: false,
-            type: 'system'
-        },
-        {
-            id: 3,
-            title: 'Backup reminder',
-            message: 'Remember to backup your data regularly',
-            time: '1 day ago',
-            read: true,
-            type: 'reminder'
-        }
-    ];
-    
-    updateNotificationUI(notifications);
-}
-
-/**
- * Update notification UI with notification data
- * @param {Array} notifications - Array of notification objects
- */
-function updateNotificationUI(notifications) {
-    const notificationCount = document.querySelector('.notification-count');
-    const notificationList = document.querySelector('.notification-list');
-    
-    if (!notificationCount || !notificationList) return;
-    
-    // Count unread notifications
-    const unreadCount = notifications.filter(n => !n.read).length;
-    
-    // Update counter
-    notificationCount.textContent = unreadCount;
-    notificationCount.style.display = unreadCount > 0 ? 'flex' : 'none';
-    
-    // Update notification list
-    notificationList.innerHTML = '';
-    
-    if (notifications.length === 0) {
-        notificationList.innerHTML = '<div class="no-notifications">No notifications</div>';
-        return;
-    }
-    
-    notifications.forEach(notification => {
-        const item = document.createElement('div');
-        item.className = `notification-item ${notification.read ? 'read' : 'unread'}`;
-        item.setAttribute('data-id', notification.id);
+    /**
+     * Format a date as a time ago string
+     * @param {Date} date - The date to format
+     * @returns {string} Formatted time ago string
+     */
+    function formatTimeAgo(date) {
+        const now = new Date();
+        const seconds = Math.floor((now - date) / 1000);
         
-        // Determine icon based on type
-        let icon = 'fa-bell';
-        switch (notification.type) {
-            case 'comment':
-                icon = 'fa-comment';
-                break;
-            case 'system':
-                icon = 'fa-cog';
-                break;
-            case 'reminder':
-                icon = 'fa-calendar';
-                break;
+        if (seconds < 60) {
+            return 'Just now';
         }
         
-        item.innerHTML = `
-            <div class="notification-icon">
-                <i class="fas ${icon}"></i>
-            </div>
-            <div class="notification-content">
-                <div class="notification-title">${notification.title}</div>
-                <div class="notification-message">${notification.message}</div>
-                <div class="notification-time">${notification.time}</div>
-            </div>
-            <button class="notification-mark-read" title="Mark as ${notification.read ? 'unread' : 'read'}">
-                <i class="fas ${notification.read ? 'fa-envelope' : 'fa-envelope-open'}"></i>
-            </button>
-        `;
-        
-        // Add click handler to mark as read
-        item.querySelector('.notification-mark-read').addEventListener('click', function(e) {
-            e.stopPropagation();
-            toggleNotificationRead(notification.id);
-        });
-        
-        notificationList.appendChild(item);
-    });
-}
-
-/**
- * Toggle read status of a notification
- * @param {number} id - Notification ID
- */
-function toggleNotificationRead(id) {
-    // In a real app, this would call an API
-    // For this demo, we'll just toggle the UI
-    
-    const item = document.querySelector(`.notification-item[data-id="${id}"]`);
-    if (!item) return;
-    
-    const isRead = item.classList.contains('read');
-    
-    // Toggle class
-    item.classList.toggle('read');
-    item.classList.toggle('unread');
-    
-    // Update button
-    const button = item.querySelector('.notification-mark-read');
-    button.innerHTML = `<i class="fas ${isRead ? 'fa-envelope-open' : 'fa-envelope'}"></i>`;
-    button.title = `Mark as ${isRead ? 'read' : 'unread'}`;
-    
-    // Update counter
-    const notificationCount = document.querySelector('.notification-count');
-    let count = parseInt(notificationCount.textContent);
-    
-    if (isRead) {
-        count += 1;
-    } else {
-        count -= 1;
-    }
-    
-    notificationCount.textContent = count;
-    notificationCount.style.display = count > 0 ? 'flex' : 'none';
-}
-
-/**
- * Mark all notifications as read
- */
-function markNotificationsAsRead() {
-    // In a real app, this would call an API
-    // For this demo, we'll just update the UI
-    
-    document.querySelectorAll('.notification-item.unread').forEach(item => {
-        item.classList.remove('unread');
-        item.classList.add('read');
-        
-        const button = item.querySelector('.notification-mark-read');
-        button.innerHTML = '<i class="fas fa-envelope"></i>';
-        button.title = 'Mark as unread';
-    });
-    
-    // Update counter
-    const notificationCount = document.querySelector('.notification-count');
-    if (notificationCount) {
-        notificationCount.textContent = '0';
-        notificationCount.style.display = 'none';
-    }
-}
-
-/**
- * Show a notification to the user
- * @param {string} message - Notification message
- * @param {string} type - Notification type (success, error, info, warning)
- * @param {number} duration - Duration in milliseconds, 0 for persistent
- */
-function showNotification(message, type = 'info', duration = 5000) {
-    // Create notification container if it doesn't exist
-    let container = document.querySelector('.notification-container');
-    if (!container) {
-        container = document.createElement('div');
-        container.className = 'notification-container';
-        document.body.appendChild(container);
-    }
-    
-    // Create notification element
-    const notification = document.createElement('div');
-    notification.className = `notification notification-${type}`;
-    
-    // Determine icon based on type
-    let icon = 'fa-info-circle';
-    switch (type) {
-        case 'success':
-            icon = 'fa-check-circle';
-            break;
-        case 'error':
-            icon = 'fa-exclamation-circle';
-            break;
-        case 'warning':
-            icon = 'fa-exclamation-triangle';
-            break;
-    }
-    
-    notification.innerHTML = `
-        <div class="notification-icon">
-            <i class="fas ${icon}"></i>
-        </div>
-        <div class="notification-content">${message}</div>
-        <button class="notification-close"><i class="fas fa-times"></i></button>
-    `;
-    
-    // Add to container
-    container.appendChild(notification);
-    
-    // Show notification (transition effect)
-    setTimeout(() => notification.classList.add('show'), 10);
-    
-    // Close button
-    notification.querySelector('.notification-close').addEventListener('click', function() {
-        closeNotification(notification);
-    });
-    
-    // Auto-close after duration (if not persistent)
-    if (duration > 0) {
-        setTimeout(() => closeNotification(notification), duration);
-    }
-}
-
-/**
- * Close a notification
- * @param {HTMLElement} notification - Notification element to close
- */
-function closeNotification(notification) {
-    notification.classList.remove('show');
-    
-    // Remove after animation completes
-    setTimeout(() => {
-        if (notification.parentNode) {
-            notification.parentNode.removeChild(notification);
-            
-            // Remove container if it's empty
-            const container = document.querySelector('.notification-container');
-            if (container && !container.hasChildNodes()) {
-                document.body.removeChild(container);
-            }
-        }
-    }, 300);
-}
-
-/**
- * Initialize general admin UI features
- */
-function initAdminUI() {
-    // Initialize color theme toggle
-    const themeToggle = document.getElementById('theme-toggle');
-    if (themeToggle) {
-        // Check for saved theme preference
-        const currentTheme = localStorage.getItem('admin_theme') || 'light';
-        if (currentTheme === 'dark') {
-            document.body.classList.add('dark-theme');
-            themeToggle.checked = true;
+        const minutes = Math.floor(seconds / 60);
+        if (minutes < 60) {
+            return `${minutes} minute${minutes !== 1 ? 's' : ''} ago`;
         }
         
-        // Toggle theme on change
-        themeToggle.addEventListener('change', function() {
-            document.body.classList.toggle('dark-theme');
-            localStorage.setItem('admin_theme', 
-                document.body.classList.contains('dark-theme') ? 'dark' : 'light'
-            );
-        });
-    }
-    
-    // Initialize tooltips
-    document.querySelectorAll('[data-tooltip]').forEach(element => {
-        element.addEventListener('mouseenter', function() {
-            const tooltip = document.createElement('div');
-            tooltip.className = 'tooltip';
-            tooltip.textContent = this.getAttribute('data-tooltip');
-            
-            document.body.appendChild(tooltip);
-            
-            const rect = this.getBoundingClientRect();
-            tooltip.style.top = `${rect.bottom + window.scrollY + 10}px`;
-            tooltip.style.left = `${rect.left + window.scrollX + (rect.width / 2) - (tooltip.offsetWidth / 2)}px`;
-            
-            this.addEventListener('mouseleave', function() {
-                document.body.removeChild(tooltip);
-            }, { once: true });
-        });
-    });
-    
-    // Initialize collapsible panels
-    document.querySelectorAll('.panel-header').forEach(header => {
-        const panel = header.closest('.admin-panel');
-        if (!panel) return;
+        const hours = Math.floor(minutes / 60);
+        if (hours < 24) {
+            return `${hours} hour${hours !== 1 ? 's' : ''} ago`;
+        }
         
-        if (panel.classList.contains('collapsible')) {
-            header.addEventListener('click', function() {
-                panel.classList.toggle('collapsed');
-                
-                // Save state in localStorage if panel has ID
-                const panelId = panel.id;
-                if (panelId) {
-                    localStorage.setItem(
-                        `admin_panel_${panelId}_collapsed`, 
-                        panel.classList.contains('collapsed')
-                    );
-                }
-            });
-            
-            // Check for saved state
-            const panelId = panel.id;
-            if (panelId) {
-                const collapsed = localStorage.getItem(`admin_panel_${panelId}_collapsed`);
-                if (collapsed === 'true') {
-                    panel.classList.add('collapsed');
-                }
-            }
+        const days = Math.floor(hours / 24);
+        if (days < 7) {
+            return `${days} day${days !== 1 ? 's' : ''} ago`;
         }
-    });
-    
-    // Initialize modal dialogs
-    document.querySelectorAll('[data-modal]').forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            const modalId = this.getAttribute('data-modal');
-            const modal = document.getElementById(modalId);
-            
-            if (modal) {
-                openModal(modal);
-            }
-        });
-    });
-    
-    document.querySelectorAll('.modal .modal-close, .modal .modal-cancel').forEach(button => {
-        button.addEventListener('click', function() {
-            const modal = this.closest('.modal');
-            closeModal(modal);
-        });
-    });
-    
-    document.querySelectorAll('.modal').forEach(modal => {
-        modal.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closeModal(modal);
-            }
-        });
-    });
-}
-
-/**
- * Open a modal dialog
- * @param {HTMLElement} modal - Modal element to open
- */
-function openModal(modal) {
-    modal.classList.add('active');
-    document.body.classList.add('modal-open');
-    
-    const focusableElements = modal.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-    if (focusableElements.length > 0) {
-        focusableElements[0].focus();
-    }
-}
-
-/**
- * Close a modal dialog
- * @param {HTMLElement} modal - Modal element to close
- */
-function closeModal(modal) {
-    modal.classList.remove('active');
-    document.body.classList.remove('modal-open');
-}
-
-/**
- * Set up global event listeners
- */
-function setupEventListeners() {
-    // Close dropdown menus when clicking outside
-    document.addEventListener('click', function(e) {
-        const dropdowns = document.querySelectorAll('.dropdown.open');
-        dropdowns.forEach(dropdown => {
-            if (!dropdown.contains(e.target)) {
-                dropdown.classList.remove('open');
-            }
-        });
-    });
-    
-    // Toggle dropdown menus
-    document.querySelectorAll('.dropdown-toggle').forEach(toggle => {
-        toggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            const dropdown = this.closest('.dropdown');
-            dropdown.classList.toggle('open');
-        });
-    });
-    
-    // Handle logout button
-    const logoutBtn = document.getElementById('logout-button');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Show confirmation dialog
-            const confirmModal = document.getElementById('logout-confirm-modal');
-            if (confirmModal) {
-                openModal(confirmModal);
-                
-                // Set up confirm button
-                const confirmBtn = confirmModal.querySelector('.confirm-logout');
-                if (confirmBtn) {
-                    // Remove existing listeners
-                    const newConfirmBtn = confirmBtn.cloneNode(true);
-                    confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
-                    
-                    // Add new click listener
-                    newConfirmBtn.addEventListener('click', function() {
-                        Auth.logout();
-                    });
-                }
-            } else {
-                // No modal, just logout
-                Auth.logout();
-            }
-        });
-    }
-}
-
-/**
- * Update UI with current user info
- */
-function updateUserInfo() {
-    const user = Auth.getCurrentUser();
-    if (!user) return;
-    
-    // Update user name
-    const userNameElements = document.querySelectorAll('.user-name');
-    userNameElements.forEach(el => {
-        el.textContent = user.name || user.username;
-    });
-    
-    // Update user role
-    const userRoleElements = document.querySelectorAll('.user-role');
-    userRoleElements.forEach(el => {
-        el.textContent = user.role || 'Administrator';
-    });
-    
-    // Update user avatar
-    const userAvatarElements = document.querySelectorAll('.user-avatar');
-    userAvatarElements.forEach(el => {
-        if (user.avatar) {
-            el.src = user.avatar;
-            el.alt = user.name || user.username;
+        
+        const weeks = Math.floor(days / 7);
+        if (weeks < 4) {
+            return `${weeks} week${weeks !== 1 ? 's' : ''} ago`;
         }
-    });
-}
+        
+        const months = Math.floor(days / 30);
+        if (months < 12) {
+            return `${months} month${months !== 1 ? 's' : ''} ago`;
+        }
+        
+        const years = Math.floor(days / 365);
+        return `${years} year${years !== 1 ? 's' : ''} ago`;
+    }
+
+    /**
+     * Debounce function to limit how often a function is called
+     * @param {Function} func - The function to debounce
+     * @param {number} wait - The debounce wait time in milliseconds
+     * @returns {Function} Debounced function
+     */
+    function debounce(func, wait) {
+        let timeout;
+        return function(...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), wait);
+        };
+    }
+
+    // Public API
+    return {
+        init,
+        toggleTheme,
+        toggleSidebar,
+        openModal,
+        closeModal
+    };
+})();
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', AdminModule.init);

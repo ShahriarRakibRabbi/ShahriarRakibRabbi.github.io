@@ -3,585 +3,618 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Dashboard | Portfolio</title>
+    <title>Edit Projects | Portfolio Admin</title>
+    <meta name="description" content="Edit projects in your portfolio">
     <meta name="robots" content="noindex, nofollow">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
-    <link rel="stylesheet" href="../assets/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
-    <style>
-        :root {
-            --admin-sidebar-width: 250px;
-            --admin-header-height: 60px;
-        }
-        
-        .admin {
-            min-height: 100vh;
-            background-color: #f5f7fa;
-        }
-        
-        .admin-header {
-            position: fixed;
-            top: 0;
-            left: var(--admin-sidebar-width);
-            right: 0;
-            height: var(--admin-header-height);
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            z-index: 100;
-        }
-        
-        .admin-header__title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .admin-header__actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .admin-header__btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-        
-        .admin-header__btn:hover {
-            background-color: #f5f5f5;
-            color: var(--primary-color);
-        }
-        
-        .admin-sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: var(--admin-sidebar-width);
-            height: 100vh;
-            background-color: #2c3e50;
-            color: #fff;
-            z-index: 200;
-            transition: all 0.3s;
-        }
-        
-        .admin-sidebar__header {
-            height: var(--admin-header-height);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0 1.5rem;
-        }
-        
-        .admin-sidebar__logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .admin-sidebar__nav {
-            padding: 1.5rem 0;
-        }
-        
-        .admin-sidebar__item {
-            list-style: none;
-        }
-        
-        .admin-sidebar__link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        
-        .admin-sidebar__link:hover, 
-        .admin-sidebar__link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-        
-        .admin-sidebar__link i {
-            width: 20px;
-            text-align: center;
-        }
-        
-        .admin-sidebar__divider {
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 0.75rem 1.5rem;
-        }
-        
-        .admin-content {
-            padding-top: var(--admin-header-height);
-            padding-left: var(--admin-sidebar-width);
-            min-height: 100vh;
-        }
-        
-        .admin-main {
-            padding: 2rem;
-        }
-        
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-        
-        .dashboard-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-        }
-        
-        .dashboard-card__header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 1rem;
-        }
-        
-        .dashboard-card__title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .dashboard-card__icon {
-            width: 40px;
-            height: 40px;
-            background-color: var(--primary-color-light);
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            font-size: 1.25rem;
-        }
-        
-        .dashboard-card__value {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        
-        .dashboard-card__footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .dashboard-card__link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.875rem;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-            transition: color 0.2s;
-        }
-        
-        .dashboard-card__link:hover {
-            color: var(--primary-color-dark);
-        }
-        
-        .actions-section {
-            margin-bottom: 2rem;
-        }
-        
-        .actions-section__header {
-            margin-bottom: 1rem;
-        }
-        
-        .actions-section__title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .actions-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-        
-        .action-card {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            text-decoration: none;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-        
-        .action-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .action-card__icon {
-            width: 50px;
-            height: 50px;
-            background-color: var(--primary-color-light);
-            color: var(--primary-color);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .action-card__title {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
-        }
-        
-        .action-card__description {
-            font-size: 0.875rem;
-            color: #666;
-        }
-        
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            :root {
-                --admin-sidebar-width: 0;
-            }
-            
-            .admin-header {
-                left: 0;
-            }
-            
-            .admin-sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .admin-sidebar.show {
-                transform: translateX(0);
-                width: 250px;
-            }
-            
-            .admin-sidebar-toggle {
-                display: block;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <!-- Sortable.js for drag and drop functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Image Compressor for optimizing uploaded images -->
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
 </head>
-<body>
-    <div class="admin">
+<body data-admin-page="projects" data-editor-type="projects">
+    <div class="admin-wrapper">
         <!-- Sidebar -->
-        <aside class="admin-sidebar" id="admin-sidebar">
-            <div class="admin-sidebar__header">
-                <a href="dashboard.html" class="admin-sidebar__logo">
+        <aside id="admin-sidebar" class="admin-sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="sidebar-logo">
                     <i class="fas fa-code"></i>
-                    <span>Admin Panel</span>
+                    <span>Portfolio Admin</span>
                 </a>
-            </div>
-            
-            <nav class="admin-sidebar__nav">
-                <ul>
-                    <li class="admin-sidebar__item">
-                        <a href="dashboard.html" class="admin-sidebar__link active">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-projects.html" class="admin-sidebar__link">
-                            <i class="fas fa-project-diagram"></i>
-                            <span>Projects</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-skills.html" class="admin-sidebar__link">
-                            <i class="fas fa-laptop-code"></i>
-                            <span>Skills</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-achievements.html" class="admin-sidebar__link">
-                            <i class="fas fa-trophy"></i>
-                            <span>Achievements</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-gallery.html" class="admin-sidebar__link">
-                            <i class="fas fa-images"></i>
-                            <span>Gallery</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-testimonials.html" class="admin-sidebar__link">
-                            <i class="fas fa-comments"></i>
-                            <span>Testimonials</span>
-                        </a>
-                    </li>
-                    
-                    <div class="admin-sidebar__divider"></div>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="#" id="logout-btn" class="admin-sidebar__link">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-        
-        <!-- Header -->
-        <header class="admin-header">
-            <div class="admin-header__title">
-                <button class="admin-sidebar-toggle" id="sidebar-toggle">
-                    <i class="fas fa-bars"></i>
+                <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <i class="fas fa-chevron-left"></i>
                 </button>
-                Dashboard
             </div>
             
-            <div class="admin-header__actions">
-                <button class="admin-header__btn" id="view-site-btn">
+            <div class="sidebar-content">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" class="sidebar-item" data-page="dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-projects.html" class="sidebar-item active" data-page="projects">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-skills.html" class="sidebar-item" data-page="skills">
+                                <i class="fas fa-code"></i>
+                                <span>Skills</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-achievements.html" class="sidebar-item" data-page="achievements">
+                                <i class="fas fa-trophy"></i>
+                                <span>Achievements</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-gallery.html" class="sidebar-item" data-page="gallery">
+                                <i class="fas fa-images"></i>
+                                <span>Gallery</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-testimonials.html" class="sidebar-item" data-page="testimonials">
+                                <i class="fas fa-comment-alt"></i>
+                                <span>Testimonials</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                
+                <div class="sidebar-section">
+                    <h3 class="sidebar-heading">Settings</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="github-settings-modal">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub Integration</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="backup-modal">
+                                <i class="fas fa-cloud-download-alt"></i>
+                                <span>Backup & Restore</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="account-settings-modal">
+                                <i class="fas fa-user-cog"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <a href="../index.html" target="_blank" class="sidebar-footer-item">
                     <i class="fas fa-external-link-alt"></i>
                     <span>View Site</span>
-                </button>
-                
-                <button class="admin-header__btn" id="export-changes-btn">
-                    <i class="fas fa-download"></i>
-                    <span>Export Changes</span>
+                </a>
+                <button id="logout-btn" class="sidebar-footer-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
                 </button>
             </div>
-        </header>
-        
+        </aside>
+
         <!-- Main Content -->
-        <main class="admin-content">
-            <div class="admin-main">
-                <h1 class="admin-main__title">Welcome to your Admin Dashboard</h1>
-                <p class="admin-main__subtitle">Manage and update your portfolio content</p>
+        <main id="admin-content" class="admin-content">
+            <!-- Top Bar -->
+            <header class="admin-header">
+                <div class="header-search">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="admin-search" placeholder="Search projects...">
+                    </div>
+                    <div id="search-results" class="search-results hidden"></div>
+                </div>
                 
-                <!-- Stats Cards -->
-                <div class="dashboard-grid">
-                    <div class="dashboard-card">
-                        <div class="dashboard-card__header">
-                            <h3 class="dashboard-card__title">Projects</h3>
-                            <div class="dashboard-card__icon">
-                                <i class="fas fa-project-diagram"></i>
-                            </div>
-                        </div>
-                        <div class="dashboard-card__value" id="projects-count">0</div>
-                        <div class="dashboard-card__footer">
-                            <a href="edit-projects.html" class="dashboard-card__link">
-                                <span>Manage Projects</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
+                <div class="header-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="notifications-dropdown">
+                        <button id="notification-bell" class="notification-bell">
+                            <i class="fas fa-bell"></i>
+                            <span id="notification-count" class="notification-count hidden">0</span>
+                        </button>
+                        <div id="notification-dropdown" class="dropdown-menu notification-menu hidden"></div>
                     </div>
                     
-                    <div class="dashboard-card">
-                        <div class="dashboard-card__header">
-                            <h3 class="dashboard-card__title">Skills</h3>
-                            <div class="dashboard-card__icon">
-                                <i class="fas fa-laptop-code"></i>
-                            </div>
-                        </div>
-                        <div class="dashboard-card__value" id="skills-count">0</div>
-                        <div class="dashboard-card__footer">
-                            <a href="edit-skills.html" class="dashboard-card__link">
-                                <span>Manage Skills</span>
-                                <i class="fas fa-arrow-right"></i>
+                    <div class="user-dropdown">
+                        <button id="user-menu-btn" class="user-menu-btn">
+                            <img id="user-avatar" src="../assets/images/defaults/avatar.png" alt="Admin" class="user-avatar">
+                            <span id="user-display-name">Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="user-dropdown" class="dropdown-menu user-menu hidden">
+                            <a href="#" class="dropdown-item" data-modal-target="account-settings-modal">
+                                <i class="fas fa-user-circle"></i>
+                                <span>My Account</span>
                             </a>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-card">
-                        <div class="dashboard-card__header">
-                            <h3 class="dashboard-card__title">Achievements</h3>
-                            <div class="dashboard-card__icon">
-                                <i class="fas fa-trophy"></i>
-                            </div>
-                        </div>
-                        <div class="dashboard-card__value" id="achievements-count">0</div>
-                        <div class="dashboard-card__footer">
-                            <a href="edit-achievements.html" class="dashboard-card__link">
-                                <span>Manage Achievements</span>
-                                <i class="fas fa-arrow-right"></i>
+                            <a href="#" class="dropdown-item" data-modal-target="security-settings-modal">
+                                <i class="fas fa-lock"></i>
+                                <span>Security</span>
                             </a>
-                        </div>
-                    </div>
-                    
-                    <div class="dashboard-card">
-                        <div class="dashboard-card__header">
-                            <h3 class="dashboard-card__title">Gallery Items</h3>
-                            <div class="dashboard-card__icon">
-                                <i class="fas fa-images"></i>
-                            </div>
-                        </div>
-                        <div class="dashboard-card__value" id="gallery-count">0</div>
-                        <div class="dashboard-card__footer">
-                            <a href="edit-gallery.html" class="dashboard-card__link">
-                                <span>Manage Gallery</span>
-                                <i class="fas fa-arrow-right"></i>
-                            </a>
+                            <div class="dropdown-divider"></div>
+                            <button id="logout-menu-btn" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
                         </div>
                     </div>
                 </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="admin-page-content">
+                <!-- Breadcrumbs -->
+                <div class="breadcrumbs-wrapper">
+                    <ul id="breadcrumbs" class="breadcrumbs">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li>Edit Projects</li>
+                    </ul>
+                </div>
                 
-                <!-- Quick Actions -->
-                <section class="actions-section">
-                    <div class="actions-section__header">
-                        <h2 class="actions-section__title">Quick Actions</h2>
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1><i class="fas fa-briefcase"></i> Projects</h1>
+                        <p class="last-updated" data-content-type="projects">Last updated: Loading...</p>
+                    </div>
+                    <div class="page-actions">
+                        <button class="btn btn-primary add-item-btn" data-target="#projects-container">
+                            <i class="fas fa-plus"></i> Add Project
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- GitHub Integration Alert -->
+                <div class="alert alert-info github-status">
+                    <i class="fab fa-github"></i>
+                    <div class="alert-content">
+                        <p>Changes will be committed and pushed to your GitHub repository.</p>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn btn-sm btn-outline" data-modal-target="github-settings-modal">
+                            <i class="fas fa-cog"></i> Configure
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Editor Form -->
+                <form id="projects-form" class="editor-form">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Project List</h2>
+                            <div class="section-actions">
+                                <button type="button" class="btn btn-sm btn-outline" id="expand-all-btn">
+                                    <i class="fas fa-expand-alt"></i> Expand All
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline" id="collapse-all-btn">
+                                    <i class="fas fa-compress-alt"></i> Collapse All
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Projects Container -->
+                        <div id="projects-container" class="sortable-list"></div>
+                        
+                        <!-- No Projects Message -->
+                        <div id="no-projects-message" class="empty-state">
+                            <i class="fas fa-briefcase"></i>
+                            <h3>No Projects Yet</h3>
+                            <p>Add your first project using the button above</p>
+                        </div>
                     </div>
                     
-                    <div class="actions-grid">
-                        <a href="edit-projects.html" class="action-card">
-                            <div class="action-card__icon">
-                                <i class="fas fa-plus"></i>
+                    <!-- Form Footer -->
+                    <div class="form-footer">
+                        <div class="form-footer-left">
+                            <div class="form-group commit-message-group">
+                                <label for="commit-message">Commit Message:</label>
+                                <input type="text" id="commit-message" name="commit-message" class="form-control" placeholder="Update projects" value="Update projects">
                             </div>
-                            <h3 class="action-card__title">Add Project</h3>
-                            <p class="action-card__description">Showcase a new project</p>
-                        </a>
+                        </div>
                         
-                        <a href="edit-skills.html" class="action-card">
-                            <div class="action-card__icon">
-                                <i class="fas fa-cog"></i>
-                            </div>
-                            <h3 class="action-card__title">Update Skills</h3>
-                            <p class="action-card__description">Add or update skills</p>
-                        </a>
-                        
-                        <a href="edit-testimonials.html" class="action-card">
-                            <div class="action-card__icon">
-                                <i class="fas fa-comment-alt"></i>
-                            </div>
-                            <h3 class="action-card__title">Add Testimonial</h3>
-                            <p class="action-card__description">Add a new testimonial</p>
-                        </a>
-                        
-                        <a href="edit-gallery.html" class="action-card">
-                            <div class="action-card__icon">
-                                <i class="fas fa-image"></i>
-                            </div>
-                            <h3 class="action-card__title">Upload Design</h3>
-                            <p class="action-card__description">Add to your gallery</p>
-                        </a>
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline discard-changes-btn">Discard Changes</button>
+                            <button type="submit" class="btn btn-primary save-changes-btn">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
                     </div>
-                </section>
-                
-                <!-- Export Data Section -->
-                <section class="dashboard-card">
-                    <div class="dashboard-card__header">
-                        <h3 class="dashboard-card__title">Export Your Changes</h3>
+                    
+                    <!-- Upload Progress -->
+                    <div class="upload-progress-container hidden">
+                        <h3>Uploading Files...</h3>
+                        <div class="upload-progress-list">
+                            <div class="upload-progress-item">
+                                <span class="upload-filename">project-thumbnail.jpg</span>
+                                <div class="progress">
+                                    <div class="upload-progress" data-index="0" style="width: 0%">0%</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <p>After making changes, export your data files and replace them in your GitHub repository.</p>
-                    <button id="export-all-data" class="btn btn--primary" style="margin-top: 1rem;">
-                        <i class="fas fa-download"></i> Export All Data Files
-                    </button>
-                </section>
+                </form>
             </div>
         </main>
     </div>
+    
+    <!-- Templates -->
+    <!-- Project Item Template -->
+    <template id="projects-item-template">
+        <div class="project-item item-card">
+            <div class="item-header">
+                <div class="drag-handle">
+                    <i class="fas fa-grip-lines"></i>
+                </div>
+                <div class="item-title">
+                    <h3 class="collapse-toggle collapsed" data-target="#project-content-__ID__">
+                        <span class="item-title-text">New Project</span>
+                        <i class="fas fa-chevron-down toggle-icon"></i>
+                    </h3>
+                </div>
+                <div class="item-actions">
+                    <button type="button" class="btn btn-sm btn-icon preview-item-btn" title="Preview">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-icon duplicate-item-btn" title="Duplicate">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                    <button type="button" class="btn btn-sm btn-icon remove-item-btn" title="Remove">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="project-content-__ID__" class="item-content collapse">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="project-title-__ID__">Project Title <span class="required">*</span></label>
+                        <input type="text" id="project-title-__ID__" class="form-control project-title-input" placeholder="My Amazing Project" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-thumbnail-__ID__">Thumbnail Image</label>
+                        <div class="image-upload-container">
+                            <div class="image-upload-controls">
+                                <input type="file" id="project-thumbnail-upload-__ID__" class="image-upload-input" data-target="project-thumbnail-__ID__" data-path="projects/thumbnails" accept="image/*">
+                                <label for="project-thumbnail-upload-__ID__" class="upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i> Choose Image
+                                </label>
+                                <div class="upload-info">
+                                    <span>Max 5MB, JPG, PNG or WebP</span>
+                                </div>
+                            </div>
+                            <div class="image-preview thumbnail-preview">
+                                <div class="no-image">No image selected</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="project-thumbnail-__ID__" class="project-thumbnail-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-description-__ID__">Short Description <span class="required">*</span></label>
+                        <textarea id="project-description-__ID__" class="form-control project-description-input" rows="3" placeholder="Brief description of your project" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-categories-__ID__">Categories (comma separated)</label>
+                        <input type="text" id="project-categories-__ID__" class="form-control project-categories-input" placeholder="Web, Design, Mobile">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-technologies-__ID__">Technologies (comma separated)</label>
+                        <input type="text" id="project-technologies-__ID__" class="form-control project-technologies-input" placeholder="HTML, CSS, JavaScript">
+                    </div>
+                    
+                    <div class="form-group form-checkbox">
+                        <input type="checkbox" id="project-featured-__ID__" class="project-featured-input">
+                        <label for="project-featured-__ID__">Featured Project</label>
+                    </div>
+                </div>
+                
+                <div class="form-section-divider"></div>
+                
+                <div class="form-section">
+                    <h4>Project Details</h4>
+                    
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="project-demo-__ID__">Demo URL</label>
+                            <div class="input-with-icon">
+                                <i class="fas fa-globe"></i>
+                                <input type="url" id="project-demo-__ID__" class="form-control project-demo-input" placeholder="https://example.com">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="project-code-__ID__">Code Repository URL</label>
+                            <div class="input-with-icon">
+                                <i class="fab fa-github"></i>
+                                <input type="url" id="project-code-__ID__" class="form-control project-code-input" placeholder="https://github.com/username/repo">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-details-__ID__">Detailed Description</label>
+                        <textarea id="project-details-__ID__" class="form-control project-details-input" rows="5" placeholder="Detailed description of the project scope, goals, and implementation"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-challenges-__ID__">Challenges & Solutions</label>
+                        <textarea id="project-challenges-__ID__" class="form-control project-challenges-input" rows="3" placeholder="Challenges faced and how you solved them"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-outcomes-__ID__">Outcomes & Achievements</label>
+                        <textarea id="project-outcomes-__ID__" class="form-control project-outcomes-input" rows="3" placeholder="Results, metrics, and achievements from this project"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-section-divider"></div>
+                
+                <div class="form-section">
+                    <h4>Project Gallery</h4>
+                    <p class="section-description">Upload multiple images to showcase your project</p>
+                    
+                    <div class="form-group">
+                        <label>Gallery Images</label>
+                        <div class="multi-image-upload">
+                            <div class="multi-image-upload-controls">
+                                <input type="file" id="project-images-upload-__ID__" class="multi-image-upload-input" accept="image/*" multiple>
+                                <label for="project-images-upload-__ID__" class="upload-label">
+                                    <i class="fas fa-images"></i> Choose Images
+                                </label>
+                                <div class="upload-info">
+                                    <span>Max 5 images, 5MB each</span>
+                                </div>
+                            </div>
+                            
+                            <div class="image-gallery-preview">
+                                <div class="image-gallery-grid" id="project-images-preview-__ID__">
+                                    <div class="gallery-item-placeholder">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Add Images</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <input type="hidden" id="project-images-__ID__" class="project-images-input">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Gallery Item Template for Project Images -->
+    <template id="gallery-image-item-template">
+        <div class="gallery-item">
+            <div class="gallery-item-image">
+                <img src="" alt="Gallery Image">
+            </div>
+            <div class="gallery-item-actions">
+                <button type="button" class="btn btn-sm btn-icon image-edit-btn" title="Edit">
+                    <i class="fas fa-pencil-alt"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-icon image-remove-btn" title="Remove">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Modal Templates -->
+    <div id="modal-container"></div>
+    
+    <template id="logout-confirm-modal">
+        <div class="modal-header">
+            <h2>Confirm Logout</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to logout from the admin panel?</p>
+            <p>Any unsaved changes will be lost.</p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Cancel</button>
+            <button id="confirm-logout-btn" class="btn btn-primary">Yes, Logout</button>
+        </div>
+    </template>
+    
+    <template id="github-settings-modal">
+        <div class="modal-header">
+            <h2>GitHub Integration Settings</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <form id="github-credentials-form">
+                <div class="form-group">
+                    <label for="github-token">GitHub Token</label>
+                    <div class="input-with-icon">
+                        <input type="password" id="github-token" placeholder="Enter your GitHub token" class="form-control">
+                        <button type="button" class="toggle-password">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <small class="form-text">Create a personal access token with repo scope at <a href="https://github.com/settings/tokens" target="_blank">GitHub Settings</a></small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="github-username">GitHub Username</label>
+                    <input type="text" id="github-username" placeholder="Enter your GitHub username" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <label for="github-repo">Repository Name</label>
+                    <input type="text" id="github-repo" placeholder="Enter your repository name" class="form-control">
+                    <small class="form-text">Example: my-portfolio-website</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="github-branch">Branch</label>
+                    <input type="text" id="github-branch" placeholder="Enter branch name" class="form-control" value="main">
+                    <small class="form-text">Default: main</small>
+                </div>
+                
+                <div class="form-section-header">
+                    <h3>Image Upload Settings</h3>
+                </div>
+                
+                <div class="form-group">
+                    <label for="image-quality">Image Quality</label>
+                    <input type="range" id="image-quality" class="form-control range-input" min="50" max="100" value="80">
+                    <div class="range-value">80%</div>
+                    <small class="form-text">Lower quality = smaller file size</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="max-image-width">Max Image Width</label>
+                    <input type="number" id="max-image-width" class="form-control" value="1920" min="800" max="3840">
+                    <small class="form-text">Images will be resized if larger (in pixels)</small>
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="convert-to-webp" checked>
+                        <label for="convert-to-webp">Convert large images to WebP format</label>
+                    </div>
+                    <small class="form-text">WebP offers better compression than JPEG/PNG</small>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Cancel</button>
+            <button type="submit" form="github-credentials-form" class="btn btn-primary">Save Settings</button>
+        </div>
+    </template>
+    
+    <template id="image-crop-modal">
+        <div class="modal-header">
+            <h2>Adjust Image</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="image-editor-container">
+                <div class="image-preview-container">
+                    <img id="crop-preview-image" src="" alt="Image to crop">
+                </div>
+                
+                <div class="image-editor-controls">
+                    <div class="control-group">
+                        <label>Crop Ratio</label>
+                        <div class="button-group">
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="free">Free</button>
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn active" data-ratio="16:9">16:9</button>
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="4:3">4:3</button>
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="1:1">1:1</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Rotation</label>
+                        <div class="button-group">
+                            <button type="button" class="btn btn-sm btn-outline rotate-btn" data-rotate="-90">
+                                <i class="fas fa-undo"></i> 90°
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline rotate-btn" data-rotate="90">
+                                <i class="fas fa-redo"></i> 90°
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Adjustment</label>
+                        <div class="range-control">
+                            <span>Brightness</span>
+                            <input type="range" id="brightness-slider" min="-100" max="100" value="0" class="image-adjustment-slider">
+                        </div>
+                        <div class="range-control">
+                            <span>Contrast</span>
+                            <input type="range" id="contrast-slider" min="-100" max="100" value="0" class="image-adjustment-slider">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Cancel</button>
+            <button id="crop-reset-btn" class="btn btn-outline">Reset</button>
+            <button id="crop-apply-btn" class="btn btn-primary">Apply Changes</button>
+        </div>
+    </template>
+    
+    <template id="project-preview-modal">
+        <div class="modal-header">
+            <h2>Project Preview</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="project-preview">
+                <div class="project-preview-image">
+                    <img src="" alt="Project Thumbnail" id="preview-project-image">
+                </div>
+                <div class="project-preview-content">
+                    <h3 id="preview-project-title">Project Title</h3>
+                    <div class="project-preview-tags">
+                        <span id="preview-project-categories">Web Development</span>
+                        •
+                        <span id="preview-project-technologies">HTML, CSS, JS</span>
+                    </div>
+                    <p id="preview-project-description">Project description will appear here...</p>
+                    <div class="project-preview-links">
+                        <a href="#" id="preview-project-demo" class="btn btn-sm btn-outline" target="_blank">
+                            <i class="fas fa-globe"></i> View Demo
+                        </a>
+                        <a href="#" id="preview-project-code" class="btn btn-sm btn-outline" target="_blank">
+                            <i class="fab fa-github"></i> View Code
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Close</button>
+        </div>
+    </template>
 
-    <script src="../assets/js/auth.js"></script>
+    <!-- Scripts -->
     <script src="../assets/js/data-loader.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/admin/github.js"></script>
+    <script src="../assets/js/admin/editor.js"></script>
     <script src="../assets/js/admin/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Authenticate - redirect if not logged in
-            if (!isLoggedIn()) {
-                window.location.href = 'index.html';
-                return;
-            }
-            
-            // Toggle sidebar on mobile
-            const sidebarToggle = document.getElementById('sidebar-toggle');
-            const sidebar = document.getElementById('admin-sidebar');
-            
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('show');
-                });
-            }
-            
-            // View site button
-            document.getElementById('view-site-btn').addEventListener('click', function() {
-                window.open('../index.html', '_blank');
-            });
-            
-            // Logout button
-            document.getElementById('logout-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                logout();
-                window.location.href = 'index.html';
-            });
-            
-            // Load counts
-            loadData('../data/projects.json').then(data => {
-                document.getElementById('projects-count').textContent = data.length || 0;
-            }).catch(() => {
-                document.getElementById('projects-count').textContent = 0;
-            });
-            
-            loadData('../data/skills.json').then(data => {
-                document.getElementById('skills-count').textContent = data.length || 0;
-            }).catch(() => {
-                document.getElementById('skills-count').textContent = 0;
-            });
-            
-            loadData('../data/achievements.json').then(data => {
-                document.getElementById('achievements-count').textContent = data.length || 0;
-            }).catch(() => {
-                document.getElementById('achievements-count').textContent = 0;
-            });
-            
-            loadData('../data/gallery.json').then(data => {
-                document.getElementById('gallery-count').textContent = data.length || 0;
-            }).catch(() => {
-                document.getElementById('gallery-count').textContent = 0;
-            });
-            
-            // Export all data button
-            document.getElementById('export-all-data').addEventListener('click', function() {
-                exportAllData();
-            });
-
-            // Export specific changes button
-            document.getElementById('export-changes-btn').addEventListener('click', function() {
-                exportAllData();
-            });
-        });
-    </script>
+    <script src="../assets/js/admin/notifications.js"></script>
 </body>
 </html>

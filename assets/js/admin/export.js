@@ -1,760 +1,1018 @@
 /**
- * Admin Data Export Module
- * Author: Md. Shahriar Rakib Rabbi
- * 
- * This file handles data export functionality for the portfolio admin area.
- * It provides functions to export data in different formats (JSON, CSV, PDF)
- * and manage the export process.
+ * Export Module
+ * Handles data export and GitHub integration functionality
+ * @author: Md. Shahriar Rakib Rabbi
  */
 
-// Create namespace for Export functionality
-const AdminExport = (function() {
+const ExportModule = (function() {
+    // Private variables
+    const GITHUB_CREDENTIALS_KEY = 'github_credentials';
+    const GITHUB_API_URL = 'https://api.github.com';
+    let isExporting = false;
+    let exportQueue = [];
+    let exportProgress = 0;
+    let totalExports = 0;
+
+    // Data file paths
+    const dataFiles = {
+        projects: '../data/projects.json',
+        skills: '../data/skills.json',
+        achievements: '../data/achievements.json',
+        gallery: '../data/gallery.json',
+        testimonials: '../data/testimonials.json',
+        settings: '../data/settings.json'
+    };
+
     /**
-     * Export data as JSON file
-     * @param {Object|Array} data - The data to export
-     * @param {string} filename - Name of the file without extension
+     * Initialize the export module
      */
-    function toJSON(data, filename = 'export') {
-        try {
-            // Format JSON with indentation
-            const jsonData = JSON.stringify(data, null, 2);
-            const blob = new Blob([jsonData], { type: 'application/json' });
-            
-            // Create download
-            downloadFile(blob, `${filename}.json`);
-            return true;
-        } catch (error) {
-            console.error('Error exporting JSON:', error);
-            showNotification('Failed to export JSON data', 'error');
-            return false;
-        }
+    function init() {
+        bindEvents();
+        loadGitHubCredentials();
     }
-    
+
     /**
-     * Export data as CSV file
-     * @param {Array} data - Array of objects to export
-     * @param {string} filename - Name of the file without extension
-     * @param {Array} headers - Optional custom headers
+     * Bind event listeners
      */
-    function toCSV(data, filename = 'export', headers = null) {
-        try {
-            if (!Array.isArray(data) || data.length === 0) {
-                throw new Error('Data must be a non-empty array');
+    function bindEvents() {
+        // Export data button
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('#export-data-btn') || e.target.closest('#export-data-btn')) {
+                e.preventDefault();
+                handleExport();
             }
-            
-            // Extract headers from first object if not provided
-            const columnHeaders = headers || Object.keys(data[0]);
-            
-            // Create CSV content
-            let csvContent = columnHeaders.join(',') + '\n';
-            
-            // Add data rows
-            data.forEach(item => {
-                const row = columnHeaders.map(header => {
-                    const value = item[header];
-                    
-                    // Handle special cases
-                    if (value === null || value === undefined) return '';
-                    if (typeof value === 'object') return JSON.stringify(value).replace(/"/g, '""');
-                    
-                    // Escape quotes and wrap in quotes if needed
-                    const cellValue = String(value).replace(/"/g, '""');
-                    return cellValue.includes(',') || cellValue.includes('"') || cellValue.includes('\n') 
-                        ? `"${cellValue}"` 
-                        : cellValue;
-                });
-                
-                csvContent += row.join(',') + '\n';
+        });
+
+        // GitHub connect button
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('#test-github-connection') || e.target.closest('#test-github-connection')) {
+                e.preventDefault();
+                testGitHubConnection();
+            }
+        });
+
+        // GitHub settings form submission
+        const githubForm = document.getElementById('github-credentials-form');
+        if (githubForm) {
+            githubForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                saveGitHubCredentials();
             });
-            
-            // Create download
-            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8' });
-            downloadFile(blob, `${filename}.csv`);
-            return true;
-        } catch (error) {
-            console.error('Error exporting CSV:', error);
-            showNotification('Failed to export CSV data', 'error');
-            return false;
         }
-    }
-    
-    /**
-     * Export data as Excel file
-     * @param {Array} data - Array of objects to export
-     * @param {string} filename - Name of the file without extension
-     * @param {string} sheetName - Name of the Excel sheet
-     */
-    function toExcel(data, filename = 'export', sheetName = 'Sheet1') {
-        try {
-            if (typeof XLSX === 'undefined') {
-                throw new Error('SheetJS (XLSX) library not loaded');
-            }
-            
-            // Create workbook and worksheet
-            const worksheet = XLSX.utils.json_to_sheet(data);
-            const workbook = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(workbook, worksheet, sheetName);
-            
-            // Generate file and trigger download
-            XLSX.writeFile(workbook, `${filename}.xlsx`);
-            return true;
-        } catch (error) {
-            console.error('Error exporting Excel:', error);
-            
-            // If SheetJS isn't available, fall back to CSV
-            if (error.message === 'SheetJS (XLSX) library not loaded') {
-                showNotification('Excel export not available, using CSV instead', 'warning');
-                return toCSV(data, filename);
-            } else {
-                showNotification('Failed to export Excel data', 'error');
-                return false;
-            }
-        }
-    }
-    
-    /**
-     * Export data as PDF
-     * @param {Array} data - Array of objects to export
-     * @param {string} filename - Name of the file without extension
-     * @param {Object} options - PDF export options
-     */
-    function toPDF(data, filename = 'export', options = {}) {
-        try {
-            if (typeof jsPDF === 'undefined' || typeof autoTable === 'undefined') {
-                throw new Error('jsPDF and/or jspdf-autotable not loaded');
-            }
-            
-            // Default options
-            const config = {
-                title: options.title || filename,
-                author: options.author || 'Portfolio Admin',
-                orientation: options.orientation || 'portrait',
-                pageSize: options.pageSize || 'a4',
-                header: options.header || null,
-                footer: options.footer || null,
-                ...options
-            };
-            
-            // Create PDF document
-            const doc = new jsPDF({
-                orientation: config.orientation,
-                unit: 'mm',
-                format: config.pageSize
-            });
-            
-            // Add metadata
-            doc.setProperties({
-                title: config.title,
-                author: config.author,
-                subject: 'Portfolio Data Export',
-                keywords: 'portfolio, export, data',
-                creator: 'Portfolio Admin Panel'
-            });
-            
-            // Add title if present
-            if (config.title) {
-                doc.setFontSize(18);
-                doc.text(config.title, 14, 20);
-                doc.setLineWidth(0.5);
-                doc.line(14, 25, 196, 25);
-            }
-            
-            // Convert data for autoTable
-            let tableData = [];
-            let tableColumns = [];
-            
-            if (Array.isArray(data)) {
-                if (data.length === 0) {
-                    throw new Error('Data array is empty');
-                }
+
+        // Toggle password visibility
+        document.addEventListener('click', function(e) {
+            if (e.target.matches('.toggle-password') || e.target.closest('.toggle-password')) {
+                const button = e.target.closest('.toggle-password');
+                const input = button.parentNode.querySelector('input');
                 
-                // Extract columns from object keys
-                tableColumns = Object.keys(data[0]).map(key => ({
-                    header: key,
-                    dataKey: key
-                }));
-                
-                tableData = data;
-            } else if (typeof data === 'object') {
-                // Convert object to array format
-                tableColumns = [
-                    { header: 'Property', dataKey: 'property' },
-                    { header: 'Value', dataKey: 'value' }
-                ];
-                
-                tableData = Object.entries(data).map(([key, value]) => ({
-                    property: key,
-                    value: typeof value === 'object' ? JSON.stringify(value) : value
-                }));
-            }
-            
-            // Add table to document
-            autoTable(doc, {
-                startY: config.title ? 30 : 10,
-                head: [tableColumns.map(col => col.header)],
-                body: tableData.map(row => 
-                    tableColumns.map(col => {
-                        const value = row[col.dataKey];
-                        return value === null || value === undefined ? '' : value;
-                    })
-                ),
-                headStyles: {
-                    fillColor: [66, 66, 66],
-                    textColor: 255,
-                    fontStyle: 'bold'
-                },
-                alternateRowStyles: {
-                    fillColor: [245, 245, 245]
-                },
-                margin: { top: 10 },
-                didDrawPage: function(data) {
-                    // Add header
-                    if (config.header) {
-                        doc.setFontSize(10);
-                        doc.setTextColor(100);
-                        doc.text(config.header, data.settings.margin.left, 10);
-                    }
+                if (input) {
+                    const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                    input.setAttribute('type', type);
                     
-                    // Add footer
-                    if (config.footer) {
-                        doc.setFontSize(10);
-                        doc.setTextColor(100);
-                        doc.text(
-                            config.footer, 
-                            data.settings.margin.left, 
-                            doc.internal.pageSize.height - 10
-                        );
-                    } else {
-                        // Default footer with page number
-                        doc.setFontSize(10);
-                        doc.setTextColor(100);
-                        doc.text(
-                            `Page ${doc.internal.getNumberOfPages()}`,
-                            doc.internal.pageSize.width - 20, 
-                            doc.internal.pageSize.height - 10
-                        );
+                    // Toggle icon
+                    const icon = button.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-eye');
+                        icon.classList.toggle('fa-eye-slash');
                     }
                 }
-            });
-            
-            // Save PDF
-            doc.save(`${filename}.pdf`);
-            return true;
-        } catch (error) {
-            console.error('Error exporting PDF:', error);
-            
-            // If PDF libraries aren't loaded, offer JSON export instead
-            if (error.message === 'jsPDF and/or jspdf-autotable not loaded') {
-                showNotification('PDF export not available, using JSON instead', 'warning');
-                return toJSON(data, filename);
-            } else {
-                showNotification('Failed to export PDF data', 'error');
-                return false;
             }
+        });
+    }
+
+    /**
+     * Handle data export
+     */
+    function handleExport() {
+        if (isExporting) {
+            NotificationModule.showInfo('Export is already in progress');
+            return;
+        }
+
+        const format = document.querySelector('input[name="export-format"]:checked')?.value || 'json';
+        const includeAll = document.getElementById('export-all')?.checked || false;
+        const includeImages = document.getElementById('include-images')?.checked || false;
+        
+        // Determine which content to export
+        const contentToExport = [];
+        
+        if (includeAll) {
+            contentToExport.push('projects', 'skills', 'achievements', 'gallery', 'testimonials');
+        } else {
+            if (document.getElementById('export-projects')?.checked) contentToExport.push('projects');
+            if (document.getElementById('export-skills')?.checked) contentToExport.push('skills');
+            if (document.getElementById('export-achievements')?.checked) contentToExport.push('achievements');
+            if (document.getElementById('export-gallery')?.checked) contentToExport.push('gallery');
+            if (document.getElementById('export-testimonials')?.checked) contentToExport.push('testimonials');
+        }
+
+        if (contentToExport.length === 0) {
+            NotificationModule.showError('Please select at least one content type to export');
+            return;
+        }
+
+        // Start export process
+        startExport(contentToExport, format, includeImages);
+    }
+
+    /**
+     * Start the export process
+     * @param {Array<string>} contentTypes - Content types to export
+     * @param {string} format - Export format
+     * @param {boolean} includeImages - Whether to include images
+     */
+    function startExport(contentTypes, format, includeImages) {
+        isExporting = true;
+        exportQueue = [...contentTypes];
+        totalExports = exportQueue.length;
+        exportProgress = 0;
+        
+        // Update UI
+        const exportBtn = document.getElementById('export-data-btn');
+        if (exportBtn) {
+            exportBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
+            exportBtn.disabled = true;
+        }
+
+        // Process each content type
+        processExportQueue(format, includeImages);
+    }
+
+    /**
+     * Process the export queue
+     * @param {string} format - Export format
+     * @param {boolean} includeImages - Whether to include images
+     */
+    function processExportQueue(format, includeImages) {
+        if (exportQueue.length === 0) {
+            // Export complete
+            finishExport();
+            return;
+        }
+
+        // Get next content type
+        const contentType = exportQueue.shift();
+        
+        // Update progress
+        updateExportProgress();
+
+        // Fetch data
+        fetchData(contentType)
+            .then(data => {
+                // Convert data if needed
+                let exportData = data;
+                
+                // If requested format isn't JSON, convert it
+                if (format !== 'json') {
+                    if (format === 'csv') {
+                        exportData = convertToCSV(data, contentType);
+                    } else if (format === 'xml') {
+                        exportData = convertToXML(data, contentType);
+                    }
+                }
+                
+                // If including images, add image paths
+                if (includeImages) {
+                    exportData = includeImageReferences(exportData, contentType, format);
+                }
+                
+                // Generate file
+                const file = generateExportFile(exportData, contentType, format);
+                
+                // Download file
+                downloadFile(file, `${contentType}.${format}`);
+                
+                // Process next in queue
+                setTimeout(() => {
+                    processExportQueue(format, includeImages);
+                }, 500);
+            })
+            .catch(error => {
+                console.error(`Export error for ${contentType}:`, error);
+                NotificationModule.showError(`Failed to export ${contentType}: ${error.message}`);
+                
+                // Continue with next in queue
+                processExportQueue(format, includeImages);
+            });
+    }
+
+    /**
+     * Update export progress
+     */
+    function updateExportProgress() {
+        exportProgress++;
+        const percentage = Math.round((exportProgress / totalExports) * 100);
+        
+        const exportBtn = document.getElementById('export-data-btn');
+        if (exportBtn) {
+            exportBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Exporting (${percentage}%)...`;
         }
     }
-    
+
     /**
-     * Export data as HTML table
-     * @param {Array} data - Array of objects to export
-     * @param {string} filename - Name of the file without extension
+     * Finish the export process
      */
-    function toHTML(data, filename = 'export') {
-        try {
-            if (!Array.isArray(data) || data.length === 0) {
-                throw new Error('Data must be a non-empty array');
+    function finishExport() {
+        isExporting = false;
+        
+        const exportBtn = document.getElementById('export-data-btn');
+        if (exportBtn) {
+            exportBtn.innerHTML = '<i class="fas fa-check"></i> Export Complete';
+            
+            setTimeout(() => {
+                exportBtn.innerHTML = '<i class="fas fa-download"></i> Export Data';
+                exportBtn.disabled = false;
+            }, 2000);
+        }
+        
+        NotificationModule.showSuccess('Export completed successfully!');
+    }
+
+    /**
+     * Fetch data for a content type
+     * @param {string} contentType - The content type to fetch
+     * @returns {Promise<Object>} The content data
+     */
+    function fetchData(contentType) {
+        return new Promise((resolve, reject) => {
+            const filePath = dataFiles[contentType];
+            
+            if (!filePath) {
+                reject(new Error(`Unknown content type: ${contentType}`));
+                return;
             }
             
-            // Extract headers
-            const headers = Object.keys(data[0]);
-            
-            // Create HTML content
-            let htmlContent = `
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>${filename}</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; }
-                        table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-                        th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
-                        th { background-color: #f2f2f2; font-weight: bold; }
-                        tr:nth-child(even) { background-color: #f9f9f9; }
-                        h1 { color: #333; }
-                        .export-info { color: #666; font-size: 12px; margin-top: 30px; }
-                    </style>
-                </head>
-                <body>
-                    <h1>${filename}</h1>
-                    <table>
-                        <thead>
-                            <tr>
-                                ${headers.map(header => `<th>${header}</th>`).join('')}
-                            </tr>
-                        </thead>
-                        <tbody>
-            `;
-            
-            // Add data rows
-            data.forEach(item => {
-                htmlContent += '<tr>';
-                headers.forEach(header => {
-                    const value = item[header];
-                    htmlContent += `<td>${value === null || value === undefined ? '' : String(value)}</td>`;
+            // Fetch data from file
+            fetch(filePath)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    resolve(data);
+                })
+                .catch(error => {
+                    reject(error);
                 });
-                htmlContent += '</tr>';
-            });
-            
-            htmlContent += `
-                        </tbody>
-                    </table>
-                    <div class="export-info">
-                        Exported on ${new Date().toLocaleString()} from Portfolio Admin Panel
-                    </div>
-                </body>
-                </html>
-            `;
-            
-            // Create download
-            const blob = new Blob([htmlContent], { type: 'text/html' });
-            downloadFile(blob, `${filename}.html`);
-            return true;
-        } catch (error) {
-            console.error('Error exporting HTML:', error);
-            showNotification('Failed to export HTML data', 'error');
-            return false;
-        }
+        });
     }
-    
+
     /**
-     * Export data in custom format with templates
-     * @param {Object|Array} data - Data to export
-     * @param {string} template - Template string with placeholders
-     * @param {string} filename - Name of the file without extension
-     * @param {string} extension - File extension
+     * Convert data to CSV format
+     * @param {Object} data - The data to convert
+     * @param {string} contentType - The content type
+     * @returns {string} CSV formatted data
      */
-    function withTemplate(data, template, filename = 'export', extension = 'txt') {
-        try {
-            // Process template with data
-            let output = template;
+    function convertToCSV(data, contentType) {
+        // Handle different content structures
+        let items = [];
+        
+        if (Array.isArray(data)) {
+            items = data;
+        } else if (data[contentType] && Array.isArray(data[contentType])) {
+            items = data[contentType];
+        } else {
+            // Just return a JSON string if we can't parse it properly
+            return JSON.stringify(data);
+        }
+        
+        if (items.length === 0) {
+            return '';
+        }
+        
+        // Get headers from first item
+        const headers = Object.keys(items[0]);
+        
+        // Create CSV rows
+        let csv = headers.join(',') + '\n';
+        
+        items.forEach(item => {
+            const row = headers.map(header => {
+                const value = item[header];
+                let cell = '';
+                
+                if (value === null || value === undefined) {
+                    cell = '';
+                } else if (typeof value === 'object') {
+                    cell = JSON.stringify(value);
+                } else {
+                    cell = value.toString();
+                }
+                
+                // Escape quotes and wrap in quotes if contains comma or quotes
+                if (cell.includes(',') || cell.includes('"')) {
+                    cell = `"${cell.replace(/"/g, '""')}"`;
+                }
+                
+                return cell;
+            }).join(',');
             
-            // Replace placeholders in template
-            if (Array.isArray(data)) {
-                // For arrays, look for loop templates
-                const loopRegex = /\{\{#each items\}\}([\s\S]*?)\{\{\/each\}\}/g;
-                output = output.replace(loopRegex, (match, content) => {
-                    return data.map(item => {
-                        let itemContent = content;
-                        // Replace item properties in the loop content
-                        Object.entries(item).forEach(([key, value]) => {
-                            const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
-                            itemContent = itemContent.replace(regex, value);
+            csv += row + '\n';
+        });
+        
+        return csv;
+    }
+
+    /**
+     * Convert data to XML format
+     * @param {Object} data - The data to convert
+     * @param {string} contentType - The content type
+     * @returns {string} XML formatted data
+     */
+    function convertToXML(data, contentType) {
+        // Start XML document
+        let xml = '<?xml version="1.0" encoding="UTF-8" ?>\n';
+        
+        // Create root element
+        xml += `<${contentType}>\n`;
+        
+        // Handle different content structures
+        let items = [];
+        
+        if (Array.isArray(data)) {
+            items = data;
+        } else if (data[contentType] && Array.isArray(data[contentType])) {
+            items = data[contentType];
+        } else {
+            // Just wrap the entire object
+            xml += objectToXML(data, '  ');
+            xml += `</${contentType}>`;
+            return xml;
+        }
+        
+        // Add each item
+        items.forEach((item, index) => {
+            xml += `  <item id="${index}">\n`;
+            xml += objectToXML(item, '    ');
+            xml += '  </item>\n';
+        });
+        
+        // Close root element
+        xml += `</${contentType}>`;
+        
+        return xml;
+    }
+
+    /**
+     * Convert an object to XML representation
+     * @param {Object} obj - The object to convert
+     * @param {string} indent - Indentation string
+     * @returns {string} XML formatted object
+     */
+    function objectToXML(obj, indent) {
+        let xml = '';
+        
+        for (const key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                const value = obj[key];
+                
+                if (value === null || value === undefined) {
+                    xml += `${indent}<${key} />\n`;
+                } else if (Array.isArray(value)) {
+                    xml += `${indent}<${key}>\n`;
+                    
+                    value.forEach((item, index) => {
+                        if (typeof item === 'object' && item !== null) {
+                            xml += `${indent}  <item id="${index}">\n`;
+                            xml += objectToXML(item, indent + '    ');
+                            xml += `${indent}  </item>\n`;
+                        } else {
+                            xml += `${indent}  <item>${escapeXML(item)}</item>\n`;
+                        }
+                    });
+                    
+                    xml += `${indent}</${key}>\n`;
+                } else if (typeof value === 'object') {
+                    xml += `${indent}<${key}>\n`;
+                    xml += objectToXML(value, indent + '  ');
+                    xml += `${indent}</${key}>\n`;
+                } else {
+                    xml += `${indent}<${key}>${escapeXML(value)}</${key}>\n`;
+                }
+            }
+        }
+        
+        return xml;
+    }
+
+    /**
+     * Escape special characters in XML
+     * @param {*} value - The value to escape
+     * @returns {string} Escaped value
+     */
+    function escapeXML(value) {
+        const stringValue = String(value);
+        return stringValue
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&apos;');
+    }
+
+    /**
+     * Include image references in export data
+     * @param {Object|string} data - The data to modify
+     * @param {string} contentType - The content type
+     * @param {string} format - The export format
+     * @returns {Object|string} The modified data
+     */
+    function includeImageReferences(data, contentType, format) {
+        if (format !== 'json') {
+            // For non-JSON formats, we'll leave as is since we've already converted
+            return data;
+        }
+        
+        // Clone data to avoid modifying the original
+        let clonedData = JSON.parse(JSON.stringify(data));
+        
+        // Add a metadata object with image references
+        let imageReferences = {
+            metadata: {
+                exportDate: new Date().toISOString(),
+                imageBaseUrl: '../assets/images/',
+                imageReferences: []
+            }
+        };
+        
+        // Extract image references based on content type
+        if (contentType === 'projects') {
+            const projects = Array.isArray(clonedData) ? clonedData : clonedData.projects || [];
+            projects.forEach(project => {
+                if (project.image) {
+                    imageReferences.metadata.imageReferences.push({
+                        type: 'project',
+                        id: project.id,
+                        path: project.image
+                    });
+                }
+                
+                // Check for screenshots
+                if (project.screenshots && Array.isArray(project.screenshots)) {
+                    project.screenshots.forEach(screenshot => {
+                        imageReferences.metadata.imageReferences.push({
+                            type: 'project_screenshot',
+                            projectId: project.id,
+                            path: screenshot.image
                         });
-                        return itemContent;
-                    }).join('');
-                });
-            } else if (typeof data === 'object') {
-                // For objects, replace direct properties
-                Object.entries(data).forEach(([key, value]) => {
-                    const regex = new RegExp(`\\{\\{${key}\\}\\}`, 'g');
-                    output = output.replace(regex, value);
-                });
-            }
-            
-            // Add metadata replacements
-            output = output.replace(/\{\{date\}\}/g, new Date().toLocaleDateString());
-            output = output.replace(/\{\{time\}\}/g, new Date().toLocaleTimeString());
-            output = output.replace(/\{\{datetime\}\}/g, new Date().toLocaleString());
-            
-            // Create download
-            const blob = new Blob([output], { type: 'text/plain' });
-            downloadFile(blob, `${filename}.${extension}`);
-            return true;
-        } catch (error) {
-            console.error('Error exporting with template:', error);
-            showNotification('Failed to export data using template', 'error');
-            return false;
-        }
-    }
-    
-    /**
-     * Export multiple data sets as a ZIP archive
-     * @param {Object} dataSets - Object with key as filename and value as data
-     * @param {string} zipFilename - Name for the ZIP file
-     */
-    function toZIP(dataSets, zipFilename = 'export') {
-        try {
-            if (typeof JSZip === 'undefined') {
-                throw new Error('JSZip library not loaded');
-            }
-            
-            // Create new ZIP file
-            const zip = new JSZip();
-            
-            // Add files to zip
-            Object.entries(dataSets).forEach(([filename, data]) => {
-                // Determine file extension and format
-                const extension = filename.split('.').pop();
-                const content = typeof data === 'object' ? JSON.stringify(data, null, 2) : String(data);
-                
-                // Add file to zip
-                zip.file(filename, content);
+                    });
+                }
             });
-            
-            // Generate zip and trigger download
-            zip.generateAsync({ type: 'blob' })
-                .then(function(content) {
-                    downloadFile(content, `${zipFilename}.zip`);
-                    showNotification('ZIP archive created successfully', 'success');
-                });
-            
-            return true;
-        } catch (error) {
-            console.error('Error creating ZIP archive:', error);
-            
-            if (error.message === 'JSZip library not loaded') {
-                showNotification('ZIP export not available, try individual files instead', 'warning');
-            } else {
-                showNotification('Failed to create ZIP archive', 'error');
-            }
-            return false;
+        } else if (contentType === 'gallery') {
+            const galleryItems = Array.isArray(clonedData) ? clonedData : clonedData.gallery || [];
+            galleryItems.forEach(item => {
+                if (item.image) {
+                    imageReferences.metadata.imageReferences.push({
+                        type: 'gallery',
+                        id: item.id,
+                        path: item.image
+                    });
+                }
+            });
+        } else if (contentType === 'testimonials') {
+            const testimonials = Array.isArray(clonedData) ? clonedData : clonedData.testimonials || [];
+            testimonials.forEach(testimonial => {
+                if (testimonial.avatar) {
+                    imageReferences.metadata.imageReferences.push({
+                        type: 'testimonial',
+                        id: testimonial.id,
+                        path: testimonial.avatar
+                    });
+                }
+            });
+        }
+        
+        // Merge the data with the metadata
+        if (Array.isArray(clonedData)) {
+            return {
+                ...imageReferences,
+                items: clonedData
+            };
+        } else {
+            return {
+                ...clonedData,
+                ...imageReferences
+            };
         }
     }
-    
+
     /**
-     * Download blob as a file
-     * @param {Blob} blob - File blob to download
-     * @param {string} filename - Name for the downloaded file
+     * Generate an export file
+     * @param {Object|string} data - The data to export
+     * @param {string} contentType - The content type
+     * @param {string} format - The export format
+     * @returns {Blob} The file blob
      */
-    function downloadFile(blob, filename) {
-        const url = URL.createObjectURL(blob);
+    function generateExportFile(data, contentType, format) {
+        let fileContent = '';
+        let mimeType = '';
+        
+        if (format === 'json') {
+            // Pretty print JSON
+            fileContent = JSON.stringify(data, null, 2);
+            mimeType = 'application/json';
+        } else if (format === 'csv') {
+            fileContent = data; // Already formatted as CSV
+            mimeType = 'text/csv';
+        } else if (format === 'xml') {
+            fileContent = data; // Already formatted as XML
+            mimeType = 'application/xml';
+        } else {
+            // Default to JSON
+            fileContent = JSON.stringify(data);
+            mimeType = 'application/json';
+        }
+        
+        return new Blob([fileContent], { type: mimeType });
+    }
+
+    /**
+     * Download a file
+     * @param {Blob} file - The file to download
+     * @param {string} filename - The filename
+     */
+    function downloadFile(file, filename) {
+        const url = URL.createObjectURL(file);
         const link = document.createElement('a');
         link.href = url;
         link.download = filename;
         
-        // Append to body, click, and remove
+        // Append to body and trigger download
         document.body.appendChild(link);
         link.click();
+        
+        // Clean up
         document.body.removeChild(link);
-        
-        // Clean up the URL
-        setTimeout(() => URL.revokeObjectURL(url), 100);
+        URL.revokeObjectURL(url);
     }
-    
+
     /**
-     * Show notification for export status
-     * @param {string} message - Notification message
-     * @param {string} type - Notification type (success, error, info, warning)
+     * Save GitHub credentials
      */
-    function showNotification(message, type = 'info') {
-        // Use UI Components if available
-        if (window.UIComponents && window.UIComponents.showToast) {
-            window.UIComponents.showToast(message, type);
+    function saveGitHubCredentials() {
+        const token = document.getElementById('github-token')?.value.trim();
+        const username = document.getElementById('github-username')?.value.trim();
+        const repo = document.getElementById('github-repo')?.value.trim();
+        const branch = document.getElementById('github-branch')?.value.trim() || 'main';
+        
+        if (!token || !username || !repo) {
+            NotificationModule.showError('Please fill in all required GitHub fields');
             return;
         }
         
-        // Fall back to built-in notification if admin notifications exist
-        if (window.AdminUI && window.AdminUI.showNotification) {
-            window.AdminUI.showNotification(message, type);
+        // Save to localStorage (encrypted in a real application)
+        const credentials = {
+            token,
+            username,
+            repo,
+            branch,
+            lastUpdated: new Date().toISOString()
+        };
+        
+        try {
+            localStorage.setItem(GITHUB_CREDENTIALS_KEY, JSON.stringify(credentials));
+            NotificationModule.showSuccess('GitHub credentials saved successfully!');
+            
+            // Update UI elements
+            updateGitHubUI();
+            
+            // Close modal if open
+            const modal = document.querySelector('.modal-wrapper');
+            if (modal) {
+                const closeEvent = new Event('click');
+                modal.querySelector('.modal-close')?.dispatchEvent(closeEvent);
+            }
+        } catch (error) {
+            console.error('Error saving GitHub credentials:', error);
+            NotificationModule.showError(`Failed to save credentials: ${error.message}`);
+        }
+    }
+
+    /**
+     * Load GitHub credentials
+     */
+    function loadGitHubCredentials() {
+        try {
+            const storedCredentials = localStorage.getItem(GITHUB_CREDENTIALS_KEY);
+            
+            if (storedCredentials) {
+                const credentials = JSON.parse(storedCredentials);
+                
+                // Fill form fields if they exist
+                const tokenInput = document.getElementById('github-token');
+                const usernameInput = document.getElementById('github-username');
+                const repoInput = document.getElementById('github-repo');
+                const branchInput = document.getElementById('github-branch');
+                
+                if (tokenInput) tokenInput.value = credentials.token || '';
+                if (usernameInput) usernameInput.value = credentials.username || '';
+                if (repoInput) repoInput.value = credentials.repo || '';
+                if (branchInput) branchInput.value = credentials.branch || 'main';
+                
+                // Update UI elements
+                updateGitHubUI(credentials);
+                
+                return credentials;
+            }
+        } catch (error) {
+            console.error('Error loading GitHub credentials:', error);
+        }
+        
+        return null;
+    }
+
+    /**
+     * Update GitHub UI elements
+     * @param {Object} credentials - The GitHub credentials
+     */
+    function updateGitHubUI(credentials) {
+        if (!credentials) {
+            credentials = loadGitHubCredentials();
+        }
+        
+        if (!credentials) return;
+        
+        // Update GitHub repo display
+        const repoDisplay = document.getElementById('github-repo-display');
+        if (repoDisplay) {
+            repoDisplay.textContent = `${credentials.username}/${credentials.repo}`;
+        }
+    }
+
+    /**
+     * Test GitHub connection
+     */
+    function testGitHubConnection() {
+        const credentials = loadGitHubCredentials();
+        
+        if (!credentials) {
+            NotificationModule.showError('No GitHub credentials found. Please fill in all required fields.');
             return;
         }
         
-        // Default to alert for critical errors, console for others
-        if (type === 'error') {
-            alert(message);
-        } else {
-            console.log(`${type.toUpperCase()}: ${message}`);
-        }
-    }
-    
-    /**
-     * Generate a filename with date suffix
-     * @param {string} baseName - Base filename
-     * @returns {string} Filename with date
-     */
-    function generateFilename(baseName) {
-        const now = new Date();
-        const dateSuffix = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')}`;
-        return `${baseName}_${dateSuffix}`;
-    }
-    
-    /**
-     * Export all portfolio data as a backup
-     * @param {boolean} includeImages - Whether to include images in the backup
-     * @returns {Promise} Promise that resolves when backup is complete
-     */
-    function createBackup(includeImages = false) {
-        showNotification('Creating backup...', 'info');
+        const { token, username, repo } = credentials;
         
-        return new Promise((resolve, reject) => {
-            try {
-                // Define data files to include
-                const dataFiles = [
-                    'projects.json',
-                    'skills.json',
-                    'achievements.json',
-                    'gallery.json',
-                    'testimonials.json'
-                ];
-                
-                // Load all data files
-                const dataPromises = dataFiles.map(file => 
-                    window.loadData(`data/${file}`)
-                        .catch(err => {
-                            console.warn(`Failed to load ${file}:`, err);
-                            return null; // Return null for failed loads
-                        })
-                );
-                
-                Promise.all(dataPromises)
-                    .then(results => {
-                        // Create backup object with data from each file
-                        const backup = {
-                            metadata: {
-                                created: new Date().toISOString(),
-                                version: '1.0',
-                                files: dataFiles
-                            }
-                        };
-                        
-                        // Add each data file to backup
-                        results.forEach((data, index) => {
-                            if (data !== null) {
-                                const filename = dataFiles[index];
-                                const key = filename.replace('.json', '');
-                                backup[key] = data;
-                            }
-                        });
-                        
-                        // Create ZIP if JSZip is available, otherwise JSON
-                        if (typeof JSZip !== 'undefined' && includeImages) {
-                            // Create a ZIP with JSON files and optionally images
-                            const zip = new JSZip();
-                            
-                            // Add backup JSON
-                            zip.file('backup.json', JSON.stringify(backup, null, 2));
-                            
-                            // Add individual data files
-                            dataFiles.forEach((filename, index) => {
-                                if (results[index] !== null) {
-                                    zip.file(`data/${filename}`, JSON.stringify(results[index], null, 2));
-                                }
-                            });
-                            
-                            // Generate and download ZIP
-                            zip.generateAsync({ type: 'blob' })
-                                .then(content => {
-                                    downloadFile(content, `portfolio_backup_${new Date().toISOString().slice(0, 10)}.zip`);
-                                    showNotification('Backup created successfully', 'success');
-                                    resolve(backup);
-                                })
-                                .catch(err => {
-                                    console.error('Error creating ZIP backup:', err);
-                                    // Fall back to JSON backup
-                                    toJSON(backup, generateFilename('portfolio_backup'));
-                                    resolve(backup);
-                                });
-                        } else {
-                            // Just export the JSON backup
-                            toJSON(backup, generateFilename('portfolio_backup'));
-                            showNotification('Backup created successfully', 'success');
-                            resolve(backup);
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error creating backup:', error);
-                        showNotification('Failed to create backup', 'error');
-                        reject(error);
-                    });
-            } catch (error) {
-                console.error('Error initiating backup:', error);
-                showNotification('Failed to initiate backup process', 'error');
-                reject(error);
+        if (!token || !username || !repo) {
+            NotificationModule.showError('Incomplete GitHub credentials. Please fill in all required fields.');
+            return;
+        }
+        
+        // Update button state
+        const testButton = document.getElementById('test-github-connection');
+        const connectionStatus = document.getElementById('connection-status');
+        
+        if (testButton) {
+            testButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+            testButton.disabled = true;
+        }
+        
+        if (connectionStatus) {
+            connectionStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing connection...';
+            connectionStatus.className = '';
+        }
+        
+        // Test connection to GitHub API
+        fetch(`${GITHUB_API_URL}/repos/${username}/${repo}`, {
+            headers: {
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json'
             }
-        });
-    }
-    
-    /**
-     * Restore from a backup file
-     * @param {File} backupFile - Backup file to restore from
-     * @returns {Promise} Promise that resolves when restore is complete
-     */
-    function restoreBackup(backupFile) {
-        return new Promise((resolve, reject) => {
-            try {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    try {
-                        // Parse the backup data
-                        const backup = JSON.parse(e.target.result);
-                        
-                        // Check if it's a valid backup
-                        if (!backup.metadata) {
-                            throw new Error('Invalid backup file format');
-                        }
-                        
-                        // Extract data sets to restore
-                        const datasets = Object.entries(backup).filter(([key]) => key !== 'metadata');
-                        
-                        // Confirm restoration
-                        if (!confirm(`Are you sure you want to restore ${datasets.length} data sets? This will overwrite your current data.`)) {
-                            reject(new Error('Restoration cancelled by user'));
-                            return;
-                        }
-                        
-                        showNotification('Restoring backup...', 'info');
-                        
-                        // Restore each data set
-                        const savePromises = datasets.map(([key, data]) => {
-                            return window.saveData(`data/${key}.json`, data)
-                                .catch(err => {
-                                    console.error(`Failed to restore ${key}:`, err);
-                                    return { success: false, key };
-                                });
-                        });
-                        
-                        Promise.all(savePromises)
-                            .then(results => {
-                                const failures = results.filter(result => result && !result.success);
-                                
-                                if (failures.length > 0) {
-                                    const failedKeys = failures.map(f => f.key).join(', ');
-                                    showNotification(`Restore completed with errors. Failed to restore: ${failedKeys}`, 'warning');
-                                } else {
-                                    showNotification('Backup restored successfully', 'success');
-                                }
-                                
-                                // Reload the page to reflect changes
-                                setTimeout(() => {
-                                    window.location.reload();
-                                }, 2000);
-                                
-                                resolve({ success: true, failures });
-                            })
-                            .catch(error => {
-                                console.error('Error during restore:', error);
-                                showNotification('Failed to complete restoration', 'error');
-                                reject(error);
-                            });
-                    } catch (error) {
-                        console.error('Error parsing backup file:', error);
-                        showNotification('Invalid backup file format', 'error');
-                        reject(error);
-                    }
-                };
-                
-                reader.onerror = function() {
-                    reject(new Error('Failed to read backup file'));
-                };
-                
-                reader.readAsText(backupFile);
-            } catch (error) {
-                console.error('Error initiating restore:', error);
-                showNotification('Failed to initiate restore process', 'error');
-                reject(error);
-            }
-        });
-    }
-    
-    // Initialize export functionality
-    function init() {
-        // Set up export buttons
-        document.addEventListener('click', function(event) {
-            // Check if clicked element has export data attributes
-            if (event.target.matches('[data-export]')) {
-                const exportType = event.target.getAttribute('data-export');
-                const dataSource = event.target.getAttribute('data-source');
-                const filename = event.target.getAttribute('data-filename') || 'export';
-                
-                if (!dataSource) {
-                    console.error('No data source specified for export');
-                    return;
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Connection successful
+                if (connectionStatus) {
+                    connectionStatus.innerHTML = '<span class="text-success"><i class="fas fa-check-circle"></i> Connected successfully!</span>';
                 }
                 
-                // Get data from source attribute
-                let data;
-                try {
-                    // Try to find data in window scope first
-                    if (window[dataSource]) {
-                        data = window[dataSource];
+                NotificationModule.showSuccess(`Successfully connected to ${username}/${repo}`);
+            })
+            .catch(error => {
+                // Connection failed
+                console.error('GitHub connection test failed:', error);
+                
+                if (connectionStatus) {
+                    connectionStatus.innerHTML = '<span class="text-danger"><i class="fas fa-times-circle"></i> Connection failed!</span>';
+                }
+                
+                NotificationModule.showError(`GitHub connection failed: ${error.message}`);
+            })
+            .finally(() => {
+                // Reset button state
+                if (testButton) {
+                    testButton.innerHTML = '<i class="fas fa-plug"></i> Test Connection';
+                    testButton.disabled = false;
+                }
+            });
+    }
+
+    /**
+     * Commit and push changes to GitHub
+     * @param {string} contentType - The content type being updated
+     * @param {Object|string} data - The data to commit
+     * @param {string} message - The commit message
+     * @returns {Promise<Object>} The commit result
+     */
+    function commitToGitHub(contentType, data, message = 'Update content') {
+        return new Promise((resolve, reject) => {
+            const credentials = loadGitHubCredentials();
+            
+            if (!credentials) {
+                reject(new Error('No GitHub credentials found'));
+                return;
+            }
+            
+            const { token, username, repo, branch } = credentials;
+            
+            // Get the file path based on content type
+            const filePath = contentType === 'settings' ? 'data/settings.json' : `data/${contentType}.json`;
+            
+            // First get the current file to get its SHA
+            getFileFromGitHub(filePath)
+                .then(fileInfo => {
+                    // Prepare the content to be committed
+                    let content = '';
+                    
+                    if (typeof data === 'string') {
+                        content = data;
                     } else {
-                        // Try to parse as JSON if it's a string
-                        data = JSON.parse(dataSource);
+                        content = JSON.stringify(data, null, 2);
+                    }
+                    
+                    // Base64 encode the content
+                    const encodedContent = btoa(unescape(encodeURIComponent(content)));
+                    
+                    // Prepare the request body
+                    const body = {
+                        message,
+                        content: encodedContent,
+                        branch: branch || 'main'
+                    };
+                    
+                    // If we have a SHA, include it to update the file
+                    if (fileInfo && fileInfo.sha) {
+                        body.sha = fileInfo.sha;
+                    }
+                    
+                    // Commit the file
+                    return fetch(`${GITHUB_API_URL}/repos/${username}/${repo}/contents/${filePath}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Authorization': `token ${token}`,
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/vnd.github.v3+json'
+                        },
+                        body: JSON.stringify(body)
+                    });
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message || `GitHub API error: ${response.status}`);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Successfully committed
+                    resolve(data);
+                })
+                .catch(error => {
+                    console.error('GitHub commit error:', error);
+                    reject(error);
+                });
+        });
+    }
+
+    /**
+     * Get a file from GitHub
+     * @param {string} filePath - The file path in the repo
+     * @returns {Promise<Object>} File information including SHA
+     */
+    function getFileFromGitHub(filePath) {
+        return new Promise((resolve, reject) => {
+            const credentials = loadGitHubCredentials();
+            
+            if (!credentials) {
+                reject(new Error('No GitHub credentials found'));
+                return;
+            }
+            
+            const { token, username, repo, branch } = credentials;
+            
+            fetch(`${GITHUB_API_URL}/repos/${username}/${repo}/contents/${filePath}?ref=${branch || 'main'}`, {
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            })
+                .then(response => {
+                    if (response.status === 404) {
+                        // File doesn't exist yet, which is fine
+                        resolve(null);
+                        return;
+                    }
+                    
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message || `GitHub API error: ${response.status}`);
+                        });
+                    }
+                    
+                    return response.json();
+                })
+                .then(data => {
+                    if (data) {
+                        resolve({
+                            sha: data.sha,
+                            path: data.path,
+                            size: data.size,
+                            url: data.html_url
+                        });
+                    } else {
+                        resolve(null);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching file from GitHub:', error);
+                    reject(error);
+                });
+        });
+    }
+
+    /**
+     * Upload an image to GitHub
+     * @param {File|Blob|string} image - The image file or base64 data
+     * @param {string} fileName - The file name
+     * @param {string} contentType - The content type (projects, gallery, etc.)
+     * @param {Function} progressCallback - Callback for upload progress
+     * @returns {Promise<string>} The URL of the uploaded image
+     */
+    function uploadImageToGitHub(image, fileName, contentType, progressCallback) {
+        return new Promise((resolve, reject) => {
+            const credentials = loadGitHubCredentials();
+            
+            if (!credentials) {
+                reject(new Error('No GitHub credentials found'));
+                return;
+            }
+            
+            // Determine the folder path based on content type
+            let folderPath = `assets/images/${contentType}/`;
+            
+            // Process the image
+            processImageForUpload(image)
+                .then(({ base64Data, extension }) => {
+                    // Generate a more unique filename if needed
+                    if (!fileName.includes('.')) {
+                        fileName = `${fileName}.${extension}`;
+                    }
+                    
+                    // Full path in the repo
+                    const fullPath = `${folderPath}${fileName}`;
+                    
+                    // Simulate progress for now (in a real app we might use XHR for progress)
+                    if (progressCallback) {
+                        let progress = 0;
+                        const interval = setInterval(() => {
+                            progress += 10;
+                            if (progress <= 90) {
+                                progressCallback(progress);
+                            }
+                            
+                            if (progress > 90) {
+                                clearInterval(interval);
+                            }
+                        }, 300);
+                    }
+                    
+                    // First check if file already exists
+                    return getFileFromGitHub(fullPath)
+                        .then(fileInfo => {
+                            // Prepare the request body
+                            const body = {
+                                message: `Upload ${contentType} image: ${fileName}`,
+                                content: base64Data,
+                                branch: credentials.branch || 'main'
+                            };
+                            
+                            // If file exists, include its SHA
+                            if (fileInfo && fileInfo.sha) {
+                                body.sha = fileInfo.sha;
+                            }
+                            
+                            // Commit the file
+                            return fetch(`${GITHUB_API_URL}/repos/${credentials.username}/${credentials.repo}/contents/${fullPath}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Authorization': `token ${credentials.token}`,
+                                    'Content-Type': 'application/json',
+                                    'Accept': 'application/vnd.github.v3+json'
+                                },
+                                body: JSON.stringify(body)
+                            });
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                return response.json().then(data => {
+                                    throw new Error(data.message || `GitHub API error: ${response.status}`);
+                                });
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            // Complete progress
+                            if (progressCallback) {
+                                progressCallback(100);
+                            }
+                            
+                            // Return the path to use in content
+                            resolve(fullPath);
+                        });
+                })
+                .catch(error => {
+                    console.error('Image upload error:', error);
+                    reject(error);
+                });
+        });
+    }
+
+    /**
+     * Process an image for upload
+     * @param {File|Blob|string} image - The image to process
+     * @returns {Promise<Object>} Object with base64 data and extension
+     */
+    function processImageForUpload(image) {
+        return new Promise((resolve, reject) => {
+            // If image is already a base64 string
+            if (typeof image === 'string' && image.startsWith('data:image/')) {
+                const matches = image.match(/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/);
+                
+                if (matches && matches.length === 3) {
+                    const extension = matches[1];
+                    const base64Data = matches[2];
+                    
+                    resolve({
+                        base64Data,
+                        extension
+                    });
+                    return;
+                } else {
+                    reject(new Error('Invalid base64 image data'));
+                    return;
+                }
+            }
+            
+            // If image is a File or Blob
+            const reader = new FileReader();
+            
+            reader.onload = function(event) {
+                try {
+                    const base64Full = event.target.result;
+                    const matches = base64Full.match(/^data:image\/([a-zA-Z0-9]+);base64,(.+)$/);
+                    
+                    if (matches && matches.length === 3) {
+                        const extension = matches[1];
+                        const base64Data = matches[2];
+                        
+                        resolve({
+                            base64Data,
+                            extension
+                        });
+                    } else {
+                        reject(new Error('Invalid image format'));
                     }
                 } catch (error) {
-                    console.error('Error getting export data:', error);
-                    showNotification('Failed to get export data', 'error');
-                    return;
+                    reject(error);
                 }
-                
-                // Handle different export types
-                switch (exportType) {
-                    case 'json':
-                        toJSON(data, filename);
-                        break;
-                    case 'csv':
-                        toCSV(data, filename);
-                        break;
-                    case 'excel':
-                        toExcel(data, filename);
-                        break;
-                    case 'pdf':
-                        toPDF(data, filename);
-                        break;
-                    case 'html':
-                        toHTML(data, filename);
-                        break;
-                    case 'backup':
-                        createBackup();
-                        break;
-                    default:
-                        console.error(`Unknown export type: ${exportType}`);
-                        showNotification('Unknown export format', 'error');
-                }
-            }
-        });
-        
-        // Set up import/restore handlers
-        const fileInputs = document.querySelectorAll('[data-import]');
-        fileInputs.forEach(input => {
-            input.addEventListener('change', function(event) {
-                const files = event.target.files;
-                if (!files || files.length === 0) return;
-                
-                const importType = this.getAttribute('data-import');
-                const file = files[0];
-                
-                if (importType === 'backup') {
-                    restoreBackup(file)
-                        .catch(error => console.error('Restore failed:', error));
-                }
-                
-                // Reset the file input so the same file can be selected again
-                this.value = '';
-            });
+            };
+            
+            reader.onerror = function(error) {
+                reject(error);
+            };
+            
+            reader.readAsDataURL(image);
         });
     }
-    
-    // Initialize on DOM ready
-    document.addEventListener('DOMContentLoaded', init);
-    
+
     // Public API
     return {
-        toJSON,
-        toCSV,
-        toExcel,
-        toPDF,
-        toHTML,
-        toZIP,
-        withTemplate,
-        createBackup,
-        restoreBackup,
-        generateFilename
+        init,
+        exportData: handleExport,
+        commitToGitHub,
+        uploadImageToGitHub,
+        testGitHubConnection,
+        getGitHubCredentials: loadGitHubCredentials
     };
 })();
 
-// Make available globally
-window.AdminExport = AdminExport;
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', ExportModule.init);

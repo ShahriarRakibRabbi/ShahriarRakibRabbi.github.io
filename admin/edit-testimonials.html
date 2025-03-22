@@ -3,818 +3,870 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Testimonials | Admin Panel</title>
+    <title>Edit Testimonials | My Portfolio</title>
+    <meta name="description" content="Edit testimonials for my portfolio website">
     <meta name="robots" content="noindex, nofollow">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
-    <link rel="stylesheet" href="../assets/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
-    <style>
-        :root {
-            --admin-sidebar-width: 250px;
-            --admin-header-height: 60px;
-        }
-        
-        .admin {
-            min-height: 100vh;
-            background-color: #f5f7fa;
-        }
-        
-        .admin-header {
-            position: fixed;
-            top: 0;
-            left: var(--admin-sidebar-width);
-            right: 0;
-            height: var(--admin-header-height);
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            z-index: 100;
-        }
-        
-        .admin-header__title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .admin-header__actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .admin-sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: var(--admin-sidebar-width);
-            height: 100vh;
-            background-color: #2c3e50;
-            color: #fff;
-            z-index: 200;
-            transition: all 0.3s;
-        }
-        
-        .admin-sidebar__header {
-            height: var(--admin-header-height);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0 1.5rem;
-        }
-        
-        .admin-sidebar__logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .admin-sidebar__nav {
-            padding: 1.5rem 0;
-        }
-        
-        .admin-sidebar__item {
-            list-style: none;
-        }
-        
-        .admin-sidebar__link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        
-        .admin-sidebar__link:hover, 
-        .admin-sidebar__link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-        
-        .admin-sidebar__link i {
-            width: 20px;
-            text-align: center;
-        }
-        
-        .admin-sidebar__divider {
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 0.75rem 1.5rem;
-        }
-        
-        .admin-content {
-            padding-top: var(--admin-header-height);
-            padding-left: var(--admin-sidebar-width);
-            min-height: 100vh;
-        }
-        
-        .admin-main {
-            padding: 2rem;
-        }
-
-        .testimonials-manager {
-            margin-top: 1.5rem;
-        }
-
-        .testimonials-form {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .testimonials-form__title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            margin: -0.5rem;
-        }
-
-        .form-col {
-            flex: 1;
-            padding: 0.5rem;
-            min-width: 200px;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-input,
-        .form-select,
-        .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .testimonials-list {
-            margin-top: 2rem;
-        }
-
-        .testimonial-item {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            position: relative;
-            transition: transform 0.2s, box-shadow 0.2s;
-        }
-
-        .testimonial-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .testimonial-item__quote {
-            position: relative;
-            padding-left: 2rem;
-            margin-bottom: 1rem;
-            font-style: italic;
-            color: #555;
-        }
-
-        .testimonial-item__quote::before {
-            content: '"';
-            font-size: 3rem;
-            position: absolute;
-            left: 0;
-            top: -1rem;
-            color: #ddd;
-            font-family: Georgia, serif;
-        }
-
-        .testimonial-item__author {
-            display: flex;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .testimonial-item__name {
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .testimonial-item__role {
-            font-size: 0.875rem;
-            color: #666;
-        }
-
-        .testimonial-item__company {
-            font-size: 0.875rem;
-            color: var(--primary-color);
-        }
-
-        .testimonial-item__rating {
-            color: #ffc107;
-            margin-bottom: 0.5rem;
-        }
-
-        .testimonial-item__actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-        }
-
-        .testimonial-item__btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .testimonial-item__btn:hover {
-            background-color: #f5f5f5;
-        }
-
-        .testimonial-item__btn--edit:hover {
-            color: var(--primary-color);
-        }
-
-        .testimonial-item__btn--delete:hover {
-            color: #e53935;
-        }
-
-        .star-rating {
-            display: flex;
-            gap: 0.25rem;
-            align-items: center;
-            margin-top: 0.5rem;
-        }
-
-        .star-rating__input {
-            display: none;
-        }
-
-        .star-rating__star {
-            color: #ddd;
-            cursor: pointer;
-            font-size: 1.5rem;
-        }
-
-        .star-rating__input:checked ~ .star-rating__star {
-            color: #ffc107;
-        }
-
-        .star-rating__input:not(:checked) ~ .star-rating__star:hover,
-        .star-rating__input:not(:checked) ~ .star-rating__star:hover ~ .star-rating__star {
-            color: #ffecb3;
-        }
-
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            :root {
-                --admin-sidebar-width: 0;
-            }
-            
-            .admin-header {
-                left: 0;
-            }
-            
-            .admin-sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .admin-sidebar.show {
-                transform: translateX(0);
-                width: 250px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <!-- Sortable.js -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Image Compressor -->
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
 </head>
-<body>
-    <div class="admin">
+<body data-admin-page="testimonials" data-editor-type="testimonials">
+    <div class="admin-wrapper">
         <!-- Sidebar -->
-        <aside class="admin-sidebar" id="admin-sidebar">
-            <div class="admin-sidebar__header">
-                <a href="dashboard.html" class="admin-sidebar__logo">
+        <aside id="admin-sidebar" class="admin-sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="sidebar-logo">
                     <i class="fas fa-code"></i>
-                    <span>Admin Panel</span>
+                    <span>Portfolio Admin</span>
                 </a>
-            </div>
-            
-            <nav class="admin-sidebar__nav">
-                <ul>
-                    <li class="admin-sidebar__item">
-                        <a href="dashboard.html" class="admin-sidebar__link">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-projects.html" class="admin-sidebar__link">
-                            <i class="fas fa-project-diagram"></i>
-                            <span>Projects</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-skills.html" class="admin-sidebar__link">
-                            <i class="fas fa-laptop-code"></i>
-                            <span>Skills</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-achievements.html" class="admin-sidebar__link">
-                            <i class="fas fa-trophy"></i>
-                            <span>Achievements</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-gallery.html" class="admin-sidebar__link">
-                            <i class="fas fa-images"></i>
-                            <span>Gallery</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-testimonials.html" class="admin-sidebar__link active">
-                            <i class="fas fa-comments"></i>
-                            <span>Testimonials</span>
-                        </a>
-                    </li>
-                    
-                    <div class="admin-sidebar__divider"></div>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="#" id="logout-btn" class="admin-sidebar__link">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-        
-        <!-- Header -->
-        <header class="admin-header">
-            <div class="admin-header__title">
-                <button class="admin-sidebar-toggle" id="sidebar-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                Manage Testimonials
-            </div>
-            
-            <div class="admin-header__actions">
-                <button class="btn btn--outline" id="export-testimonials-btn">
-                    <i class="fas fa-download"></i>
-                    <span>Export Testimonials Data</span>
+                <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <i class="fas fa-chevron-left"></i>
                 </button>
             </div>
-        </header>
-        
-        <!-- Main Content -->
-        <main class="admin-content">
-            <div class="admin-main">
-                <h1 class="admin-main__title">Testimonials Manager</h1>
-                <p class="admin-main__subtitle">Add and manage testimonials from professors, employers, and peers</p>
+            
+            <div class="sidebar-content">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" class="sidebar-item" data-page="dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-projects.html" class="sidebar-item" data-page="projects">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-skills.html" class="sidebar-item" data-page="skills">
+                                <i class="fas fa-code"></i>
+                                <span>Skills</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-achievements.html" class="sidebar-item" data-page="achievements">
+                                <i class="fas fa-trophy"></i>
+                                <span>Achievements</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-gallery.html" class="sidebar-item" data-page="gallery">
+                                <i class="fas fa-images"></i>
+                                <span>Gallery</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-testimonials.html" class="sidebar-item" data-page="testimonials">
+                                <i class="fas fa-comment-alt"></i>
+                                <span>Testimonials</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
                 
-                <div class="testimonials-manager">
-                    <!-- Add/Edit Testimonial Form -->
-                    <form class="testimonials-form" id="testimonial-form">
-                        <h2 class="testimonials-form__title">
-                            <span id="form-mode">Add</span> Testimonial
-                        </h2>
-                        
-                        <input type="hidden" id="testimonial-id">
-                        
-                        <div class="form-row">
-                            <div class="form-col">
-                                <div class="form-group">
-                                    <label for="name" class="form-label">Name</label>
-                                    <input type="text" id="name" class="form-input" placeholder="Enter person's name" required>
-                                </div>
+                <div class="sidebar-section">
+                    <h3 class="sidebar-heading">Settings</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="github-settings-modal">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub Integration</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="backup-modal">
+                                <i class="fas fa-cloud-download-alt"></i>
+                                <span>Backup & Restore</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="account-settings-modal">
+                                <i class="fas fa-user-cog"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <a href="../index.html" target="_blank" class="sidebar-footer-item">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View Site</span>
+                </a>
+                <button id="logout-btn" class="sidebar-footer-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="admin-content" class="admin-content">
+            <!-- Top Bar -->
+            <header class="admin-header">
+                <div class="header-search">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="admin-search" placeholder="Search testimonials...">
+                    </div>
+                    <div id="search-results" class="search-results hidden"></div>
+                </div>
+                
+                <div class="header-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    
+                    <div class="notifications-dropdown">
+                        <button id="notification-bell" class="notification-bell">
+                            <i class="fas fa-bell"></i>
+                            <span id="notification-count" class="notification-count hidden">0</span>
+                        </button>
+                        <div id="notification-dropdown" class="dropdown-menu notification-menu hidden"></div>
+                    </div>
+                    
+                    <div class="user-dropdown">
+                        <button id="user-menu-btn" class="user-menu-btn">
+                            <img id="user-avatar" src="../assets/images/defaults/avatar.png" alt="Admin" class="user-avatar">
+                            <span id="user-display-name">Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="user-dropdown" class="dropdown-menu user-menu hidden">
+                            <a href="#" class="dropdown-item" data-modal-target="account-settings-modal">
+                                <i class="fas fa-user-circle"></i>
+                                <span>My Account</span>
+                            </a>
+                            <a href="#" class="dropdown-item" data-modal-target="security-settings-modal">
+                                <i class="fas fa-lock"></i>
+                                <span>Security</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <button id="logout-menu-btn" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="admin-page-content">
+                <!-- Breadcrumbs -->
+                <div class="breadcrumbs-wrapper">
+                    <ul id="breadcrumbs" class="breadcrumbs">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li>Edit Testimonials</li>
+                    </ul>
+                </div>
+                
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1>
+                            <i class="fas fa-comment-alt"></i>
+                            Edit Testimonials
+                        </h1>
+                        <p class="page-subtitle">Manage client testimonials and feedback displayed on your portfolio</p>
+                    </div>
+                    
+                    <div class="page-actions">
+                        <button class="btn btn-primary add-item-btn" data-target="#testimonials-container">
+                            <i class="fas fa-plus"></i> Add New Testimonial
+                        </button>
+                    </div>
+                </div>
+
+                <!-- GitHub Credentials Notice -->
+                <div class="info-box info">
+                    <i class="fas fa-info-circle"></i>
+                    <div>
+                        <p>Changes will be saved to your GitHub repository. Make sure you've set up GitHub integration in the settings.</p>
+                    </div>
+                </div>
+                
+                <!-- Editor Form -->
+                <div class="editor-container">
+                    <form id="testimonials-editor" class="editor-form">
+                        <div class="editor-toolbar">
+                            <div class="toolbar-section">
+                                <span class="last-updated" data-content-type="testimonials">Last updated: Loading...</span>
                             </div>
-                            <div class="form-col">
-                                <div class="form-group">
-                                    <label for="role" class="form-label">Role</label>
-                                    <input type="text" id="role" class="form-input" placeholder="e.g. Professor, Manager, etc." required>
-                                </div>
+                            <div class="toolbar-actions">
+                                <button type="button" class="btn btn-outline discard-changes-btn">
+                                    <i class="fas fa-undo"></i> Discard Changes
+                                </button>
+                                <button type="button" class="btn btn-primary save-changes-btn">
+                                    <i class="fas fa-save"></i> Save Changes
+                                </button>
                             </div>
                         </div>
                         
-                        <div class="form-row">
-                            <div class="form-col">
-                                <div class="form-group">
-                                    <label for="organization" class="form-label">Organization</label>
-                                    <input type="text" id="organization" class="form-input" placeholder="University or Company">
-                                </div>
+                        <!-- GitHub Commit Options -->
+                        <div class="commit-options">
+                            <div class="form-group">
+                                <label for="commit-message">Commit Message</label>
+                                <input type="text" id="commit-message" class="form-control" placeholder="Update testimonials" value="Update testimonials">
                             </div>
-                            <div class="form-col">
-                                <div class="form-group">
-                                    <label for="type" class="form-label">Type</label>
-                                    <select id="type" class="form-select" required>
-                                        <option value="">Select type</option>
-                                        <option value="professor">Professor</option>
-                                        <option value="employer">Employer</option>
-                                        <option value="peer">Peer</option>
+                        </div>
+
+                        <!-- Testimonials Container -->
+                        <div class="items-container">
+                            <div class="content-header">
+                                <h2>Testimonials</h2>
+                                <div class="sort-options">
+                                    <label for="sort-testimonials">Sort by:</label>
+                                    <select id="sort-testimonials" class="form-control form-control-sm">
+                                        <option value="rating-desc">Rating (High to Low)</option>
+                                        <option value="rating-asc">Rating (Low to High)</option>
+                                        <option value="date-desc">Date (Newest)</option>
+                                        <option value="date-asc">Date (Oldest)</option>
+                                        <option value="name-asc">Name (A-Z)</option>
+                                        <option value="name-desc">Name (Z-A)</option>
                                     </select>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="text" class="form-label">Testimonial Text</label>
-                            <textarea id="text" class="form-textarea" placeholder="What they said about you..." required></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Rating (optional)</label>
-                            <div class="star-rating" id="rating">
-                                <input type="radio" class="star-rating__input" name="rating" value="5" id="rating5">
-                                <label class="star-rating__star far fa-star" for="rating5"></label>
-                                
-                                <input type="radio" class="star-rating__input" name="rating" value="4" id="rating4">
-                                <label class="star-rating__star far fa-star" for="rating4"></label>
-                                
-                                <input type="radio" class="star-rating__input" name="rating" value="3" id="rating3">
-                                <label class="star-rating__star far fa-star" for="rating3"></label>
-                                
-                                <input type="radio" class="star-rating__input" name="rating" value="2" id="rating2">
-                                <label class="star-rating__star far fa-star" for="rating2"></label>
-                                
-                                <input type="radio" class="star-rating__input" name="rating" value="1" id="rating1">
-                                <label class="star-rating__star far fa-star" for="rating1"></label>
+                            
+                            <div id="testimonials-container" class="sortable-list">
+                                <!-- Testimonial items will be added here dynamically -->
+                                <div class="loading-container">
+                                    <div class="loader"></div>
+                                    <p>Loading testimonials...</p>
+                                </div>
                             </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" class="btn btn--primary" id="submit-btn">
-                                <i class="fas fa-plus"></i> Add Testimonial
-                            </button>
-                            <button type="button" class="btn btn--outline" id="cancel-btn" style="display: none;">
-                                Cancel Edit
-                            </button>
+                            
+                            <!-- Upload Progress Bars -->
+                            <div class="upload-progress-container hidden">
+                                <h3>Uploading Files</h3>
+                                <div class="progress-bar-wrapper">
+                                    <div class="upload-progress" data-index="0" style="width: 0%">0%</div>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="upload-progress" data-index="1" style="width: 0%">0%</div>
+                                </div>
+                                <div class="progress-bar-wrapper">
+                                    <div class="upload-progress" data-index="2" style="width: 0%">0%</div>
+                                </div>
+                            </div>
                         </div>
                     </form>
-                    
-                    <!-- Testimonials List -->
-                    <div class="testimonials-list" id="testimonials-list">
-                        <!-- Testimonials will be loaded here -->
-                        <div class="loading">Loading testimonials...</div>
-                    </div>
                 </div>
-            </div>
-        </main>
-    </div>
-
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/data-loader.js"></script>
-    <script src="../assets/js/admin/main.js"></script>
-    <script src="../assets/js/admin/editor.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Authenticate - redirect if not logged in
-            if (!isLoggedIn()) {
-                window.location.href = 'index.html';
-                return;
-            }
-            
-            // Toggle sidebar on mobile
-            const sidebarToggle = document.getElementById('sidebar-toggle');
-            const sidebar = document.getElementById('admin-sidebar');
-            
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('show');
-                });
-            }
-            
-            // Logout button
-            document.getElementById('logout-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                logout();
-                window.location.href = 'index.html';
-            });
-            
-            // Initialize stars
-            const starLabels = document.querySelectorAll('.star-rating__star');
-            
-            starLabels.forEach(star => {
-                star.addEventListener('click', function() {
-                    // Remove all filled stars
-                    starLabels.forEach(s => {
-                        s.classList.remove('fas');
-                        s.classList.add('far');
-                    });
+                                <!-- Preview Section -->
+                                <div class="preview-section">
+                                    <div class="preview-header">
+                                        <h2>Preview</h2>
+                                        <div class="preview-actions">
+                                            <button type="button" class="btn btn-sm btn-outline refresh-preview-btn">
+                                                <i class="fas fa-sync-alt"></i> Refresh Preview
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline toggle-preview-btn">
+                                                <i class="fas fa-eye"></i> Hide Preview
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="preview-container">
+                                        <div class="preview-wrapper">
+                                            <div id="testimonials-preview" class="preview-content">
+                                                <!-- Preview content will be generated here -->
+                                                <div class="loading-container">
+                                                    <div class="loader"></div>
+                                                    <p>Generating preview...</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Testimonial Templates Section -->
+                                <div class="templates-section">
+                                    <div class="templates-header">
+                                        <h2>Testimonial Templates</h2>
+                                        <button type="button" class="btn btn-sm btn-outline toggle-templates-btn">
+                                            <i class="fas fa-chevron-down"></i> Show Templates
+                                        </button>
+                                    </div>
+                                    
+                                    <div class="templates-container hidden">
+                                        <div class="template-card" data-template="standard">
+                                            <div class="template-preview">
+                                                <img src="../assets/images/admin/templates/testimonial-standard.jpg" alt="Standard Testimonial">
+                                            </div>
+                                            <div class="template-info">
+                                                <h3>Standard Testimonial</h3>
+                                                <p>Basic testimonial with quote, name, and role</p>
+                                                <button type="button" class="btn btn-sm btn-outline use-template-btn">Use Template</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="template-card" data-template="detailed">
+                                            <div class="template-preview">
+                                                <img src="../assets/images/admin/templates/testimonial-detailed.jpg" alt="Detailed Testimonial">
+                                            </div>
+                                            <div class="template-info">
+                                                <h3>Detailed Testimonial</h3>
+                                                <p>Testimonial with project details and work relationship</p>
+                                                <button type="button" class="btn btn-sm btn-outline use-template-btn">Use Template</button>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="template-card" data-template="video">
+                                            <div class="template-preview">
+                                                <img src="../assets/images/admin/templates/testimonial-video.jpg" alt="Video Testimonial">
+                                            </div>
+                                            <div class="template-info">
+                                                <h3>Video Testimonial</h3>
+                                                <p>Testimonial with embedded video content</p>
+                                                <button type="button" class="btn btn-sm btn-outline use-template-btn">Use Template</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </main>
+                    </div>
                     
-                    // Fill stars up to the clicked one
-                    const rating = this.previousElementSibling.value;
-                    for (let i = 5; i > (5 - rating); i--) {
-                        const starLabel = document.querySelector(`label[for="rating${i}"]`);
-                        starLabel.classList.remove('far');
-                        starLabel.classList.add('fas');
-                    }
-                });
-            });
-            
-            // Initialize testimonials manager
-            const testimonialManager = new TestimonialManager('testimonial-form', 'testimonials-list', '../data/testimonials.json');
-            testimonialManager.init();
-            
-            // Export testimonials data
-            document.getElementById('export-testimonials-btn').addEventListener('click', function() {
-                exportData('../data/testimonials.json', 'testimonials.json');
-            });
-        });
-        
-        // Testimonial Manager Class
-        class TestimonialManager {
-            constructor(formId, listId, dataUrl) {
-                this.formEl = document.getElementById(formId);
-                this.listEl = document.getElementById(listId);
-                this.dataUrl = dataUrl;
-                this.testimonials = [];
-                this.editingId = null;
-                
-                this.formMode = document.getElementById('form-mode');
-                this.idField = document.getElementById('testimonial-id');
-                this.nameField = document.getElementById('name');
-                this.roleField = document.getElementById('role');
-                this.organizationField = document.getElementById('organization');
-                this.typeField = document.getElementById('type');
-                this.textField = document.getElementById('text');
-                this.submitBtn = document.getElementById('submit-btn');
-                this.cancelBtn = document.getElementById('cancel-btn');
-            }
-            
-            init() {
-                this.loadTestimonials();
-                this.setupEventListeners();
-            }
-            
-            loadTestimonials() {
-                this.listEl.innerHTML = '<div class="loading">Loading testimonials...</div>';
-                
-                loadData(this.dataUrl)
-                    .then(data => {
-                        this.testimonials = data || [];
-                        this.renderTestimonials();
-                    })
-                    .catch(err => {
-                        console.error('Error loading testimonials:', err);
-                        this.listEl.innerHTML = '<div class="error">Failed to load testimonials. Please try again.</div>';
-                    });
-            }
-            
-            renderTestimonials() {
-                if (this.testimonials.length === 0) {
-                    this.listEl.innerHTML = '<div class="empty-state">No testimonials yet. Add your first testimonial!</div>';
-                    return;
-                }
-                
-                this.listEl.innerHTML = '';
-                
-                this.testimonials.forEach(testimonial => {
-                    const testimonialEl = document.createElement('div');
-                    testimonialEl.className = 'testimonial-item';
-                    
-                    // Create rating stars if rating exists
-                    let ratingHtml = '';
-                    if (testimonial.rating) {
-                        ratingHtml = '<div class="testimonial-item__rating">';
-                        for (let i = 0; i < 5; i++) {
-                            ratingHtml += `<i class="${i < testimonial.rating ? 'fas' : 'far'} fa-star"></i>`;
-                        }
-                        ratingHtml += '</div>';
-                    }
-                    
-                    testimonialEl.innerHTML = `
-                        <div class="testimonial-item__quote">${testimonial.text}</div>
-                        <div class="testimonial-item__author">
-                            <div>
-                                <div class="testimonial-item__name">${testimonial.name}</div>
-                                <div class="testimonial-item__role">${testimonial.role}</div>
-                                ${testimonial.organization ? `<div class="testimonial-item__company">${testimonial.organization}</div>` : ''}
+                    <!-- Testimonial Item Template -->
+                    <template id="testimonial-item-template">
+                        <div class="item-wrapper testimonial-item" data-id="">
+                            <div class="item-header">
+                                <div class="drag-handle">
+                                    <i class="fas fa-grip-vertical"></i>
+                                </div>
+                                <h3 class="item-title">New Testimonial</h3>
+                                <div class="item-actions">
+                                    <button type="button" class="btn btn-sm item-action toggle-item" title="Collapse/Expand">
+                                        <i class="fas fa-chevron-up"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger item-action delete-item" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="item-content">
+                                <!-- Client Info -->
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Client Name</label>
+                                        <input type="text" class="form-control testimonial-name" placeholder="John Doe" required>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Position/Company</label>
+                                        <input type="text" class="form-control testimonial-position" placeholder="CEO at Company">
+                                    </div>
+                                </div>
+                                
+                                <!-- Avatar Upload -->
+                                <div class="form-group">
+                                    <label>Client Avatar</label>
+                                    <div class="avatar-upload-container">
+                                        <div class="avatar-preview">
+                                            <img src="../assets/images/defaults/avatar.png" class="testimonial-avatar-preview" alt="Avatar Preview">
+                                            <div class="avatar-overlay">
+                                                <i class="fas fa-camera"></i>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="avatar-controls">
+                                            <div class="avatar-input-wrapper">
+                                                <input type="file" class="testimonial-avatar-input" accept="image/*">
+                                                <button type="button" class="btn btn-sm btn-outline avatar-upload-btn">
+                                                    <i class="fas fa-upload"></i> Upload Image
+                                                </button>
+                                            </div>
+                                            
+                                            <div class="avatar-options">
+                                                <button type="button" class="btn btn-sm btn-outline avatar-crop-btn" title="Crop Image">
+                                                    <i class="fas fa-crop-alt"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-sm btn-outline avatar-remove-btn" title="Remove Image">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        
+                                        <input type="hidden" class="testimonial-avatar" value="">
+                                    </div>
+                                    
+                                    <div class="avatar-info">
+                                        <small class="form-text text-muted">
+                                            Recommended size: 100x100px. Max file size: 500KB. Supported formats: JPG, PNG.
+                                        </small>
+                                    </div>
+                                </div>
+                                
+                                <!-- Testimonial Content -->
+                                <div class="form-group">
+                                    <label>Testimonial Text</label>
+                                    <textarea class="form-control testimonial-text" rows="4" placeholder="Enter the testimonial content here..." required></textarea>
+                                </div>
+                                
+                                <!-- Rating -->
+                                <div class="form-group">
+                                    <label>Rating</label>
+                                    <div class="rating-selector">
+                                        <i class="fas fa-star rating-star" data-rating="1"></i>
+                                        <i class="fas fa-star rating-star" data-rating="2"></i>
+                                        <i class="fas fa-star rating-star" data-rating="3"></i>
+                                        <i class="fas fa-star rating-star" data-rating="4"></i>
+                                        <i class="fas fa-star rating-star" data-rating="5"></i>
+                                        <input type="hidden" class="testimonial-rating" value="5">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label>Project/Service</label>
+                                        <input type="text" class="form-control testimonial-project" placeholder="Web Development">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label>Date</label>
+                                        <input type="date" class="form-control testimonial-date">
+                                    </div>
+                                </div>
+                                
+                                <!-- Advanced Options -->
+                                <div class="advanced-options">
+                                    <div class="advanced-toggle">
+                                        <span>Advanced Options</span>
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    
+                                    <div class="advanced-content hidden">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6">
+                                                <label>Location</label>
+                                                <input type="text" class="form-control testimonial-location" placeholder="New York, USA">
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                <label>Social Profile</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fab fa-linkedin"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control testimonial-social" placeholder="LinkedIn profile URL">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-row">
+                                            <div class="form-group col-12">
+                                                <label>Video Testimonial (optional)</label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i class="fab fa-youtube"></i></span>
+                                                    </div>
+                                                    <input type="text" class="form-control testimonial-video" placeholder="YouTube or Vimeo URL">
+                                                </div>
+                                                <small class="form-text text-muted">Add a video testimonial from YouTube or Vimeo.</small>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="checkbox-group">
+                                                <input type="checkbox" class="testimonial-featured" id="testimonial-featured">
+                                                <label for="testimonial-featured">Featured Testimonial</label>
+                                            </div>
+                                            <small class="form-text text-muted">Featured testimonials are highlighted on your portfolio.</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                        ${ratingHtml}
-                        <div class="testimonial-item__meta">
-                            <span class="badge">${this.getTypeLabel(testimonial.type)}</span>
-                        </div>
-                        <div class="testimonial-item__actions">
-                            <button class="testimonial-item__btn testimonial-item__btn--edit" data-id="${testimonial.id}">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="testimonial-item__btn testimonial-item__btn--delete" data-id="${testimonial.id}">
-                                <i class="fas fa-trash-alt"></i> Delete
+                    </template>
+                
+                    <!-- Image Crop Modal -->
+                    <template id="image-crop-modal">
+                        <div class="modal-header">
+                            <h2>Crop Image</h2>
+                            <button class="modal-close" aria-label="Close">
+                                <i class="fas fa-times"></i>
                             </button>
                         </div>
-                    `;
+                        <div class="modal-body">
+                            <div class="crop-container">
+                                <img src="" id="crop-image" alt="Image to crop">
+                            </div>
+                            <div class="crop-preview">
+                                <div class="preview-title">Preview</div>
+                                <div class="preview-container">
+                                    <div class="avatar-preview">
+                                        <div id="crop-preview"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="crop-controls">
+                                <button type="button" class="btn btn-sm btn-outline crop-zoom-in">
+                                    <i class="fas fa-search-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline crop-zoom-out">
+                                    <i class="fas fa-search-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline crop-rotate">
+                                    <i class="fas fa-redo"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline crop-reset">
+                                    <i class="fas fa-sync"></i>
+                                </button>
+                            </div>
+                            <div class="image-info">
+                                <p>Drag to reposition. Use the controls to zoom and rotate.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline modal-close">Cancel</button>
+                            <button id="apply-crop" class="btn btn-primary">Apply</button>
+                        </div>
+                    </template>
                     
-                    this.listEl.appendChild(testimonialEl);
+                    <!-- Delete Confirmation Modal -->
+                    <template id="delete-confirm-modal">
+                        <div class="modal-header">
+                            <h2>Delete Testimonial</h2>
+                            <button class="modal-close" aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to delete this testimonial? This action cannot be undone.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline modal-close">Cancel</button>
+                            <button id="confirm-delete-btn" class="btn btn-danger">Delete</button>
+                        </div>
+                    </template>
                     
-                    // Add event listeners for buttons
-                    const editBtn = testimonialEl.querySelector('.testimonial-item__btn--edit');
-                    const deleteBtn = testimonialEl.querySelector('.testimonial-item__btn--delete');
-                    
-                    editBtn.addEventListener('click', () => this.editTestimonial(testimonial.id));
-                    deleteBtn.addEventListener('click', () => this.deleteTestimonial(testimonial.id));
-                });
-            }
-            
-            setupEventListeners() {
-                // Form submission
-                this.formEl.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.saveTestimonial();
-                });
+                    <!-- Discard Changes Modal -->
+                    <template id="discard-changes-modal">
+                        <div class="modal-header">
+                            <h2>Discard Changes</h2>
+                            <button class="modal-close" aria-label="Close">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Are you sure you want to discard all your changes? This action cannot be undone.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-outline modal-close">Cancel</button>
+                            <button id="confirm-discard-btn" class="btn btn-warning">Discard Changes</button>
+                        </div>
+                    </template>
                 
-                // Cancel button
-                this.cancelBtn.addEventListener('click', () => {
-                    this.resetForm();
-                });
-            }
-            
-            saveTestimonial() {
-                const name = this.nameField.value.trim();
-                const role = this.roleField.value.trim();
-                const organization = this.organizationField.value.trim();
-                const type = this.typeField.value;
-                const text = this.textField.value.trim();
+                    <!-- Modal Container -->
+                    <div id="modal-container"></div>
                 
-                // Get rating
-                const ratingInput = document.querySelector('input[name="rating"]:checked');
-                const rating = ratingInput ? parseInt(ratingInput.value) : 0;
-                
-                if (!name || !role || !type || !text) {
-                    alert('Please fill all required fields.');
-                    return;
-                }
-                
-                const testimonial = {
-                    id: this.editingId || generateId(),
-                    name,
-                    role,
-                    organization,
-                    type,
-                    text,
-                    rating,
-                    date: new Date().toISOString().split('T')[0]
-                };
-                
-                if (this.editingId) {
-                    // Update existing testimonial
-                    const index = this.testimonials.findIndex(t => t.id === this.editingId);
-                    if (index !== -1) {
-                        this.testimonials[index] = testimonial;
-                    }
-                } else {
-                    // Add new testimonial
-                    this.testimonials.push(testimonial);
-                }
-                
-                // Save to local storage
-                localStorage.setItem('testimonials', JSON.stringify(this.testimonials));
-                
-                // Reset form and re-render testimonials
-                this.resetForm();
-                this.renderTestimonials();
-            }
-            
-            editTestimonial(id) {
-                const testimonial = this.findTestimonial(id);
-                if (!testimonial) return;
-                
-                this.editingId = id;
-                this.formMode.textContent = 'Edit';
-                this.idField.value = id;
-                this.nameField.value = testimonial.name;
-                this.roleField.value = testimonial.role;
-                this.organizationField.value = testimonial.organization || '';
-                this.typeField.value = testimonial.type;
-                this.textField.value = testimonial.text;
-                
-                // Set rating if it exists
-                if (testimonial.rating) {
-                    const ratingInput = document.getElementById(`rating${testimonial.rating}`);
-                    if (ratingInput) {
-                        ratingInput.checked = true;
-                        
-                        // Update star display
-                        const starLabels = document.querySelectorAll('.star-rating__star');
-                        starLabels.forEach(s => {
-                            s.classList.remove('fas');
-                            s.classList.add('far');
+                    <!-- Scripts -->
+                    <script src="https://cdn.jsdelivr.net/npm/cropperjs@1.5.12/dist/cropper.min.js"></script>
+                    <script src="../assets/js/data-loader.js"></script>
+                    <script src="../assets/js/auth.js"></script>
+                    <script src="../assets/js/admin/main.js"></script>
+                    <script src="../assets/js/admin/testimonials-editor.js"></script>
+                    <script src="../assets/js/admin/image-upload.js"></script>
+                    <script src="../assets/js/admin/notifications.js"></script>
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            // Initialize testimonial editor
+                            if (typeof TestimonialsEditor !== 'undefined') {
+                                TestimonialsEditor.init();
+                            }
+                            
+                            // Handle avatar upload click events
+                            document.addEventListener('click', function(e) {
+                                if (e.target.closest('.avatar-upload-btn')) {
+                                    const wrapper = e.target.closest('.avatar-upload-container');
+                                    if (wrapper) {
+                                        const input = wrapper.querySelector('.testimonial-avatar-input');
+                                        if (input) input.click();
+                                    }
+                                }
+                                
+                                if (e.target.closest('.avatar-preview')) {
+                                    const wrapper = e.target.closest('.avatar-upload-container');
+                                    if (wrapper) {
+                                        const input = wrapper.querySelector('.testimonial-avatar-input');
+                                        if (input) input.click();
+                                    }
+                                }
+                            });
+                            
+                            // Handle file input changes for testimonial avatars
+                            document.addEventListener('change', function(e) {
+                                if (e.target.matches('.testimonial-avatar-input')) {
+                                    const file = e.target.files[0];
+                                    if (!file) return;
+                                    
+                                    // Validate file
+                                    if (!file.type.match('image.*')) {
+                                        NotificationModule.showError('Please select an image file (JPG, PNG)');
+                                        return;
+                                    }
+                                    
+                                    if (file.size > 500 * 1024) {
+                                        NotificationModule.showError('Image is too large. Maximum size is 500KB');
+                                        return;
+                                    }
+                                    
+                                    // Get wrapper and preview elements
+                                    const wrapper = e.target.closest('.avatar-upload-container');
+                                    if (!wrapper) return;
+                                    
+                                    const previewImg = wrapper.querySelector('.testimonial-avatar-preview');
+                                    if (!previewImg) return;
+                                    
+                                    // Open crop modal
+                                    openCropModal(file, previewImg, function(croppedImage) {
+                                        // Update the preview
+                                        previewImg.src = croppedImage;
+                                        
+                                        // Update hidden input value
+                                        const hiddenInput = wrapper.querySelector('.testimonial-avatar');
+                                        if (hiddenInput) {
+                                            hiddenInput.value = croppedImage;
+                                        }
+                                        
+                                        // Show avatar options once image is loaded
+                                        wrapper.classList.add('has-avatar');
+                                    });
+                                }
+                            });
+                            
+                            // Handle avatar remove button
+                            document.addEventListener('click', function(e) {
+                                if (e.target.closest('.avatar-remove-btn')) {
+                                    const wrapper = e.target.closest('.avatar-upload-container');
+                                    if (!wrapper) return;
+                                    
+                                    // Reset preview to default avatar
+                                    const previewImg = wrapper.querySelector('.testimonial-avatar-preview');
+                                    if (previewImg) {
+                                        previewImg.src = '../assets/images/defaults/avatar.png';
+                                    }
+                                    
+                                    // Clear the hidden input
+                                    const hiddenInput = wrapper.querySelector('.testimonial-avatar');
+                                    if (hiddenInput) {
+                                        hiddenInput.value = '';
+                                    }
+                                    
+                                    // Reset file input
+                                    const fileInput = wrapper.querySelector('.testimonial-avatar-input');
+                                    if (fileInput) {
+                                        fileInput.value = '';
+                                    }
+                                    
+                                    // Remove has-avatar class
+                                    wrapper.classList.remove('has-avatar');
+                                }
+                            });
+                            
+                            // Handle testimonial rating
+                            document.addEventListener('click', function(e) {
+                                if (e.target.matches('.rating-star')) {
+                                    const rating = e.target.getAttribute('data-rating');
+                                    const starsContainer = e.target.closest('.rating-selector');
+                                    if (!starsContainer) return;
+                                    
+                                    // Update hidden input
+                                    const ratingInput = starsContainer.querySelector('.testimonial-rating');
+                                    if (ratingInput) {
+                                        ratingInput.value = rating;
+                                    }
+                                    
+                                    // Update stars appearance
+                                    const stars = starsContainer.querySelectorAll('.rating-star');
+                                    stars.forEach(star => {
+                                        const starRating = star.getAttribute('data-rating');
+                                        if (starRating <= rating) {
+                                            star.classList.add('active');
+                                        } else {
+                                            star.classList.remove('active');
+                                        }
+                                    });
+                                }
+                            });
+                            
+                            /**
+                             * Open the image crop modal
+                             * @param {File} file - The image file to crop
+                             * @param {HTMLImageElement} previewImg - The image element to update after cropping
+                             * @param {Function} callback - Callback function with cropped image data
+                             */
+                            function openCropModal(file, previewImg, callback) {
+                                const modalTemplate = document.querySelector('#image-crop-modal');
+                                if (!modalTemplate) return;
+                                
+                                // Create modal
+                                const modalContainer = document.getElementById('modal-container');
+                                const modal = document.createElement('div');
+                                modal.className = 'modal-wrapper';
+                                modal.innerHTML = modalTemplate.innerHTML;
+                                
+                                modalContainer.appendChild(modal);
+                                
+                                // Get crop image element
+                                const cropImage = modal.querySelector('#crop-image');
+                                if (!cropImage) return;
+                                
+                                // Create a URL for the file
+                                const imageUrl = URL.createObjectURL(file);
+                                cropImage.src = imageUrl;
+                                
+                                // Initialize cropper after image is loaded
+                                cropImage.onload = function() {
+                                    // Initialize Cropper.js
+                                    const cropper = new Cropper(cropImage, {
+                                        aspectRatio: 1, // Square aspect ratio for avatars
+                                        viewMode: 1,
+                                        dragMode: 'move',
+                                        autoCropArea: 0.8,
+                                        preview: '#crop-preview',
+                                        guides: true,
+                                        center: true,
+                                        minContainerWidth: 300,
+                                        minContainerHeight: 300
+                                    });
+                                    
+                                    // Handle crop controls
+                                    modal.querySelector('.crop-zoom-in').addEventListener('click', function() {
+                                        cropper.zoom(0.1);
+                                    });
+                                    
+                                    modal.querySelector('.crop-zoom-out').addEventListener('click', function() {
+                                        cropper.zoom(-0.1);
+                                    });
+                                    
+                                    modal.querySelector('.crop-rotate').addEventListener('click', function() {
+                                        cropper.rotate(90);
+                                    });
+                                    
+                                    modal.querySelector('.crop-reset').addEventListener('click', function() {
+                                        cropper.reset();
+                                    });
+                                    
+                                    // Handle Apply button
+                                    modal.querySelector('#apply-crop').addEventListener('click', function() {
+                                        // Get cropped canvas and convert to base64
+                                        const canvas = cropper.getCroppedCanvas({
+                                            width: 100,
+                                            height: 100,
+                                            fillColor: '#fff'
+                                        });
+                                        
+                                        const croppedImage = canvas.toDataURL('image/jpeg', 0.8);
+                                        
+                                        // Call the callback with the cropped image
+                                        callback(croppedImage);
+                                        
+                                        // Close modal
+                                        closeModal(modal);
+                                        
+                                        // Clean up
+                                        URL.revokeObjectURL(imageUrl);
+                                    });
+                                };
+                                
+                                // Show modal with animation
+                                setTimeout(() => {
+                                    modal.classList.add('active');
+                                }, 10);
+                                
+                                // Handle modal close
+                                const closeButtons = modal.querySelectorAll('.modal-close');
+                                closeButtons.forEach(button => {
+                                    button.addEventListener('click', function() {
+                                        closeModal(modal);
+                                        URL.revokeObjectURL(imageUrl);
+                                    });
+                                });
+                            }
+                            
+                            /**
+                             * Close a modal
+                             * @param {HTMLElement} modal - The modal to close
+                             */
+                            function closeModal(modal) {
+                                modal.classList.remove('active');
+                                
+                                // Remove from DOM after animation
+                                setTimeout(() => {
+                                    if (modal.parentNode) {
+                                        modal.parentNode.removeChild(modal);
+                                    }
+                                }, 300);
+                            }
+                            
+                            // Toggle advanced options
+                            document.addEventListener('click', function(e) {
+                                if (e.target.closest('.advanced-toggle')) {
+                                    const advancedOptions = e.target.closest('.advanced-options');
+                                    if (!advancedOptions) return;
+                                    
+                                    const content = advancedOptions.querySelector('.advanced-content');
+                                    const icon = advancedOptions.querySelector('.advanced-toggle i');
+                                    
+                                    if (content) {
+                                        content.classList.toggle('hidden');
+                                        
+                                        if (icon) {
+                                            if (content.classList.contains('hidden')) {
+                                                icon.classList.remove('fa-chevron-up');
+                                                icon.classList.add('fa-chevron-down');
+                                            } else {
+                                                icon.classList.remove('fa-chevron-down');
+                                                icon.classList.add('fa-chevron-up');
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                            
+                            // Toggle templates section
+                            document.querySelector('.toggle-templates-btn')?.addEventListener('click', function() {
+                                const container = document.querySelector('.templates-container');
+                                const icon = this.querySelector('i');
+                                
+                                if (container && icon) {
+                                    container.classList.toggle('hidden');
+                                    
+                                    if (container.classList.contains('hidden')) {
+                                        icon.classList.remove('fa-chevron-up');
+                                        icon.classList.add('fa-chevron-down');
+                                        this.innerHTML = '<i class="fas fa-chevron-down"></i> Show Templates';
+                                    } else {
+                                        icon.classList.remove('fa-chevron-down');
+                                        icon.classList.add('fa-chevron-up');
+                                        this.innerHTML = '<i class="fas fa-chevron-up"></i> Hide Templates';
+                                    }
+                                }
+                            });
+                            
+                            // Use template buttons
+                            document.querySelectorAll('.use-template-btn').forEach(btn => {
+                                btn.addEventListener('click', function() {
+                                    const template = this.closest('.template-card').getAttribute('data-template');
+                                    if (TestimonialsEditor) {
+                                        TestimonialsEditor.addTemplateItem(template);
+                                    }
+                                });
+                            });
                         });
-                        
-                        for (let i = testimonial.rating; i > 0; i--) {
-                            const starLabel = document.querySelector(`label[for="rating${i}"]`);
-                            starLabel.classList.remove('far');
-                            starLabel.classList.add('fas');
-                        }
-                    }
-                }
-                
-                this.submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Testimonial';
-                this.cancelBtn.style.display = 'inline-block';
-                
-                // Scroll to form
-                this.formEl.scrollIntoView({ behavior: 'smooth' });
-            }
-            
-            deleteTestimonial(id) {
-                if (!confirm('Are you sure you want to delete this testimonial?')) {
-                    return;
-                }
-                
-                this.testimonials = this.testimonials.filter(testimonial => testimonial.id !== id);
-                
-                // Save to local storage
-                localStorage.setItem('testimonials', JSON.stringify(this.testimonials));
-                
-                // If deleting the testimonial being edited, reset the form
-                if (this.editingId === id) {
-                    this.resetForm();
-                }
-                
-                // Re-render testimonials
-                this.renderTestimonials();
-            }
-            
-            resetForm() {
-                this.editingId = null;
-                this.formMode.textContent = 'Add';
-                this.formEl.reset();
-                this.idField.value = '';
-                this.submitBtn.innerHTML = '<i class="fas fa-plus"></i> Add Testimonial';
-                this.cancelBtn.style.display = 'none';
-                
-                // Reset stars
-                const starLabels = document.querySelectorAll('.star-rating__star');
-                starLabels.forEach(s => {
-                    s.classList.remove('fas');
-                    s.classList.add('far');
-                });
-            }
-            
-            findTestimonial(id) {
-                return this.testimonials.find(testimonial => testimonial.id === id);
-            }
-            
-            getTypeLabel(type) {
-                const types = {
-                    'professor': 'Professor',
-                    'employer': 'Employer',
-                    'peer': 'Peer'
-                };
-                return types[type] || type;
-            }
-        }
-        
-        // Helper function to generate a unique ID
-        function generateId() {
-            return 'testimonial_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-    </script>
-</body>
-</html>
+                    </script>
+                </body>
+                </html>

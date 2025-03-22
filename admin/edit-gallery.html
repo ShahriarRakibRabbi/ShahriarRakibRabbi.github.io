@@ -3,775 +3,604 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Gallery | Admin Panel</title>
+    <title>Edit Gallery | Portfolio Admin</title>
+    <meta name="description" content="Edit gallery items in your portfolio">
     <meta name="robots" content="noindex, nofollow">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/components.css">
-    <link rel="stylesheet" href="../assets/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="../assets/images/favicon.png">
-    <style>
-        :root {
-            --admin-sidebar-width: 250px;
-            --admin-header-height: 60px;
-        }
-        
-        .admin {
-            min-height: 100vh;
-            background-color: #f5f7fa;
-        }
-        
-        .admin-header {
-            position: fixed;
-            top: 0;
-            left: var(--admin-sidebar-width);
-            right: 0;
-            height: var(--admin-header-height);
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 2rem;
-            z-index: 100;
-        }
-        
-        .admin-header__title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #333;
-        }
-        
-        .admin-header__actions {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-        
-        .admin-sidebar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: var(--admin-sidebar-width);
-            height: 100vh;
-            background-color: #2c3e50;
-            color: #fff;
-            z-index: 200;
-            transition: all 0.3s;
-        }
-        
-        .admin-sidebar__header {
-            height: var(--admin-header-height);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            padding: 0 1.5rem;
-        }
-        
-        .admin-sidebar__logo {
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: #fff;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .admin-sidebar__nav {
-            padding: 1.5rem 0;
-        }
-        
-        .admin-sidebar__item {
-            list-style: none;
-        }
-        
-        .admin-sidebar__link {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem 1.5rem;
-            color: rgba(255, 255, 255, 0.7);
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        
-        .admin-sidebar__link:hover, 
-        .admin-sidebar__link.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            color: #fff;
-        }
-        
-        .admin-sidebar__link i {
-            width: 20px;
-            text-align: center;
-        }
-        
-        .admin-sidebar__divider {
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.1);
-            margin: 0.75rem 1.5rem;
-        }
-        
-        .admin-content {
-            padding-top: var(--admin-header-height);
-            padding-left: var(--admin-sidebar-width);
-            min-height: 100vh;
-        }
-        
-        .admin-main {
-            padding: 2rem;
-        }
-
-        .gallery-manager {
-            margin-top: 1.5rem;
-        }
-
-        .gallery-form {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .gallery-form__title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 1.5rem;
-            padding-bottom: 0.75rem;
-            border-bottom: 1px solid #eaeaea;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 500;
-        }
-
-        .form-input,
-        .form-select,
-        .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1rem;
-            transition: border-color 0.2s;
-        }
-
-        .form-input:focus,
-        .form-select:focus,
-        .form-textarea:focus {
-            border-color: var(--primary-color);
-            outline: none;
-        }
-
-        .form-textarea {
-            min-height: 120px;
-            resize: vertical;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-
-        .gallery-item {
-            background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            transition: transform 0.2s, box-shadow 0.2s;
-            position: relative;
-        }
-
-        .gallery-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .gallery-item__image {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            display: block;
-        }
-
-        .gallery-item__content {
-            padding: 1rem;
-        }
-
-        .gallery-item__title {
-            font-size: 1rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .gallery-item__category {
-            font-size: 0.875rem;
-            color: #666;
-            margin-bottom: 0.75rem;
-        }
-
-        .gallery-item__actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 0.5rem;
-        }
-
-        .gallery-item__btn {
-            background: none;
-            border: none;
-            color: #666;
-            cursor: pointer;
-            padding: 0.25rem 0.5rem;
-            font-size: 0.875rem;
-            border-radius: 4px;
-            transition: all 0.2s;
-        }
-
-        .gallery-item__btn:hover {
-            background-color: #f5f5f5;
-        }
-
-        .gallery-item__btn--edit:hover {
-            color: var(--primary-color);
-        }
-
-        .gallery-item__btn--delete:hover {
-            color: #e53935;
-        }
-
-        .image-preview {
-            margin-top: 1rem;
-            max-width: 300px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .image-preview img {
-            max-width: 100%;
-            display: block;
-        }
-
-        .file-upload {
-            position: relative;
-            display: inline-block;
-            margin-top: 0.5rem;
-        }
-
-        .file-upload input[type="file"] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-            width: 100%;
-            height: 100%;
-            cursor: pointer;
-        }
-
-        .file-upload-btn {
-            display: inline-block;
-            padding: 0.75rem 1rem;
-            background-color: #f5f5f5;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.875rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .file-upload:hover .file-upload-btn {
-            background-color: #eaeaea;
-        }
-
-        .file-name {
-            display: inline-block;
-            margin-left: 0.75rem;
-            font-size: 0.875rem;
-        }
-
-        .base64-notice {
-            margin-top: 0.5rem;
-            font-size: 0.75rem;
-            color: #666;
-        }
-
-        /* Mobile responsive */
-        @media (max-width: 768px) {
-            :root {
-                --admin-sidebar-width: 0;
-            }
-            
-            .admin-header {
-                left: 0;
-            }
-            
-            .admin-sidebar {
-                transform: translateX(-100%);
-            }
-            
-            .admin-sidebar.show {
-                transform: translateX(0);
-                width: 250px;
-            }
-            
-            .gallery-grid {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="../assets/css/admin.css">
+    <!-- Sortable.js for drag and drop functionality -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <!-- Image Compressor for optimizing uploaded images -->
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
 </head>
-<body>
-    <div class="admin">
+<body data-admin-page="gallery" data-editor-type="gallery">
+    <div class="admin-wrapper">
         <!-- Sidebar -->
-        <aside class="admin-sidebar" id="admin-sidebar">
-            <div class="admin-sidebar__header">
-                <a href="dashboard.html" class="admin-sidebar__logo">
+        <aside id="admin-sidebar" class="admin-sidebar">
+            <div class="sidebar-header">
+                <a href="dashboard.html" class="sidebar-logo">
                     <i class="fas fa-code"></i>
-                    <span>Admin Panel</span>
+                    <span>Portfolio Admin</span>
                 </a>
-            </div>
-            
-            <nav class="admin-sidebar__nav">
-                <ul>
-                    <li class="admin-sidebar__item">
-                        <a href="dashboard.html" class="admin-sidebar__link">
-                            <i class="fas fa-tachometer-alt"></i>
-                            <span>Dashboard</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-projects.html" class="admin-sidebar__link">
-                            <i class="fas fa-project-diagram"></i>
-                            <span>Projects</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-skills.html" class="admin-sidebar__link">
-                            <i class="fas fa-laptop-code"></i>
-                            <span>Skills</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-achievements.html" class="admin-sidebar__link">
-                            <i class="fas fa-trophy"></i>
-                            <span>Achievements</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-gallery.html" class="admin-sidebar__link active">
-                            <i class="fas fa-images"></i>
-                            <span>Gallery</span>
-                        </a>
-                    </li>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="edit-testimonials.html" class="admin-sidebar__link">
-                            <i class="fas fa-comments"></i>
-                            <span>Testimonials</span>
-                        </a>
-                    </li>
-                    
-                    <div class="admin-sidebar__divider"></div>
-                    
-                    <li class="admin-sidebar__item">
-                        <a href="#" id="logout-btn" class="admin-sidebar__link">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
-        
-        <!-- Header -->
-        <header class="admin-header">
-            <div class="admin-header__title">
-                <button class="admin-sidebar-toggle" id="sidebar-toggle">
-                    <i class="fas fa-bars"></i>
-                </button>
-                Manage Gallery
-            </div>
-            
-            <div class="admin-header__actions">
-                <button class="btn btn--outline" id="export-gallery-btn">
-                    <i class="fas fa-download"></i>
-                    <span>Export Gallery Data</span>
+                <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
+                    <i class="fas fa-chevron-left"></i>
                 </button>
             </div>
-        </header>
-        
-        <!-- Main Content -->
-        <main class="admin-content">
-            <div class="admin-main">
-                <h1 class="admin-main__title">Gallery Manager</h1>
-                <p class="admin-main__subtitle">Add and manage your design portfolio items</p>
+            
+            <div class="sidebar-content">
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li>
+                            <a href="dashboard.html" class="sidebar-item" data-page="dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-projects.html" class="sidebar-item" data-page="projects">
+                                <i class="fas fa-briefcase"></i>
+                                <span>Projects</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-skills.html" class="sidebar-item" data-page="skills">
+                                <i class="fas fa-code"></i>
+                                <span>Skills</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-achievements.html" class="sidebar-item" data-page="achievements">
+                                <i class="fas fa-trophy"></i>
+                                <span>Achievements</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-gallery.html" class="sidebar-item active" data-page="gallery">
+                                <i class="fas fa-images"></i>
+                                <span>Gallery</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="edit-testimonials.html" class="sidebar-item" data-page="testimonials">
+                                <i class="fas fa-comment-alt"></i>
+                                <span>Testimonials</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
                 
-                <div class="gallery-manager">
-                    <!-- Add/Edit Gallery Item Form -->
-                    <form class="gallery-form" id="gallery-form">
-                        <h2 class="gallery-form__title">
-                            <span id="form-mode">Add</span> Gallery Item
-                        </h2>
-                        
-                        <input type="hidden" id="gallery-id">
-                        
-                        <div class="form-group">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" id="title" class="form-input" placeholder="Enter item title" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="category" class="form-label">Category</label>
-                            <select id="category" class="form-select" required>
-                                <option value="">Select category</option>
-                                <option value="ui">UI Design</option>
-                                <option value="graphic">Graphic Design</option>
-                                <option value="other">Other</option>
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="description" class="form-label">Description</label>
-                            <textarea id="description" class="form-textarea" placeholder="Brief description of this design"></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Image</label>
-                            <div class="file-upload">
-                                <input type="file" id="image-upload" accept="image/*">
-                                <span class="file-upload-btn">
-                                    <i class="fas fa-upload"></i> Choose Image
-                                </span>
-                                <span class="file-name" id="file-name">No file chosen</span>
-                            </div>
-                            <p class="base64-notice">
-                                Images will be converted to base64 and stored in the JSON data file.
-                            </p>
-                            <div class="image-preview" id="image-preview" style="display: none;">
-                                <img id="preview-img" src="" alt="Preview">
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <button type="submit" class="btn btn--primary" id="submit-btn">
-                                <i class="fas fa-plus"></i> Add Gallery Item
-                            </button>
-                            <button type="button" class="btn btn--outline" id="cancel-btn" style="display: none;">
-                                Cancel Edit
-                            </button>
-                        </div>
-                    </form>
+                <div class="sidebar-section">
+                    <h3 class="sidebar-heading">Settings</h3>
+                    <ul>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="github-settings-modal">
+                                <i class="fab fa-github"></i>
+                                <span>GitHub Integration</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="backup-modal">
+                                <i class="fas fa-cloud-download-alt"></i>
+                                <span>Backup & Restore</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="sidebar-item" data-modal-target="account-settings-modal">
+                                <i class="fas fa-user-cog"></i>
+                                <span>Account Settings</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                <a href="../index.html" target="_blank" class="sidebar-footer-item">
+                    <i class="fas fa-external-link-alt"></i>
+                    <span>View Site</span>
+                </a>
+                <button id="logout-btn" class="sidebar-footer-item">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main id="admin-content" class="admin-content">
+            <!-- Top Bar -->
+            <header class="admin-header">
+                <div class="header-search">
+                    <div class="search-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="admin-search" placeholder="Search gallery items...">
+                    </div>
+                    <div id="search-results" class="search-results hidden"></div>
+                </div>
+                
+                <div class="header-actions">
+                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
                     
-                    <!-- Gallery Items List -->
-                    <h2>Gallery Items</h2>
-                    <div class="gallery-grid" id="gallery-items">
-                        <!-- Gallery items will be loaded here -->
-                        <div class="loading">Loading gallery items...</div>
+                    <div class="notifications-dropdown">
+                        <button id="notification-bell" class="notification-bell">
+                            <i class="fas fa-bell"></i>
+                            <span id="notification-count" class="notification-count hidden">0</span>
+                        </button>
+                        <div id="notification-dropdown" class="dropdown-menu notification-menu hidden"></div>
+                    </div>
+                    
+                    <div class="user-dropdown">
+                        <button id="user-menu-btn" class="user-menu-btn">
+                            <img id="user-avatar" src="../assets/images/defaults/avatar.png" alt="Admin" class="user-avatar">
+                            <span id="user-display-name">Admin</span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="user-dropdown" class="dropdown-menu user-menu hidden">
+                            <a href="#" class="dropdown-item" data-modal-target="account-settings-modal">
+                                <i class="fas fa-user-circle"></i>
+                                <span>My Account</span>
+                            </a>
+                            <a href="#" class="dropdown-item" data-modal-target="security-settings-modal">
+                                <i class="fas fa-lock"></i>
+                                <span>Security</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <button id="logout-menu-btn" class="dropdown-item">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Logout</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </header>
+            
+            <!-- Page Content -->
+            <div class="admin-page-content">
+                <!-- Breadcrumbs -->
+                <div class="breadcrumbs-wrapper">
+                    <ul id="breadcrumbs" class="breadcrumbs">
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li>Edit Gallery</li>
+                    </ul>
+                </div>
+                
+                <!-- Page Header -->
+                <div class="page-header">
+                    <div class="page-title">
+                        <h1><i class="fas fa-images"></i> Gallery</h1>
+                        <p class="last-updated" data-content-type="gallery">Last updated: Loading...</p>
+                    </div>
+                    <div class="page-actions">
+                        <button id="bulk-upload-btn" class="btn btn-outline" data-modal-target="bulk-upload-modal">
+                            <i class="fas fa-upload"></i> Bulk Upload
+                        </button>
+                        <button class="btn btn-primary add-item-btn" data-target="#gallery-container">
+                            <i class="fas fa-plus"></i> Add Image
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Filter Bar -->
+                <div class="filter-bar">
+                    <div class="filter-group">
+                        <label>Filter by Category:</label>
+                        <select id="category-filter" class="form-control form-control-sm">
+                            <option value="">All Categories</option>
+                            <option value="Web Design">Web Design</option>
+                            <option value="UI/UX">UI/UX</option>
+                            <option value="Photography">Photography</option>
+                            <option value="Graphics">Graphics</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="filter-featured">
+                            <label for="filter-featured">Featured Only</label>
+                        </div>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Sort by:</label>
+                        <select id="sort-order" class="form-control form-control-sm">
+                            <option value="date-desc">Date (Newest First)</option>
+                            <option value="date-asc">Date (Oldest First)</option>
+                            <option value="title-asc">Title (A-Z)</option>
+                            <option value="title-desc">Title (Z-A)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group filter-view-toggle">
+                        <button id="view-grid" class="btn btn-sm btn-icon active" title="Grid View">
+                            <i class="fas fa-th-large"></i>
+                        </button>
+                        <button id="view-list" class="btn btn-sm btn-icon" title="List View">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- GitHub Integration Alert -->
+                <div class="alert alert-info github-status">
+                    <i class="fab fa-github"></i>
+                    <div class="alert-content">
+                        <p>Changes will be committed and pushed to your GitHub repository.</p>
+                    </div>
+                    <div class="alert-actions">
+                        <button class="btn btn-sm btn-outline" data-modal-target="github-settings-modal">
+                            <i class="fas fa-cog"></i> Configure
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Editor Form -->
+                <form id="gallery-form" class="editor-form">
+                    <div class="form-section">
+                        <div class="form-section-header">
+                            <h2>Gallery Images</h2>
+                            <div class="section-actions">
+                                <button type="button" class="btn btn-sm btn-outline" id="expand-all-btn">
+                                    <i class="fas fa-expand-alt"></i> Expand All
+                                </button>
+                                <button type="button" class="btn btn-sm btn-outline" id="collapse-all-btn">
+                                    <i class="fas fa-compress-alt"></i> Collapse All
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Gallery Container - Grid View by Default -->
+                        <div id="gallery-container" class="sortable-grid gallery-grid-view"></div>
+                        
+                        <!-- No Gallery Items Message -->
+                        <div id="no-gallery-message" class="empty-state">
+                            <i class="fas fa-images"></i>
+                            <h3>No Gallery Images Yet</h3>
+                            <p>Add your first image using the button above</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Form Footer -->
+                    <div class="form-footer">
+                        <div class="form-footer-left">
+                            <div class="form-group commit-message-group">
+                                <label for="commit-message">Commit Message:</label>
+                                <input type="text" id="commit-message" name="commit-message" class="form-control" placeholder="Update gallery" value="Update gallery">
+                            </div>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-outline discard-changes-btn">Discard Changes</button>
+                            <button type="submit" class="btn btn-primary save-changes-btn">
+                                <i class="fas fa-save"></i> Save Changes
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Upload Progress -->
+                    <div class="upload-progress-container hidden">
+                        <h3>Uploading Files...</h3>
+                        <div class="upload-progress-list">
+                            <div class="upload-progress-item">
+                                <span class="upload-filename">gallery-image.jpg</span>
+                                <div class="progress">
+                                    <div class="upload-progress" data-index="0" style="width: 0%">0%</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </main>
     </div>
-
-    <script src="../assets/js/auth.js"></script>
-    <script src="../assets/js/data-loader.js"></script>
-    <script src="../assets/js/admin/main.js"></script>
-    <script src="../assets/js/admin/editor.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Authenticate - redirect if not logged in
-            if (!isLoggedIn()) {
-                window.location.href = 'index.html';
-                return;
-            }
+    
+    <!-- Templates -->
+    <!-- Gallery Item Template (Grid View) -->
+    <template id="gallery-item-template">
+        <div class="gallery-item item-card">
+            <div class="gallery-item-preview">
+                <div class="gallery-item-image">
+                    <!-- Image will be inserted dynamically -->
+                </div>
+                <div class="gallery-item-overlay">
+                    <div class="gallery-item-badges">
+                        <span class="featured-badge hidden"><i class="fas fa-star"></i> Featured</span>
+                    </div>
+                    <div class="gallery-item-actions">
+                        <button type="button" class="btn btn-sm btn-icon edit-item-btn" title="Edit">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-icon preview-item-btn" title="Preview">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-icon duplicate-item-btn" title="Duplicate">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                        <button type="button" class="btn btn-sm btn-icon remove-item-btn" title="Remove">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="gallery-item-footer">
+                    <h3 class="gallery-item-title">Image Title</h3>
+                    <div class="gallery-item-category">Category</div>
+                </div>
+                <div class="drag-handle">
+                    <i class="fas fa-grip-lines"></i>
+                </div>
+            </div>
             
-            // Toggle sidebar on mobile
-            const sidebarToggle = document.getElementById('sidebar-toggle');
-            const sidebar = document.getElementById('admin-sidebar');
-            
-            if (sidebarToggle) {
-                sidebarToggle.addEventListener('click', function() {
-                    sidebar.classList.toggle('show');
-                });
-            }
-            
-            // Logout button
-            document.getElementById('logout-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                logout();
-                window.location.href = 'index.html';
-            });
-            
-            // Image upload preview
-            const imageUpload = document.getElementById('image-upload');
-            const fileNameDisplay = document.getElementById('file-name');
-            const imagePreview = document.getElementById('image-preview');
-            const previewImg = document.getElementById('preview-img');
-            
-            imageUpload.addEventListener('change', function() {
-                const file = this.files[0];
-                
-                if (file) {
-                    fileNameDisplay.textContent = file.name;
+            <div id="gallery-content-__ID__" class="item-content collapse">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="gallery-title-__ID__">Image Title <span class="required">*</span></label>
+                        <input type="text" id="gallery-title-__ID__" class="form-control gallery-title-input" placeholder="Beautiful Sunset" required>
+                    </div>
                     
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        previewImg.src = e.target.result;
-                        imagePreview.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    fileNameDisplay.textContent = 'No file chosen';
-                    imagePreview.style.display = 'none';
-                }
-            });
-            
-            // Initialize gallery manager
-            const galleryManager = new GalleryManager('gallery-form', 'gallery-items', '../data/gallery.json');
-            galleryManager.init();
-            
-            // Export gallery data
-            document.getElementById('export-gallery-btn').addEventListener('click', function() {
-                exportData('../data/gallery.json', 'gallery.json');
-            });
-        });
-        
-        // Gallery Manager Class
-        class GalleryManager {
-            constructor(formId, listId, dataUrl) {
-                this.formEl = document.getElementById(formId);
-                this.listEl = document.getElementById(listId);
-                this.dataUrl = dataUrl;
-                this.items = [];
-                this.editingId = null;
+                    <div class="form-group">
+                        <label for="gallery-category-__ID__">Category</label>
+                        <input type="text" id="gallery-category-__ID__" class="form-control gallery-category-input" placeholder="Photography, UI/UX, etc.">
+                    </div>
+                    
+                    <div class="form-group form-checkbox">
+                        <input type="checkbox" id="gallery-featured-__ID__" class="gallery-featured-input">
+                        <label for="gallery-featured-__ID__">Featured Image</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gallery-date-__ID__">Date</label>
+                        <input type="date" id="gallery-date-__ID__" class="form-control gallery-date-input">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="gallery-description-__ID__">Description</label>
+                        <textarea id="gallery-description-__ID__" class="form-control gallery-description-input" rows="3" placeholder="Describe this image"></textarea>
+                    </div>
+                </div>
                 
-                this.formMode = document.getElementById('form-mode');
-                this.idField = document.getElementById('gallery-id');
-                this.titleField = document.getElementById('title');
-                this.categoryField = document.getElementById('category');
-                this.descriptionField = document.getElementById('description');
-                this.imageField = document.getElementById('image-upload');
-                this.submitBtn = document.getElementById('submit-btn');
-                this.cancelBtn = document.getElementById('cancel-btn');
-                this.previewEl = document.getElementById('image-preview');
-                this.previewImg = document.getElementById('preview-img');
-            }
-            
-            init() {
-                this.loadGalleryItems();
-                this.setupEventListeners();
-            }
-            
-            loadGalleryItems() {
-                this.listEl.innerHTML = '<div class="loading">Loading gallery items...</div>';
+                <div class="form-section-divider"></div>
                 
-                loadData(this.dataUrl)
-                    .then(data => {
-                        this.items = data || [];
-                        this.renderItems();
-                    })
-                    .catch(err => {
-                        console.error('Error loading gallery items:', err);
-                        this.listEl.innerHTML = '<div class="error">Failed to load gallery items. Please try again.</div>';
-                    });
-            }
-            
-            renderItems() {
-                if (this.items.length === 0) {
-                    this.listEl.innerHTML = '<div class="empty-state">No gallery items yet. Add your first design!</div>';
-                    return;
-                }
-                
-                this.listEl.innerHTML = '';
-                
-                this.items.forEach(item => {
-                    const itemEl = document.createElement('div');
-                    itemEl.className = 'gallery-item';
-                    itemEl.innerHTML = `
-                        <img src="${item.image}" alt="${item.title}" class="gallery-item__image">
-                        <div class="gallery-item__content">
-                            <h3 class="gallery-item__title">${item.title}</h3>
-                            <div class="gallery-item__category">
-                                <span class="badge">${this.getCategoryLabel(item.category)}</span>
+                <div class="form-grid image-upload-grid">
+                    <!-- Main Image Upload -->
+                    <div class="form-group">
+                        <label for="gallery-image-__ID__">Main Image <span class="required">*</span></label>
+                        <div class="image-upload-container">
+                            <div class="image-upload-controls">
+                                <input type="file" id="gallery-image-upload-__ID__" class="image-upload-input" data-target="gallery-image-__ID__" data-path="gallery/full" accept="image/*">
+                                <label for="gallery-image-upload-__ID__" class="upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i> Choose Image
+                                </label>
+                                <div class="upload-actions">
+                                    <button type="button" class="btn btn-sm btn-outline image-edit-btn" data-target="gallery-image-upload-__ID__">
+                                        <i class="fas fa-crop-alt"></i> Edit
+                                    </button>
+                                </div>
+                                <div class="upload-info">
+                                    <span>Max 5MB, JPG, PNG or WebP</span>
+                                </div>
                             </div>
-                            <div class="gallery-item__actions">
-                                <button class="gallery-item__btn gallery-item__btn--edit" data-id="${item.id}">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                                <button class="gallery-item__btn gallery-item__btn--delete" data-id="${item.id}">
-                                    <i class="fas fa-trash-alt"></i> Delete
-                                </button>
+                            <div class="image-preview">
+                                <div class="no-image">No image selected</div>
                             </div>
                         </div>
-                    `;
+                        <input type="hidden" id="gallery-image-__ID__" class="gallery-image-input" required>
+                    </div>
                     
-                    this.listEl.appendChild(itemEl);
+                    <!-- Thumbnail Image Upload -->
+                    <div class="form-group">
+                        <label for="gallery-thumb-__ID__">Thumbnail Image</label>
+                        <div class="image-upload-container">
+                            <div class="image-upload-controls">
+                                <input type="file" id="gallery-thumb-upload-__ID__" class="image-upload-input" data-target="gallery-thumb-__ID__" data-path="gallery/thumbnails" accept="image/*">
+                                <label for="gallery-thumb-upload-__ID__" class="upload-label">
+                                    <i class="fas fa-cloud-upload-alt"></i> Choose Thumbnail
+                                </label>
+                                <div class="upload-actions">
+                                    <button type="button" class="btn btn-sm btn-outline image-edit-btn" data-target="gallery-thumb-upload-__ID__">
+                                        <i class="fas fa-crop-alt"></i> Edit
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline auto-thumb-btn" data-source="gallery-image-upload-__ID__" data-target="gallery-thumb-upload-__ID__">
+                                        <i class="fas fa-magic"></i> Auto Generate
+                                    </button>
+                                </div>
+                                <div class="upload-info">
+                                    <span>Leave empty to auto-generate</span>
+                                </div>
+                            </div>
+                            <div class="image-preview thumbnail-preview">
+                                <div class="no-image">No thumbnail selected</div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="gallery-thumb-__ID__" class="gallery-thumb-input">
+                    </div>
+                </div>
+                
+                <div class="form-section-divider"></div>
+                
+                <div class="form-group">
+                    <label>Advanced Options</label>
+                    <div class="advanced-options">
+                        <div class="form-group">
+                            <label for="gallery-alt-__ID__">Alt Text</label>
+                            <input type="text" id="gallery-alt-__ID__" class="form-control gallery-alt-input" placeholder="Alternative text for accessibility">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gallery-tags-__ID__">Tags (comma separated)</label>
+                            <input type="text" id="gallery-tags-__ID__" class="form-control gallery-tags-input" placeholder="landscape, nature, portfolio">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+    
+    <!-- Modal Templates -->
+    <div id="modal-container"></div>
+    
+    <template id="bulk-upload-modal">
+        <div class="modal-header">
+            <h2>Bulk Upload Images</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>Upload Multiple Images</label>
+                <div class="bulk-upload-zone" id="bulk-upload-zone">
+                    <input type="file" id="bulk-upload-input" multiple accept="image/*">
+                    <div class="upload-zone-content">
+                        <i class="fas fa-cloud-upload-alt"></i>
+                        <h3>Drop Images Here</h3>
+                        <p>Or click to select files</p>
+                        <p class="upload-limits">Max 20 images, 5MB each</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Default Settings</label>
+                <p class="section-description">These settings will be applied to all uploaded images</p>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="bulk-category">Category</label>
+                        <input type="text" id="bulk-category" class="form-control" placeholder="Photography, UI/UX, etc.">
+                    </div>
                     
-                    // Add event listeners for buttons
-                    const editBtn = itemEl.querySelector('.gallery-item__btn--edit');
-                    const deleteBtn = itemEl.querySelector('.gallery-item__btn--delete');
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="bulk-featured">
+                            <label for="bulk-featured">Featured Images</label>
+                        </div>
+                    </div>
                     
-                    editBtn.addEventListener('click', () => this.editItem(item.id));
-                    deleteBtn.addEventListener('click', () => this.deleteItem(item.id));
-                });
-            }
-            
-            setupEventListeners() {
-                // Form submission
-                this.formEl.addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    this.saveItem();
-                });
-                
-                // Cancel button
-                this.cancelBtn.addEventListener('click', () => {
-                    this.resetForm();
-                });
-            }
-            
-            saveItem() {
-                const title = this.titleField.value.trim();
-                const category = this.categoryField.value;
-                const description = this.descriptionField.value.trim();
-                const imageFile = this.imageField.files[0];
-                
-                if (!title || !category) {
-                    alert('Please fill all required fields.');
-                    return;
-                }
-                
-                const saveProcess = (imageData) => {
-                    const item = {
-                        id: this.editingId || generateId(),
-                        title,
-                        category,
-                        description,
-                        image: imageData || (this.editingId ? this.findItem(this.editingId).image : '')
-                    };
+                    <div class="form-group">
+                        <label for="bulk-date">Date</label>
+                        <input type="date" id="bulk-date" class="form-control">
+                    </div>
                     
-                    if (this.editingId) {
-                        // Update existing item
-                        const index = this.items.findIndex(i => i.id === this.editingId);
-                        if (index !== -1) {
-                            this.items[index] = item;
-                        }
-                    } else {
-                        // Add new item
-                        if (!item.image) {
-                            alert('Please select an image.');
-                            return;
-                        }
-                        this.items.push(item);
-                    }
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="bulk-auto-thumbnails" checked>
+                            <label for="bulk-auto-thumbnails">Auto-generate thumbnails</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bulk-upload-preview hidden">
+                <h3>Selected Files (<span id="selected-file-count">0</span>)</h3>
+                <div id="bulk-preview-container" class="bulk-preview-grid"></div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Cancel</button>
+            <button id="bulk-upload-start" class="btn btn-primary" disabled>
+                <i class="fas fa-upload"></i> Upload Images
+            </button>
+        </div>
+    </template>
+    
+    <template id="image-crop-modal">
+        <div class="modal-header">
+            <h2>Adjust Image</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="image-editor-container">
+                <div class="image-preview-container">
+                    <img id="crop-preview-image" src="" alt="Image to crop">
+                </div>
+                
+                <div class="image-editor-controls">
+                    <div class="control-group">
+                        <label>Crop Ratio</label>
+                        <div class="button-group">
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="free">Free</button>
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn active" data-ratio="16:9">16:9</button>
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="4:3">4:3</button>
+                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="1:1">1:1</button>
+                        </div>
+                    </div>
                     
-                    // Save to local storage
-                    localStorage.setItem('galleryItems', JSON.stringify(this.items));
+                    <div class="control-group">
+                        <label>Rotation</label>
+                        <div class="button-group">
+                            <button type="button" class="btn btn-sm btn-outline rotate-btn" data-rotate="-90">
+                                <i class="fas fa-undo"></i> 90°
+                            </button>
+                            <button type="button" class="btn btn-sm btn-outline rotate-btn" data-rotate="90">
+                                <i class="fas fa-redo"></i> 90°
+                            </button>
+                        </div>
+                    </div>
                     
-                    // Reset form and re-render items
-                    this.resetForm();
-                    this.renderItems();
-                };
-                
-                if (imageFile) {
-                    // Convert image to base64
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        saveProcess(e.target.result);
-                    };
-                    reader.readAsDataURL(imageFile);
-                } else {
-                    // No new image, use existing or show error
-                    saveProcess();
-                }
-            }
-            
-            editItem(id) {
-                const item = this.findItem(id);
-                if (!item) return;
-                
-                this.editingId = id;
-                this.formMode.textContent = 'Edit';
-                this.idField.value = id;
-                this.titleField.value = item.title;
-                this.categoryField.value = item.category;
-                this.descriptionField.value = item.description || '';
-                
-                // Show image preview
-                if (item.image) {
-                    this.previewImg.src = item.image;
-                    this.previewEl.style.display = 'block';
-                }
-                
-                this.submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Gallery Item';
-                this.cancelBtn.style.display = 'inline-block';
-                
-                // Scroll to form
-                this.formEl.scrollIntoView({ behavior: 'smooth' });
-            }
-            
-            deleteItem(id) {
-                if (!confirm('Are you sure you want to delete this gallery item?')) {
-                    return;
-                }
-                
-                this.items = this.items.filter(item => item.id !== id);
-                
-                // Save to local storage
-                localStorage.setItem('galleryItems', JSON.stringify(this.items));
-                
-                // If deleting the item being edited, reset the form
-                if (this.editingId === id) {
-                    this.resetForm();
-                }
-                
-                // Re-render items
-                this.renderItems();
-            }
-            
-            resetForm() {
-                this.editingId = null;
-                this.formMode.textContent = 'Add';
-                this.formEl.reset();
-                this.idField.value = '';
-                this.submitBtn.innerHTML = '<i class="fas fa-plus"></i> Add Gallery Item';
-                this.cancelBtn.style.display = 'none';
-                this.previewEl.style.display = 'none';
-                document.getElementById('file-name').textContent = 'No file chosen';
-            }
-            
-            findItem(id) {
-                return this.items.find(item => item.id === id);
-            }
-            
-            getCategoryLabel(category) {
-                const categories = {
-                    'ui': 'UI Design',
-                    'graphic': 'Graphic Design',
-                    'other': 'Other'
-                };
-                return categories[category] || category;
-            }
-        }
-        
-        // Helper function to generate a unique ID
-        function generateId() {
-            return 'gallery_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        }
-    </script>
+                    <div class="control-group">
+                        <label>Adjustment</label>
+                        <div class="range-control">
+                            <span>Brightness</span>
+                            <input type="range" id="brightness-slider" min="-100" max="100" value="0" class="image-adjustment-slider">
+                        </div>
+                        <div class="range-control">
+                            <span>Contrast</span>
+                            <input type="range" id="contrast-slider" min="-100" max="100" value="0" class="image-adjustment-slider">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Cancel</button>
+            <button id="crop-reset-btn" class="btn btn-outline">Reset</button>
+            <button id="crop-apply-btn" class="btn btn-primary">Apply Changes</button>
+        </div>
+    </template>
+    
+    <template id="gallery-preview-modal">
+        <div class="modal-header">
+            <h2>Image Preview</h2>
+            <button class="modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="gallery-preview">
+                <div class="gallery-preview-image">
+                    <img src="" alt="Gallery Preview" id="preview-gallery-image">
+                </div>
+                <div class="gallery-preview-content">
+                    <h3 id="preview-gallery-title">Image Title</h3>
+                    <div class="gallery-preview-category" id="preview-gallery-category">Category</div>
+                    <p id="preview-gallery-description">Image description will appear here...</p>
+                    <div class="gallery-preview-date" id="preview-gallery-date">March 15, 2025</div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline modal-close">Close</button>
+        </div>
+    </template>
+
+    <!-- Scripts -->
+    <script src="../assets/js/data-loader.js"></script>
+    <script src="../assets/js/auth.js"></script>
+    <script src="../assets/js/admin/github.js"></script>
+    <script src="../assets/js/admin/editor.js"></script>
+    <script src="../assets/js/admin/main.js"></script>
+    <script src="../assets/js/admin/notifications.js"></script>
 </body>
 </html>
