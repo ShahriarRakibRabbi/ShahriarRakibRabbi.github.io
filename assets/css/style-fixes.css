@@ -1,3 +1,24 @@
+/* SRR logo font consistency across all pages */
+.logo .logo-text,
+.sidebar-logo span,
+.login-logo h1,
+.footer-logo .logo-text {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 0.05em;
+  color: var(--color-primary);
+}
+
+.sidebar-logo span {
+  font-size: 1.2rem;
+}
+
+.login-logo h1 {
+  font-size: 1.8rem;
+  margin-left: 0.5rem;
+}
+
 /* Fix for form labels in dark mode */
 html.dark-mode .contact-form label,
 html.dark-mode .admin-login-container label {
