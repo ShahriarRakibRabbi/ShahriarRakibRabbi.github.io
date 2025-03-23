@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <link rel="stylesheet" href="assets/css/components.css" />
     <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link rel="stylesheet" href="assets/css/style-fixes.css" />
 
     <!-- Font Awesome -->
     <link
@@ -78,6 +79,15 @@
             <i class="fas fa-lock"></i>
             <span>Admin</span>
           </a>
+
+          <!-- Download CV Button -->
+          <a
+            href="assets/files/shahriar_rakib_cv.pdf"
+            class="btn btn-primary btn-sm"
+            download
+          >
+            <i class="fas fa-download"></i> CV
+          </a>
         </div>
       </div>
     </header>
@@ -89,6 +99,14 @@
         <p>
           A comprehensive overview of my technical expertise and proficiency
         </p>
+        <!-- Prominent CV download -->
+        <a
+          href="assets/files/shahriar_rakib_cv.pdf"
+          class="btn btn-primary download-cv-btn"
+          download
+        >
+          <i class="fas fa-download"></i> Download CV
+        </a>
       </div>
       <div class="hero-bg-pattern"></div>
     </section>
@@ -436,7 +454,18 @@
         <div class="cta-content">
           <h2>Let's Work Together</h2>
           <p>Looking for a skilled developer to bring your ideas to life?</p>
-          <a href="index.html#contact" class="btn btn-primary">Contact Me</a>
+          <div class="cta-buttons">
+            <a href="mailto:contact@shahriarrabbi.com" class="btn btn-primary"
+              >Get in Touch</a
+            >
+            <a
+              href="assets/files/shahriar_rakib_cv.pdf"
+              class="btn btn-outline"
+              download
+            >
+              <i class="fas fa-download"></i> Download CV
+            </a>
+          </div>
         </div>
       </div>
     </section>

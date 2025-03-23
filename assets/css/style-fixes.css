@@ -96,6 +96,63 @@ html.dark-mode .site-header {
   border-bottom: 1px solid var(--color-border);
 }
 
+/* Skills page color fixes */
+.skill-card {
+  background-color: var(--color-bg-primary);
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+html.dark-mode .skill-card {
+  background-color: rgba(30, 30, 30, 0.7);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-border);
+}
+
+.skill-card .skill-icon {
+  color: var(--color-primary);
+}
+
+html.dark-mode .skill-bar {
+  background-color: rgba(50, 50, 50, 0.5);
+}
+
+.skill-progress {
+  background: linear-gradient(
+    90deg,
+    var(--color-primary),
+    var(--color-primary-light)
+  );
+}
+
+.category-tab {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+}
+
+.category-tab.active,
+.category-tab:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+html.dark-mode .category-tab {
+  background-color: rgba(40, 40, 40, 0.8);
+}
+
+html.dark-mode .category-tab.active,
+html.dark-mode .category-tab:hover {
+  background-color: var(--color-primary-dark);
+}
+
+/* CV download button in hero section */
+.hero-text .download-cv-btn {
+  margin-top: 1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 /* Mobile menu fixes */
 @media (max-width: 768px) {
   .nav-menu {
@@ -116,5 +173,50 @@ html.dark-mode .site-header {
 
   .menu-toggle {
     display: block;
+  }
+
+  .header-actions {
+    gap: 0.5rem;
+  }
+
+  .header-actions .btn {
+    padding: 0.4rem 0.7rem;
+    font-size: 0.85rem;
+  }
+
+  /* Responsive fixes for skills page */
+  .category-tabs {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .category-tab {
+    margin: 0.25rem;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .visualization-container {
+    flex-direction: column;
+  }
+
+  .chart-container {
+    width: 100%;
+    margin-bottom: 2rem;
+    height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .skills-grid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .skill-card {
+    padding: 1rem;
   }
 }
