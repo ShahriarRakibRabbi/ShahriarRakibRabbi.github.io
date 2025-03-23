@@ -28,8 +28,26 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
     />
 
+    <!-- Google Fonts -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+    />
+
     <!-- Chart.js for skills visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <!-- Open Graph tags for social sharing -->
+    <meta property="og:title" content="Skills | Md. Shahriar Rakib Rabbi" />
+    <meta
+      property="og:description"
+      content="Technical skills and expertise of Md. Shahriar Rakib Rabbi - AI Engineer & Full Stack Developer"
+    />
+    <meta property="og:image" content="assets/images/og-image.jpg" />
+    <meta property="og:url" content="https://rakibrabby.com/skills.html" />
+
+    <!-- Theme color for browser -->
+    <meta name="theme-color" content="#0a192f" />
   </head>
   <body>
     <!-- Header Section -->
@@ -83,7 +101,7 @@
           <!-- Download CV Button -->
           <a
             href="assets/files/shahriar_rakib_cv.pdf"
-            class="btn btn-primary btn-sm"
+            class="btn btn-primary download-cv-btn"
             download
           >
             <i class="fas fa-download"></i> CV
@@ -95,9 +113,9 @@
     <!-- Page Hero -->
     <section class="page-hero">
       <div class="container">
-        <h1>My Skills</h1>
+        <h1>Technical Skills</h1>
         <p>
-          A comprehensive overview of my technical expertise and proficiency
+          A comprehensive showcase of my expertise across various technologies
         </p>
         <!-- Prominent CV download -->
         <a
@@ -108,18 +126,36 @@
           <i class="fas fa-download"></i> Download CV
         </a>
       </div>
-      <div class="hero-bg-pattern"></div>
+      <div class="page-hero-bg"></div>
     </section>
 
     <!-- Skills Overview -->
     <section class="skills-overview section">
       <div class="container">
         <div class="section-header">
-          <h2>Technical Arsenal</h2>
+          <h2>Professional Expertise</h2>
           <p>
-            The skills and technologies that Md. Shahriar Rakib Rabbi uses to
-            bring ideas to life
+            Technologies and skills I've mastered to deliver exceptional results
           </p>
+        </div>
+
+        <div class="stats-overview">
+          <div class="stat-card">
+            <div class="stat-number" id="total-skills">30+</div>
+            <div class="stat-label">Technologies</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="years-experience">5+</div>
+            <div class="stat-label">Years Experience</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="total-certificates">12+</div>
+            <div class="stat-label">Certifications</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="projects-completed">50+</div>
+            <div class="stat-label">Projects</div>
+          </div>
         </div>
 
         <div class="skills-categories">
@@ -290,10 +326,35 @@
         <div class="visualization-container">
           <div class="chart-container">
             <canvas id="skillsRadarChart"></canvas>
+            <h3 class="chart-title">Expertise by Domain</h3>
           </div>
 
           <div class="chart-container">
             <canvas id="experienceBarChart"></canvas>
+            <h3 class="chart-title">Years of Experience</h3>
+          </div>
+        </div>
+
+        <div class="visualization-legend">
+          <div class="legend-item">
+            <span
+              class="legend-color"
+              style="
+                background-color: rgba(75, 192, 192, 0.2);
+                border: 1px solid rgba(75, 192, 192, 1);
+              "
+            ></span>
+            <span class="legend-label">Expertise Level (0-100)</span>
+          </div>
+          <div class="legend-item">
+            <span
+              class="legend-color"
+              style="
+                background-color: rgba(255, 99, 132, 0.2);
+                border: 1px solid rgba(255, 99, 132, 1);
+              "
+            ></span>
+            <span class="legend-label">Years of Experience</span>
           </div>
         </div>
       </div>
@@ -455,7 +516,7 @@
           <h2>Let's Work Together</h2>
           <p>Looking for a skilled developer to bring your ideas to life?</p>
           <div class="cta-buttons">
-            <a href="mailto:contact@shahriarrabbi.com" class="btn btn-primary"
+            <a href="index.html#contact" class="btn btn-primary"
               >Get in Touch</a
             >
             <a
@@ -475,8 +536,8 @@
       <div class="container">
         <div class="footer-content">
           <div class="footer-logo">
-            <span class="logo-text">Rakib Rabbi</span>
-            <p class="footer-tagline">Web Developer & UI/UX Designer</p>
+            <span class="logo-text">Md. Shahriar Rakib Rabbi</span>
+            <p class="footer-tagline">AI Engineer & Full Stack Developer</p>
           </div>
 
           <div class="footer-nav">
@@ -497,15 +558,20 @@
                 href="https://github.com/ShahriarRakibRabbi"
                 aria-label="GitHub"
                 target="_blank"
+                rel="noopener noreferrer"
                 ><i class="fab fa-github"></i
               ></a>
               <a
                 href="https://www.linkedin.com/in/md-shahriar-rakib-rabbi/"
                 aria-label="LinkedIn"
                 target="_blank"
+                rel="noopener noreferrer"
                 ><i class="fab fa-linkedin"></i
               ></a>
-              <a href="mailto:contact@shahriarrabbi.com" aria-label="Email"
+              <a
+                href="mailto:contact@shahriarrabbi.com"
+                aria-label="Email"
+                rel="noopener noreferrer"
                 ><i class="fas fa-envelope"></i
               ></a>
             </div>
@@ -531,15 +597,21 @@
     <!-- Scripts -->
     <script src="assets/js/data-loader.js"></script>
     <script src="assets/js/main.js"></script>
+    <script src="assets/js/theme.js"></script>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
+        // Update current year in the footer
+        document.getElementById("current-year").textContent =
+          new Date().getFullYear();
+
         // Load skills data and populate the category panels except the languages one
         // which is hardcoded in the HTML for the requested languages
 
-        // Initialize radar chart for skills
+        // Initialize radar chart for skills with optimized responsive settings
         const radarChartCtx = document
           .getElementById("skillsRadarChart")
           .getContext("2d");
+
         const skillsRadarChart = new Chart(radarChartCtx, {
           type: "radar",
           data: {
@@ -573,16 +645,53 @@
                 max: 100,
                 ticks: {
                   stepSize: 20,
+                  color: getComputedStyle(
+                    document.documentElement
+                  ).getPropertyValue("--color-text-secondary"),
+                  font: {
+                    size: window.innerWidth < 768 ? 8 : 12,
+                  },
+                },
+                pointLabels: {
+                  font: {
+                    size: window.innerWidth < 768 ? 10 : 14,
+                  },
+                  color: getComputedStyle(
+                    document.documentElement
+                  ).getPropertyValue("--color-text-primary"),
+                },
+                grid: {
+                  color: getComputedStyle(
+                    document.documentElement
+                  ).getPropertyValue("--color-border"),
+                },
+                angleLines: {
+                  color: getComputedStyle(
+                    document.documentElement
+                  ).getPropertyValue("--color-border"),
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return context.dataset.label + ": " + context.raw + "/100";
+                  },
                 },
               },
             },
           },
         });
 
-        // Initialize bar chart for experience
+        // Initialize bar chart for experience with responsive improvements
         const barChartCtx = document
           .getElementById("experienceBarChart")
           .getContext("2d");
+
         const experienceBarChart = new Chart(barChartCtx, {
           type: "bar",
           data: {
@@ -630,13 +739,78 @@
                 max: 7,
                 ticks: {
                   stepSize: 1,
+                  color: getComputedStyle(
+                    document.documentElement
+                  ).getPropertyValue("--color-text-secondary"),
+                  font: {
+                    size: window.innerWidth < 768 ? 10 : 12,
+                  },
+                },
+                grid: {
+                  color: getComputedStyle(
+                    document.documentElement
+                  ).getPropertyValue("--color-border"),
+                },
+              },
+              x: {
+                ticks: {
+                  color: getComputedStyle(
+                    document.documentElement
+                  ).getPropertyValue("--color-text-primary"),
+                  font: {
+                    size: window.innerWidth < 768 ? 9 : 12,
+                  },
+                },
+                grid: {
+                  display: false,
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                display: false,
+              },
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return (
+                      context.dataset.label + ": " + context.raw + " years"
+                    );
+                  },
                 },
               },
             },
           },
         });
 
-        // Category tab switching
+        // Update charts on theme change to ensure they match the theme
+        const updateChartsTheme = () => {
+          const textColor = getComputedStyle(
+            document.documentElement
+          ).getPropertyValue("--color-text-primary");
+          const borderColor = getComputedStyle(
+            document.documentElement
+          ).getPropertyValue("--color-border");
+
+          skillsRadarChart.options.scales.r.pointLabels.color = textColor;
+          skillsRadarChart.options.scales.r.grid.color = borderColor;
+          skillsRadarChart.options.scales.r.angleLines.color = borderColor;
+
+          experienceBarChart.options.scales.x.ticks.color = textColor;
+          experienceBarChart.options.scales.y.grid.color = borderColor;
+
+          skillsRadarChart.update();
+          experienceBarChart.update();
+        };
+
+        // Listen for theme changes
+        document
+          .getElementById("theme-toggle")
+          .addEventListener("click", () => {
+            setTimeout(updateChartsTheme, 100); // Short delay to ensure theme has changed
+          });
+
+        // Category tab switching with improved focus handling
         const categoryTabs = document.querySelectorAll(".category-tab");
         const categoryPanels = document.querySelectorAll(".category-panel");
 
@@ -654,10 +828,43 @@
             categoryPanels.forEach((panel) => panel.classList.remove("active"));
 
             // Show target panel
-            document
-              .getElementById(targetCategory + "-skills")
-              .classList.add("active");
+            const targetPanel = document.getElementById(
+              targetCategory + "-skills"
+            );
+            targetPanel.classList.add("active");
+
+            // Focus management for screen readers
+            targetPanel.setAttribute("aria-expanded", "true");
+            categoryPanels.forEach((panel) => {
+              if (panel !== targetPanel) {
+                panel.setAttribute("aria-expanded", "false");
+              }
+            });
           });
+
+          // Add keyboard navigation
+          tab.addEventListener("keydown", function (e) {
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              this.click();
+            }
+          });
+        });
+
+        // Enhance responsiveness with window resize event
+        window.addEventListener("resize", function () {
+          // Update chart font sizes based on screen size
+          if (skillsRadarChart && experienceBarChart) {
+            skillsRadarChart.options.scales.r.pointLabels.font.size =
+              window.innerWidth < 768 ? 10 : 14;
+            skillsRadarChart.options.scales.r.ticks.font.size =
+              window.innerWidth < 768 ? 8 : 12;
+            experienceBarChart.options.scales.x.ticks.font.size =
+              window.innerWidth < 768 ? 9 : 12;
+
+            skillsRadarChart.update();
+            experienceBarChart.update();
+          }
         });
       });
     </script>
