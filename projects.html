@@ -1,247 +1,296 @@
 website\projects.html -->
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Projects | Md. Shahriar Rakib Rabbi</title>
-    <meta name="description" content="Explore the portfolio of projects by Md. Shahriar Rakib Rabbi, AI & ML specialist">
-    
+    <meta
+      name="description"
+      content="Explore the portfolio of projects by Md. Shahriar Rakib Rabbi, AI & ML specialist"
+    />
+
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
-    
+    <link
+      rel="shortcut icon"
+      href="assets/images/favicon.ico"
+      type="image/x-icon"
+    />
+
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/projects.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/projects.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  </head>
+  <body>
     <!-- Header Section -->
     <header class="site-header">
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <span class="logo-text">Rakib Rabbi</span>
-                </a>
-            </div>
-            
-            <nav class="main-nav">
-                <button class="menu-toggle" aria-label="Toggle navigation menu">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                
-                <ul class="nav-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="projects.html" class="active">Projects</a></li>
-                    <li><a href="skills.html">Skills</a></li>
-                    <li><a href="achievements.html">Achievements</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="testimonials.html">Testimonials</a></li>
-                    <li><a href="index.html#contact" class="nav-contact-link">Contact</a></li>
-                </ul>
-            </nav>
-            
-            <div class="header-actions">
-                <!-- Dark Mode Toggle -->
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                    <i class="fas fa-sun"></i>
-                    <i class="fas fa-moon"></i>
-                </button>
-                
-                <!-- Admin Login Link -->
-                <a href="admin/index.html" class="admin-login-link" aria-label="Admin login">
-                    <i class="fas fa-lock"></i>
-                    <span>Admin</span>
-                </a>
-            </div>
+      <div class="container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-text">SRR</span>
+          </a>
         </div>
+
+        <nav class="main-nav">
+          <button class="menu-toggle" aria-label="Toggle navigation menu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html" class="active">Projects</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li>
+              <a href="index.html#contact" class="nav-contact-link">Contact</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <!-- Dark Mode Toggle -->
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+          </button>
+
+          <!-- Admin Login Link -->
+          <a
+            href="admin/index.html"
+            class="admin-login-link"
+            aria-label="Admin login"
+          >
+            <i class="fas fa-lock"></i>
+            <span>Admin</span>
+          </a>
+        </div>
+      </div>
     </header>
 
     <!-- Page Header -->
     <section class="page-header">
-        <div class="container">
-            <h1 class="page-header__title">My Projects</h1>
-            <p class="page-header__subtitle">A collection of my work and side projects</p>
-        </div>
-        <div class="page-header__shape"></div>
+      <div class="container">
+        <h1 class="page-header__title">My Projects</h1>
+        <p class="page-header__subtitle">
+          A collection of my work and side projects
+        </p>
+      </div>
+      <div class="page-header__shape"></div>
     </section>
 
     <!-- Projects Section -->
     <section class="projects-page section">
-        <div class="container">
-            <!-- Project Overview -->
-            <div class="projects-overview">
-                <div class="projects-stats">
-                    <div class="stat-card">
-                        <div class="stat-number" id="total-projects">0</div>
-                        <div class="stat-label">Projects</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="total-technologies">0</div>
-                        <div class="stat-label">Technologies</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number" id="years-experience">0</div>
-                        <div class="stat-label">Years Experience</div>
-                    </div>
-                </div>
+      <div class="container">
+        <!-- Project Overview -->
+        <div class="projects-overview">
+          <div class="projects-stats">
+            <div class="stat-card">
+              <div class="stat-number" id="total-projects">0</div>
+              <div class="stat-label">Projects</div>
             </div>
-
-            <!-- Featured Project Section -->
-            <div class="featured-project" id="featured-project-container">
-                <h3 class="featured-label"><i class="fas fa-star"></i> Featured Project</h3>
-                <div class="featured-project-content" id="featured-project">
-                    <!-- Featured project will be loaded dynamically -->
-                    <div class="featured-placeholder">
-                        <div class="loading-spinner"></div>
-                    </div>
-                </div>
+            <div class="stat-card">
+              <div class="stat-number" id="total-technologies">0</div>
+              <div class="stat-label">Technologies</div>
             </div>
-
-            <!-- Project Controls -->
-            <div class="projects-section-header">
-                <h2 class="section-title">Browse My Work</h2>
-                <p class="section-description">Explore my portfolio of projects across different domains and technologies</p>
-                
-                <div class="projects-controls">
-                    <div class="projects-filter">
-                        <button class="projects-filter__btn active" data-filter="all">All Projects</button>
-                        <button class="projects-filter__btn" data-filter="webapp">Web Apps</button>
-                        <button class="projects-filter__btn" data-filter="aiml">AI/ML</button>
-                        <button class="projects-filter__btn" data-filter="desktop">Desktop Apps</button>
-                        <button class="projects-filter__btn" data-filter="mobile">Mobile Apps</button>
-                    </div>
-                    
-                    <div class="projects-search-sort">
-                        <div class="projects-search">
-                            <input type="text" id="project-search" placeholder="Search projects..." aria-label="Search projects">
-                            <button class="search-btn" aria-label="Search"><i class="fas fa-search"></i></button>
-                        </div>
-                        
-                        <div class="projects-sort">
-                            <select id="projects-sort" aria-label="Sort projects">
-                                <option value="newest">Newest First</option>
-                                <option value="oldest">Oldest First</option>
-                                <option value="name-asc">Name (A-Z)</option>
-                                <option value="name-desc">Name (Z-A)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-card">
+              <div class="stat-number" id="years-experience">0</div>
+              <div class="stat-label">Years Experience</div>
             </div>
-            
-            <!-- Projects Container -->
-            <div class="projects-container">
-                <div class="projects-grid" id="projects-full-grid">
-                    <!-- Projects will be loaded dynamically from projects.json -->
-                    <div class="loading-container">
-                        <div class="loading-spinner"></div>
-                        <p>Loading projects...</p>
-                    </div>
-                </div>
-                
-                <!-- No results message -->
-                <div class="no-results" id="no-results" style="display: none;">
-                    <i class="fas fa-search fa-3x"></i>
-                    <h3>No matching projects</h3>
-                    <p>Try changing your search criteria or filters</p>
-                    <button class="btn btn--secondary" id="reset-filters">Reset Filters</button>
-                </div>
-                
-                <!-- Pagination -->
-                <div class="pagination" id="projects-pagination">
-                    <!-- Pagination will be generated dynamically -->
-                </div>
-            </div>
-
-            <!-- Skills Used Section -->
-            <div class="technologies-section">
-                <h3 class="technologies-title">Technologies I've Worked With</h3>
-                <div class="technologies-cloud" id="technologies-cloud">
-                    <!-- Will be populated dynamically -->
-                </div>
-            </div>
-
-            <!-- CTA Section -->
-            <div class="projects-cta">
-                <div class="cta-content">
-                    <h3>Like what you see?</h3>
-                    <p>Let's discuss how I can help bring your ideas to life</p>
-                    <a href="index.html#contact" class="btn btn--primary">Get in Touch</a>
-                </div>
-            </div>
+          </div>
         </div>
+
+        <!-- Featured Project Section -->
+        <div class="featured-project" id="featured-project-container">
+          <h3 class="featured-label">
+            <i class="fas fa-star"></i> Featured Project
+          </h3>
+          <div class="featured-project-content" id="featured-project">
+            <!-- Featured project will be loaded dynamically -->
+            <div class="featured-placeholder">
+              <div class="loading-spinner"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Project Controls -->
+        <div class="projects-section-header">
+          <h2 class="section-title">Browse My Work</h2>
+          <p class="section-description">
+            Explore my portfolio of projects across different domains and
+            technologies
+          </p>
+
+          <div class="projects-controls">
+            <div class="projects-filter">
+              <button class="projects-filter__btn active" data-filter="all">
+                All Projects
+              </button>
+              <button class="projects-filter__btn" data-filter="webapp">
+                Web Apps
+              </button>
+              <button class="projects-filter__btn" data-filter="aiml">
+                AI/ML
+              </button>
+              <button class="projects-filter__btn" data-filter="desktop">
+                Desktop Apps
+              </button>
+              <button class="projects-filter__btn" data-filter="mobile">
+                Mobile Apps
+              </button>
+            </div>
+
+            <div class="projects-search-sort">
+              <div class="projects-search">
+                <input
+                  type="text"
+                  id="project-search"
+                  placeholder="Search projects..."
+                  aria-label="Search projects"
+                />
+                <button class="search-btn" aria-label="Search">
+                  <i class="fas fa-search"></i>
+                </button>
+              </div>
+
+              <div class="projects-sort">
+                <select id="projects-sort" aria-label="Sort projects">
+                  <option value="newest">Newest First</option>
+                  <option value="oldest">Oldest First</option>
+                  <option value="name-asc">Name (A-Z)</option>
+                  <option value="name-desc">Name (Z-A)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Projects Container -->
+        <div class="projects-container">
+          <div class="projects-grid" id="projects-full-grid">
+            <!-- Projects will be loaded dynamically from projects.json -->
+            <div class="loading-container">
+              <div class="loading-spinner"></div>
+              <p>Loading projects...</p>
+            </div>
+          </div>
+
+          <!-- No results message -->
+          <div class="no-results" id="no-results" style="display: none">
+            <i class="fas fa-search fa-3x"></i>
+            <h3>No matching projects</h3>
+            <p>Try changing your search criteria or filters</p>
+            <button class="btn btn--secondary" id="reset-filters">
+              Reset Filters
+            </button>
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="projects-pagination">
+            <!-- Pagination will be generated dynamically -->
+          </div>
+        </div>
+
+        <!-- Skills Used Section -->
+        <div class="technologies-section">
+          <h3 class="technologies-title">Technologies I've Worked With</h3>
+          <div class="technologies-cloud" id="technologies-cloud">
+            <!-- Will be populated dynamically -->
+          </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="projects-cta">
+          <div class="cta-content">
+            <h3>Like what you see?</h3>
+            <p>Let's discuss how I can help bring your ideas to life</p>
+            <a href="index.html#contact" class="btn btn--primary"
+              >Get in Touch</a
+            >
+          </div>
+        </div>
+      </div>
     </section>
 
     <!-- Back to top button -->
     <button id="back-to-top" class="back-to-top" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
+      <i class="fas fa-arrow-up"></i>
     </button>
 
     <!-- Footer -->
     <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-text">Rakib Rabbi</span>
-                    <p class="footer-tagline">Web Developer & UI/UX Designer</p>
-                </div>
-                
-                <div class="footer-nav">
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="skills.html">Skills</a></li>
-                        <li><a href="achievements.html">Achievements</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="testimonials.html">Testimonials</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-social">
-                    <h3>Connect</h3>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://github.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://twitter.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://dribbble.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="Dribbble">
-                            <i class="fab fa-dribbble"></i>
-                        </a>
-                        <a href="https://instagram.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <span class="logo-text">Md. Shahriar Rakib Rabbi</span>
+            <p class="footer-tagline">AI Engineer & Full Stack Developer</p>
+          </div>
+
+          <div class="footer-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="skills.html">Skills</a></li>
+              <li><a href="achievements.html">Achievements</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="testimonials.html">Testimonials</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-social">
+            <h3>Connect With Me</h3>
+            <div class="social-links">
+              <a
+                href="https://github.com/ShahriarRakibRabbi"
+                aria-label="GitHub"
+                target="_blank"
+                ><i class="fab fa-github"></i
+              ></a>
+              <a
+                href="https://www.linkedin.com/in/md-shahriar-rakib-rabbi/"
+                aria-label="LinkedIn"
+                target="_blank"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="mailto:contact@shahriarrabbi.com" aria-label="Email"
+                ><i class="fas fa-envelope"></i
+              ></a>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
-                    &copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi. All rights reserved.
-                </div>
-                <div class="footer-signature">
-                    Made with <i class="fas fa-heart"></i> and <i class="fas fa-coffee"></i> in Dhaka, Bangladesh
-                </div>
-            </div>
+          </div>
         </div>
+
+        <div class="footer-bottom">
+          <div class="copyright">
+            &copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi.
+            All rights reserved.
+          </div>
+          <div class="footer-signature">
+            Made with <i class="fas fa-heart"></i> using modern web technologies
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- Scripts -->
     <script src="assets/js/data-loader.js"></script>
     <script src="assets/js/projects.js"></script>
     <script src="assets/js/main.js"></script>
-</body>
+  </body>
 </html>

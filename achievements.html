@@ -1,137 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Skills | Md. Shahriar Rakib Rabbi</title>
-    <meta name="description" content="Technical skills and expertise of Md. Shahriar Rakib Rabbi, AI & ML specialist">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
-</head>
-<body>
-    <!-- Navigation -->
-    <header class="header">
-        <div class="container">
-            <div class="header__inner">
-                <a href="index.html" class="logo">
-                    <span class="logo__text">Shahriar Rabbi</span>
-                </a>
-                <nav class="nav">
-                    <ul class="nav__list">
-                        <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
-                        <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
-                        <li class="nav__item"><a href="skills.html" class="nav__link active">Skills</a></li>
-                        <li class="nav__item"><a href="projects.html" class="nav__link">Projects</a></li>
-                        <li class="nav__item"><a href="achievements.html" class="nav__link">Achievements</a></li>
-                        <li class="nav__item"><a href="gallery.html" class="nav__link">Gallery</a></li>
-                        <li class="nav__item"><a href="testimonials.html" class="nav__link">Testimonials</a></li>
-                        <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact</a></li>
-                    </ul>
-                </nav>
-                <div class="header__buttons">
-                    <a href="assets/docs/resume.pdf" class="btn btn--primary" download>Download CV</a>
-                </div>
-                <button class="nav-toggle" aria-label="Toggle navigation">
-                    <span class="nav-toggle__bar"></span>
-                    <span class="nav-toggle__bar"></span>
-                    <span class="nav-toggle__bar"></span>
-                </button>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Achievements | Md. Shahriar Rakib Rabbi</title>
+    <meta
+      name="description"
+      content="Professional achievements and milestones of Md. Shahriar Rakib Rabbi - AI Engineer & Full Stack Developer"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link rel="stylesheet" href="assets/css/projects.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  </head>
+  <body class="achievements-page">
+    <!-- Header Section -->
+    <header class="site-header">
+      <div class="container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-text">SRR</span>
+          </a>
         </div>
+
+        <nav class="main-nav">
+          <button class="menu-toggle" aria-label="Toggle navigation menu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="achievements.html" class="active">Achievements</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li>
+              <a href="index.html#contact" class="nav-contact-link">Contact</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <!-- Dark Mode Toggle -->
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+          </button>
+
+          <!-- Admin Login Link -->
+          <a
+            href="admin/index.html"
+            class="admin-login-link"
+            aria-label="Admin login"
+          >
+            <i class="fas fa-lock"></i>
+            <span>Admin</span>
+          </a>
+
+          <!-- Download CV -->
+          <a
+            href="assets/files/shahriar_rakib_cv.pdf"
+            class="btn btn-primary"
+            download
+          >
+            <i class="fas fa-download"></i> Download CV
+          </a>
+        </div>
+      </div>
     </header>
 
     <!-- Page Header -->
     <section class="page-header">
-        <div class="container">
-            <h1 class="page-header__title">Technical Arsenal</h1>
-            <p class="page-header__subtitle">My skills, technologies and tools</p>
-        </div>
-        <div class="page-header__shape"></div>
+      <div class="container">
+        <h1 class="page-header__title">My Achievements</h1>
+        <p class="page-header__subtitle">
+          Professional milestones, awards, and certifications
+        </p>
+      </div>
+      <div class="page-header__shape"></div>
     </section>
 
-    <!-- Skills Section -->
-    <section class="skills-page section">
-        <div class="container">
-            <div class="skills-categories">
-                <button class="skills-categories__btn active" data-category="all">All</button>
-                <button class="skills-categories__btn" data-category="languages">Languages</button>
-                <button class="skills-categories__btn" data-category="frontend">Frontend</button>
-                <button class="skills-categories__btn" data-category="tools">Tools</button>
-                <button class="skills-categories__btn" data-category="aiml">AI/ML</button>
+    <!-- Achievements Section -->
+    <section class="achievements-section section">
+      <div class="container">
+        <!-- Achievements Stats -->
+        <div class="projects-overview">
+          <div class="projects-stats">
+            <div class="stat-card">
+              <div class="stat-number" id="total-achievements">0</div>
+              <div class="stat-label">Total Achievements</div>
             </div>
-            
-            <div class="skills-grid" id="skills-full-grid">
-                <!-- Skills will be loaded dynamically from skills.json -->
+            <div class="stat-card">
+              <div class="stat-number" id="total-certificates">0</div>
+              <div class="stat-label">Certifications</div>
             </div>
-
-            <!-- Skill Groups with Progress Bars -->
-            <div class="skill-groups">
-                <div class="skill-group">
-                    <h3 class="skill-group__title">Programming</h3>
-                    <div class="skill-bar">
-                        <div class="skill-bar__info">
-                            <span class="skill-bar__name">C/C++</span>
-                            <span class="skill-bar__percentage">85%</span>
-                        </div>
-                        <div class="skill-bar__bar">
-                            <div class="skill-bar__progress" style="width: 85%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-bar__info">
-                            <span class="skill-bar__name">Java</span>
-                            <span class="skill-bar__percentage">75%</span>
-                        </div>
-                        <div class="skill-bar__bar">
-                            <div class="skill-bar__progress" style="width: 75%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-group">
-                    <h3 class="skill-group__title">Web Development</h3>
-                    <div class="skill-bar">
-                        <div class="skill-bar__info">
-                            <span class="skill-bar__name">HTML</span>
-                            <span class="skill-bar__percentage">90%</span>
-                        </div>
-                        <div class="skill-bar__bar">
-                            <div class="skill-bar__progress" style="width: 90%"></div>
-                        </div>
-                    </div>
-                    <div class="skill-bar">
-                        <div class="skill-bar__info">
-                            <span class="skill-bar__name">CSS</span>
-                            <span class="skill-bar__percentage">80%</span>
-                        </div>
-                        <div class="skill-bar__bar">
-                            <div class="skill-bar__progress" style="width: 80%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-group">
-                    <h3 class="skill-group__title">Design</h3>
-                    <div class="skill-bar">
-                        <div class="skill-bar__info">
-                            <span class="skill-bar__name">Figma</span>
-                            <span class="skill-bar__percentage">70%</span>
-                        </div>
-                        <div class="skill-bar__bar">
-                            <div class="skill-bar__progress" style="width: 70%"></div>
-                        </div>
-                    </div>
-                </div>
+            <div class="stat-card">
+              <div class="stat-number" id="total-awards">0</div>
+              <div class="stat-label">Awards</div>
             </div>
+            <div class="stat-card">
+              <div class="stat-number" id="total-education">0</div>
+              <div class="stat-label">Education</div>
+            </div>
+          </div>
         </div>
+
+        <div class="section-header">
+          <h2 class="section-title">Professional Journey</h2>
+          <p class="section-description">
+            Key milestones in Md. Shahriar Rakib Rabbi's career and academic
+            life
+          </p>
+        </div>
+
+        <!-- Achievements Controls -->
+        <div class="projects-controls">
+          <div class="projects-filter">
+            <button class="projects-filter__btn active" data-filter="all">
+              All
+            </button>
+            <button class="projects-filter__btn" data-filter="education">
+              Education
+            </button>
+            <button class="projects-filter__btn" data-filter="certificate">
+              Certifications
+            </button>
+            <button class="projects-filter__btn" data-filter="award">
+              Awards
+            </button>
+            <button class="projects-filter__btn" data-filter="professional">
+              Professional
+            </button>
+          </div>
+
+          <div class="projects-search-sort">
+            <div class="projects-search">
+              <input
+                type="text"
+                id="achievement-search"
+                placeholder="Search achievements..."
+              />
+              <button class="search-btn" aria-label="Search">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="projects-sort">
+              <select id="achievements-sort">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="name-asc">Name (A-Z)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset Filters -->
+        <div class="text-center mb-3">
+          <button id="reset-filters" class="btn btn-outline">
+            Reset Filters
+          </button>
+        </div>
+
+        <!-- Timeline Section -->
+        <div class="timeline" id="achievements-timeline">
+          <!-- Achievements will be loaded dynamically from achievements.json -->
+        </div>
+
+        <!-- No Results -->
+        <div id="no-results" class="no-results" style="display: none">
+          <img
+            src="assets/images/no-results.svg"
+            alt="No results found"
+            width="200"
+          />
+          <h3>No Achievements Found</h3>
+          <p>Try adjusting your search criteria or filters.</p>
+          <button id="clear-filters" class="btn btn--primary">
+            Clear Filters
+          </button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="achievements-loading" class="loading-container">
+          <div class="loading-spinner"></div>
+          <p>Loading achievements...</p>
+        </div>
+
+        <!-- Error State -->
+        <div
+          id="achievements-error"
+          class="error-container"
+          style="display: none"
+        >
+          <div class="error-icon">
+            <i class="fas fa-exclamation-circle"></i>
+          </div>
+          <h3>Failed to load achievements</h3>
+          <p class="error-message">
+            There was a problem loading the achievements data. Please try again
+            later.
+          </p>
+          <button
+            class="btn btn--primary retry-btn"
+            id="retry-achievements-btn"
+          >
+            <i class="fas fa-sync-alt"></i> Try Again
+          </button>
+        </div>
+      </div>
     </section>
+
+    <!-- CTA Section -->
+    <section class="projects-cta">
+      <div class="container">
+        <div class="cta-content">
+          <h3>Interested in my qualifications?</h3>
+          <p>
+            Download my complete résumé or get in touch to discuss potential
+            collaborations.
+          </p>
+          <div class="cta-buttons">
+            <a href="assets/docs/resume.pdf" class="btn--primary" download
+              >Download CV</a
+            >
+            <a href="index.html#contact" class="btn--outline">Contact Me</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__inner">
-                <div class="footer__copyright">
-                    <p>&copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi. All rights
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <h3>Shahriar Rabbi</h3>
+            <p class="footer-tagline">AI Engineer & Full Stack Developer</p>
+          </div>
+          <div class="footer-nav">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="skills.html">Skills</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-social">
+            <h3>Connect With Me</h3>
+            <div class="social-links">
+              <a
+                href="https://github.com/ShahriarRakibRabbi"
+                aria-label="GitHub"
+                target="_blank"
+                ><i class="fab fa-github"></i
+              ></a>
+              <a
+                href="https://www.linkedin.com/in/md-shahriar-rakib-rabbi/"
+                aria-label="LinkedIn"
+                target="_blank"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="mailto:contact@shahriarrabbi.com" aria-label="Email"
+                ><i class="fas fa-envelope"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            &copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi.
+            All rights reserved.
+          </div>
+          <div class="footer-signature">
+            Made with <i class="fas fa-heart"></i> using modern web technologies
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="assets/js/data-loader.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script src="assets/js/achievements.js"></script>
+  </body>
+</html>

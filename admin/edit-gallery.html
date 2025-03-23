@@ -1,598 +1,844 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Gallery | Portfolio Admin</title>
-    <meta name="description" content="Edit gallery items in your portfolio">
-    <meta name="robots" content="noindex, nofollow">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Gallery | SRR Portfolio</title>
+    <meta name="description" content="Edit gallery items in your portfolio" />
+    <meta name="robots" content="noindex, nofollow" />
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="../assets/images/favicon.ico"
+      type="image/x-icon"
+    />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/admin.css">
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css" />
     <!-- Sortable.js for drag and drop functionality -->
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <!-- Image Compressor for optimizing uploaded images -->
     <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.0/dist/browser-image-compression.js"></script>
-</head>
-<body data-admin-page="gallery" data-editor-type="gallery">
+  </head>
+  <body data-admin-page="gallery" data-editor-type="gallery">
     <div class="admin-wrapper">
-        <!-- Sidebar -->
-        <aside id="admin-sidebar" class="admin-sidebar">
-            <div class="sidebar-header">
-                <a href="dashboard.html" class="sidebar-logo">
-                    <i class="fas fa-code"></i>
-                    <span>Portfolio Admin</span>
-                </a>
-                <button id="sidebar-toggle" class="sidebar-toggle" aria-label="Toggle Sidebar">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-            </div>
-            
-            <div class="sidebar-content">
-                <nav class="sidebar-nav">
-                    <ul>
-                        <li>
-                            <a href="dashboard.html" class="sidebar-item" data-page="dashboard">
-                                <i class="fas fa-tachometer-alt"></i>
-                                <span>Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="edit-projects.html" class="sidebar-item" data-page="projects">
-                                <i class="fas fa-briefcase"></i>
-                                <span>Projects</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="edit-skills.html" class="sidebar-item" data-page="skills">
-                                <i class="fas fa-code"></i>
-                                <span>Skills</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="edit-achievements.html" class="sidebar-item" data-page="achievements">
-                                <i class="fas fa-trophy"></i>
-                                <span>Achievements</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="edit-gallery.html" class="sidebar-item active" data-page="gallery">
-                                <i class="fas fa-images"></i>
-                                <span>Gallery</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="edit-testimonials.html" class="sidebar-item" data-page="testimonials">
-                                <i class="fas fa-comment-alt"></i>
-                                <span>Testimonials</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                
-                <div class="sidebar-section">
-                    <h3 class="sidebar-heading">Settings</h3>
-                    <ul>
-                        <li>
-                            <a href="#" class="sidebar-item" data-modal-target="github-settings-modal">
-                                <i class="fab fa-github"></i>
-                                <span>GitHub Integration</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item" data-modal-target="backup-modal">
-                                <i class="fas fa-cloud-download-alt"></i>
-                                <span>Backup & Restore</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="sidebar-item" data-modal-target="account-settings-modal">
-                                <i class="fas fa-user-cog"></i>
-                                <span>Account Settings</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="sidebar-footer">
-                <a href="../index.html" target="_blank" class="sidebar-footer-item">
-                    <i class="fas fa-external-link-alt"></i>
-                    <span>View Site</span>
-                </a>
-                <button id="logout-btn" class="sidebar-footer-item">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </button>
-            </div>
-        </aside>
+      <!-- Sidebar -->
+      <aside id="admin-sidebar" class="admin-sidebar">
+        <div class="sidebar-header">
+          <a href="dashboard.html" class="sidebar-logo">
+            <i class="fas fa-code"></i>
+            <span>SRR Admin</span>
+          </a>
+          <button
+            id="sidebar-toggle"
+            class="sidebar-toggle"
+            aria-label="Toggle Sidebar"
+          >
+            <i class="fas fa-chevron-left"></i>
+          </button>
+        </div>
 
-        <!-- Main Content -->
-        <main id="admin-content" class="admin-content">
-            <!-- Top Bar -->
-            <header class="admin-header">
-                <div class="header-search">
-                    <div class="search-wrapper">
-                        <i class="fas fa-search"></i>
-                        <input type="text" id="admin-search" placeholder="Search gallery items...">
-                    </div>
-                    <div id="search-results" class="search-results hidden"></div>
-                </div>
-                
-                <div class="header-actions">
-                    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    
-                    <div class="notifications-dropdown">
-                        <button id="notification-bell" class="notification-bell">
-                            <i class="fas fa-bell"></i>
-                            <span id="notification-count" class="notification-count hidden">0</span>
-                        </button>
-                        <div id="notification-dropdown" class="dropdown-menu notification-menu hidden"></div>
-                    </div>
-                    
-                    <div class="user-dropdown">
-                        <button id="user-menu-btn" class="user-menu-btn">
-                            <img id="user-avatar" src="../assets/images/defaults/avatar.png" alt="Admin" class="user-avatar">
-                            <span id="user-display-name">Admin</span>
-                            <i class="fas fa-chevron-down"></i>
-                        </button>
-                        <div id="user-dropdown" class="dropdown-menu user-menu hidden">
-                            <a href="#" class="dropdown-item" data-modal-target="account-settings-modal">
-                                <i class="fas fa-user-circle"></i>
-                                <span>My Account</span>
-                            </a>
-                            <a href="#" class="dropdown-item" data-modal-target="security-settings-modal">
-                                <i class="fas fa-lock"></i>
-                                <span>Security</span>
-                            </a>
-                            <div class="dropdown-divider"></div>
-                            <button id="logout-menu-btn" class="dropdown-item">
-                                <i class="fas fa-sign-out-alt"></i>
-                                <span>Logout</span>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </header>
-            
-            <!-- Page Content -->
-            <div class="admin-page-content">
-                <!-- Breadcrumbs -->
-                <div class="breadcrumbs-wrapper">
-                    <ul id="breadcrumbs" class="breadcrumbs">
-                        <li><a href="dashboard.html">Dashboard</a></li>
-                        <li>Edit Gallery</li>
-                    </ul>
-                </div>
-                
-                <!-- Page Header -->
-                <div class="page-header">
-                    <div class="page-title">
-                        <h1><i class="fas fa-images"></i> Gallery</h1>
-                        <p class="last-updated" data-content-type="gallery">Last updated: Loading...</p>
-                    </div>
-                    <div class="page-actions">
-                        <button id="bulk-upload-btn" class="btn btn-outline" data-modal-target="bulk-upload-modal">
-                            <i class="fas fa-upload"></i> Bulk Upload
-                        </button>
-                        <button class="btn btn-primary add-item-btn" data-target="#gallery-container">
-                            <i class="fas fa-plus"></i> Add Image
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Filter Bar -->
-                <div class="filter-bar">
-                    <div class="filter-group">
-                        <label>Filter by Category:</label>
-                        <select id="category-filter" class="form-control form-control-sm">
-                            <option value="">All Categories</option>
-                            <option value="Web Design">Web Design</option>
-                            <option value="UI/UX">UI/UX</option>
-                            <option value="Photography">Photography</option>
-                            <option value="Graphics">Graphics</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="filter-featured">
-                            <label for="filter-featured">Featured Only</label>
-                        </div>
-                    </div>
-                    
-                    <div class="filter-group">
-                        <label>Sort by:</label>
-                        <select id="sort-order" class="form-control form-control-sm">
-                            <option value="date-desc">Date (Newest First)</option>
-                            <option value="date-asc">Date (Oldest First)</option>
-                            <option value="title-asc">Title (A-Z)</option>
-                            <option value="title-desc">Title (Z-A)</option>
-                        </select>
-                    </div>
-                    
-                    <div class="filter-group filter-view-toggle">
-                        <button id="view-grid" class="btn btn-sm btn-icon active" title="Grid View">
-                            <i class="fas fa-th-large"></i>
-                        </button>
-                        <button id="view-list" class="btn btn-sm btn-icon" title="List View">
-                            <i class="fas fa-list"></i>
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- GitHub Integration Alert -->
-                <div class="alert alert-info github-status">
-                    <i class="fab fa-github"></i>
-                    <div class="alert-content">
-                        <p>Changes will be committed and pushed to your GitHub repository.</p>
-                    </div>
-                    <div class="alert-actions">
-                        <button class="btn btn-sm btn-outline" data-modal-target="github-settings-modal">
-                            <i class="fas fa-cog"></i> Configure
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Editor Form -->
-                <form id="gallery-form" class="editor-form">
-                    <div class="form-section">
-                        <div class="form-section-header">
-                            <h2>Gallery Images</h2>
-                            <div class="section-actions">
-                                <button type="button" class="btn btn-sm btn-outline" id="expand-all-btn">
-                                    <i class="fas fa-expand-alt"></i> Expand All
-                                </button>
-                                <button type="button" class="btn btn-sm btn-outline" id="collapse-all-btn">
-                                    <i class="fas fa-compress-alt"></i> Collapse All
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <!-- Gallery Container - Grid View by Default -->
-                        <div id="gallery-container" class="sortable-grid gallery-grid-view"></div>
-                        
-                        <!-- No Gallery Items Message -->
-                        <div id="no-gallery-message" class="empty-state">
-                            <i class="fas fa-images"></i>
-                            <h3>No Gallery Images Yet</h3>
-                            <p>Add your first image using the button above</p>
-                        </div>
-                    </div>
-                    
-                    <!-- Form Footer -->
-                    <div class="form-footer">
-                        <div class="form-footer-left">
-                            <div class="form-group commit-message-group">
-                                <label for="commit-message">Commit Message:</label>
-                                <input type="text" id="commit-message" name="commit-message" class="form-control" placeholder="Update gallery" value="Update gallery">
-                            </div>
-                        </div>
-                        
-                        <div class="form-actions">
-                            <button type="button" class="btn btn-outline discard-changes-btn">Discard Changes</button>
-                            <button type="submit" class="btn btn-primary save-changes-btn">
-                                <i class="fas fa-save"></i> Save Changes
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <!-- Upload Progress -->
-                    <div class="upload-progress-container hidden">
-                        <h3>Uploading Files...</h3>
-                        <div class="upload-progress-list">
-                            <div class="upload-progress-item">
-                                <span class="upload-filename">gallery-image.jpg</span>
-                                <div class="progress">
-                                    <div class="upload-progress" data-index="0" style="width: 0%">0%</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+        <div class="sidebar-content">
+          <nav class="sidebar-nav">
+            <ul>
+              <li>
+                <a
+                  href="dashboard.html"
+                  class="sidebar-item"
+                  data-page="dashboard"
+                >
+                  <i class="fas fa-tachometer-alt"></i>
+                  <span>Dashboard</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="edit-projects.html"
+                  class="sidebar-item"
+                  data-page="projects"
+                >
+                  <i class="fas fa-briefcase"></i>
+                  <span>Projects</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="edit-skills.html"
+                  class="sidebar-item"
+                  data-page="skills"
+                >
+                  <i class="fas fa-code"></i>
+                  <span>Skills</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="edit-achievements.html"
+                  class="sidebar-item"
+                  data-page="achievements"
+                >
+                  <i class="fas fa-trophy"></i>
+                  <span>Achievements</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="edit-gallery.html"
+                  class="sidebar-item active"
+                  data-page="gallery"
+                >
+                  <i class="fas fa-images"></i>
+                  <span>Gallery</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="edit-testimonials.html"
+                  class="sidebar-item"
+                  data-page="testimonials"
+                >
+                  <i class="fas fa-comment-alt"></i>
+                  <span>Testimonials</span>
+                </a>
+              </li>
+            </ul>
+          </nav>
+
+          <div class="sidebar-section">
+            <h3 class="sidebar-heading">Settings</h3>
+            <ul>
+              <li>
+                <a
+                  href="#"
+                  class="sidebar-item"
+                  data-modal-target="github-settings-modal"
+                >
+                  <i class="fab fa-github"></i>
+                  <span>GitHub Integration</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="sidebar-item"
+                  data-modal-target="backup-modal"
+                >
+                  <i class="fas fa-cloud-download-alt"></i>
+                  <span>Backup & Restore</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#"
+                  class="sidebar-item"
+                  data-modal-target="account-settings-modal"
+                >
+                  <i class="fas fa-user-cog"></i>
+                  <span>Account Settings</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sidebar-footer">
+          <a href="../index.html" target="_blank" class="sidebar-footer-item">
+            <i class="fas fa-external-link-alt"></i>
+            <span>View Site</span>
+          </a>
+          <button id="logout-btn" class="sidebar-footer-item">
+            <i class="fas fa-sign-out-alt"></i>
+            <span>Logout</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- Main Content -->
+      <main id="admin-content" class="admin-content">
+        <!-- Top Bar -->
+        <header class="admin-header">
+          <div class="header-search">
+            <div class="search-wrapper">
+              <i class="fas fa-search"></i>
+              <input
+                type="text"
+                id="admin-search"
+                placeholder="Search gallery items..."
+              />
             </div>
-        </main>
+            <div id="search-results" class="search-results hidden"></div>
+          </div>
+
+          <div class="header-actions">
+            <button
+              id="theme-toggle"
+              class="theme-toggle"
+              aria-label="Toggle dark mode"
+            >
+              <i class="fas fa-sun"></i>
+              <i class="fas fa-moon"></i>
+            </button>
+            <a
+              href="assets/files/shahriar_rakib_cv.pdf"
+              class="btn btn-primary"
+              download
+            >
+              <i class="fas fa-download"></i> Download CV
+            </a>
+          </div>
+        </header>
+
+        <!-- Page Content -->
+        <div class="admin-page-content">
+          <!-- Breadcrumbs -->
+          <div class="breadcrumbs-wrapper">
+            <ul id="breadcrumbs" class="breadcrumbs">
+              <li><a href="dashboard.html">Dashboard</a></li>
+              <li>Edit Gallery</li>
+            </ul>
+          </div>
+
+          <!-- Page Header -->
+          <div class="page-header">
+            <div class="page-title">
+              <h1><i class="fas fa-images"></i> Gallery</h1>
+              <p class="last-updated" data-content-type="gallery">
+                Last updated: Loading...
+              </p>
+            </div>
+            <div class="page-actions">
+              <button
+                id="bulk-upload-btn"
+                class="btn btn-outline"
+                data-modal-target="bulk-upload-modal"
+              >
+                <i class="fas fa-upload"></i> Bulk Upload
+              </button>
+              <button
+                class="btn btn-primary add-item-btn"
+                data-target="#gallery-container"
+              >
+                <i class="fas fa-plus"></i> Add Image
+              </button>
+            </div>
+          </div>
+
+          <!-- Filter Bar -->
+          <div class="filter-bar">
+            <div class="filter-group">
+              <label>Filter by Category:</label>
+              <select id="category-filter" class="form-control form-control-sm">
+                <option value="">All Categories</option>
+                <option value="Web Design">Web Design</option>
+                <option value="UI/UX">UI/UX</option>
+                <option value="Photography">Photography</option>
+                <option value="Graphics">Graphics</option>
+              </select>
+            </div>
+
+            <div class="filter-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="filter-featured" />
+                <label for="filter-featured">Featured Only</label>
+              </div>
+            </div>
+
+            <div class="filter-group">
+              <label>Sort by:</label>
+              <select id="sort-order" class="form-control form-control-sm">
+                <option value="date-desc">Date (Newest First)</option>
+                <option value="date-asc">Date (Oldest First)</option>
+                <option value="title-asc">Title (A-Z)</option>
+                <option value="title-desc">Title (Z-A)</option>
+              </select>
+            </div>
+
+            <div class="filter-group filter-view-toggle">
+              <button
+                id="view-grid"
+                class="btn btn-sm btn-icon active"
+                title="Grid View"
+              >
+                <i class="fas fa-th-large"></i>
+              </button>
+              <button
+                id="view-list"
+                class="btn btn-sm btn-icon"
+                title="List View"
+              >
+                <i class="fas fa-list"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- GitHub Integration Alert -->
+          <div class="alert alert-info github-status">
+            <i class="fab fa-github"></i>
+            <div class="alert-content">
+              <p>
+                Changes will be committed and pushed to your GitHub repository.
+              </p>
+            </div>
+            <div class="alert-actions">
+              <button
+                class="btn btn-sm btn-outline"
+                data-modal-target="github-settings-modal"
+              >
+                <i class="fas fa-cog"></i> Configure
+              </button>
+            </div>
+          </div>
+
+          <!-- Editor Form -->
+          <form id="gallery-form" class="editor-form">
+            <div class="form-section">
+              <div class="form-section-header">
+                <h2>Gallery Images</h2>
+                <div class="section-actions">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline"
+                    id="expand-all-btn"
+                  >
+                    <i class="fas fa-expand-alt"></i> Expand All
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline"
+                    id="collapse-all-btn"
+                  >
+                    <i class="fas fa-compress-alt"></i> Collapse All
+                  </button>
+                </div>
+              </div>
+
+              <!-- Gallery Container - Grid View by Default -->
+              <div
+                id="gallery-container"
+                class="sortable-grid gallery-grid-view"
+              ></div>
+
+              <!-- No Gallery Items Message -->
+              <div id="no-gallery-message" class="empty-state">
+                <i class="fas fa-images"></i>
+                <h3>No Gallery Images Yet</h3>
+                <p>Add your first image using the button above</p>
+              </div>
+            </div>
+
+            <!-- Form Footer -->
+            <div class="form-footer">
+              <div class="form-footer-left">
+                <div class="form-group commit-message-group">
+                  <label for="commit-message">Commit Message:</label>
+                  <input
+                    type="text"
+                    id="commit-message"
+                    name="commit-message"
+                    class="form-control"
+                    placeholder="Update gallery"
+                    value="Update gallery"
+                  />
+                </div>
+              </div>
+
+              <div class="form-actions">
+                <button
+                  type="button"
+                  class="btn btn-outline discard-changes-btn"
+                >
+                  Discard Changes
+                </button>
+                <button type="submit" class="btn btn-primary save-changes-btn">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+              </div>
+            </div>
+
+            <!-- Upload Progress -->
+            <div class="upload-progress-container hidden">
+              <h3>Uploading Files...</h3>
+              <div class="upload-progress-list">
+                <div class="upload-progress-item">
+                  <span class="upload-filename">gallery-image.jpg</span>
+                  <div class="progress">
+                    <div
+                      class="upload-progress"
+                      data-index="0"
+                      style="width: 0%"
+                    >
+                      0%
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </main>
     </div>
-    
+
     <!-- Templates -->
     <!-- Gallery Item Template (Grid View) -->
     <template id="gallery-item-template">
-        <div class="gallery-item item-card">
-            <div class="gallery-item-preview">
-                <div class="gallery-item-image">
-                    <!-- Image will be inserted dynamically -->
-                </div>
-                <div class="gallery-item-overlay">
-                    <div class="gallery-item-badges">
-                        <span class="featured-badge hidden"><i class="fas fa-star"></i> Featured</span>
-                    </div>
-                    <div class="gallery-item-actions">
-                        <button type="button" class="btn btn-sm btn-icon edit-item-btn" title="Edit">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-icon preview-item-btn" title="Preview">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-icon duplicate-item-btn" title="Duplicate">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-icon remove-item-btn" title="Remove">
-                            <i class="fas fa-trash-alt"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="gallery-item-footer">
-                    <h3 class="gallery-item-title">Image Title</h3>
-                    <div class="gallery-item-category">Category</div>
-                </div>
-                <div class="drag-handle">
-                    <i class="fas fa-grip-lines"></i>
-                </div>
+      <div class="gallery-item item-card">
+        <div class="gallery-item-preview">
+          <div class="gallery-item-image">
+            <!-- Image will be inserted dynamically -->
+          </div>
+          <div class="gallery-item-overlay">
+            <div class="gallery-item-badges">
+              <span class="featured-badge hidden"
+                ><i class="fas fa-star"></i> Featured</span
+              >
             </div>
-            
-            <div id="gallery-content-__ID__" class="item-content collapse">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="gallery-title-__ID__">Image Title <span class="required">*</span></label>
-                        <input type="text" id="gallery-title-__ID__" class="form-control gallery-title-input" placeholder="Beautiful Sunset" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="gallery-category-__ID__">Category</label>
-                        <input type="text" id="gallery-category-__ID__" class="form-control gallery-category-input" placeholder="Photography, UI/UX, etc.">
-                    </div>
-                    
-                    <div class="form-group form-checkbox">
-                        <input type="checkbox" id="gallery-featured-__ID__" class="gallery-featured-input">
-                        <label for="gallery-featured-__ID__">Featured Image</label>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="gallery-date-__ID__">Date</label>
-                        <input type="date" id="gallery-date-__ID__" class="form-control gallery-date-input">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="gallery-description-__ID__">Description</label>
-                        <textarea id="gallery-description-__ID__" class="form-control gallery-description-input" rows="3" placeholder="Describe this image"></textarea>
-                    </div>
-                </div>
-                
-                <div class="form-section-divider"></div>
-                
-                <div class="form-grid image-upload-grid">
-                    <!-- Main Image Upload -->
-                    <div class="form-group">
-                        <label for="gallery-image-__ID__">Main Image <span class="required">*</span></label>
-                        <div class="image-upload-container">
-                            <div class="image-upload-controls">
-                                <input type="file" id="gallery-image-upload-__ID__" class="image-upload-input" data-target="gallery-image-__ID__" data-path="gallery/full" accept="image/*">
-                                <label for="gallery-image-upload-__ID__" class="upload-label">
-                                    <i class="fas fa-cloud-upload-alt"></i> Choose Image
-                                </label>
-                                <div class="upload-actions">
-                                    <button type="button" class="btn btn-sm btn-outline image-edit-btn" data-target="gallery-image-upload-__ID__">
-                                        <i class="fas fa-crop-alt"></i> Edit
-                                    </button>
-                                </div>
-                                <div class="upload-info">
-                                    <span>Max 5MB, JPG, PNG or WebP</span>
-                                </div>
-                            </div>
-                            <div class="image-preview">
-                                <div class="no-image">No image selected</div>
-                            </div>
-                        </div>
-                        <input type="hidden" id="gallery-image-__ID__" class="gallery-image-input" required>
-                    </div>
-                    
-                    <!-- Thumbnail Image Upload -->
-                    <div class="form-group">
-                        <label for="gallery-thumb-__ID__">Thumbnail Image</label>
-                        <div class="image-upload-container">
-                            <div class="image-upload-controls">
-                                <input type="file" id="gallery-thumb-upload-__ID__" class="image-upload-input" data-target="gallery-thumb-__ID__" data-path="gallery/thumbnails" accept="image/*">
-                                <label for="gallery-thumb-upload-__ID__" class="upload-label">
-                                    <i class="fas fa-cloud-upload-alt"></i> Choose Thumbnail
-                                </label>
-                                <div class="upload-actions">
-                                    <button type="button" class="btn btn-sm btn-outline image-edit-btn" data-target="gallery-thumb-upload-__ID__">
-                                        <i class="fas fa-crop-alt"></i> Edit
-                                    </button>
-                                    <button type="button" class="btn btn-sm btn-outline auto-thumb-btn" data-source="gallery-image-upload-__ID__" data-target="gallery-thumb-upload-__ID__">
-                                        <i class="fas fa-magic"></i> Auto Generate
-                                    </button>
-                                </div>
-                                <div class="upload-info">
-                                    <span>Leave empty to auto-generate</span>
-                                </div>
-                            </div>
-                            <div class="image-preview thumbnail-preview">
-                                <div class="no-image">No thumbnail selected</div>
-                            </div>
-                        </div>
-                        <input type="hidden" id="gallery-thumb-__ID__" class="gallery-thumb-input">
-                    </div>
-                </div>
-                
-                <div class="form-section-divider"></div>
-                
-                <div class="form-group">
-                    <label>Advanced Options</label>
-                    <div class="advanced-options">
-                        <div class="form-group">
-                            <label for="gallery-alt-__ID__">Alt Text</label>
-                            <input type="text" id="gallery-alt-__ID__" class="form-control gallery-alt-input" placeholder="Alternative text for accessibility">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="gallery-tags-__ID__">Tags (comma separated)</label>
-                            <input type="text" id="gallery-tags-__ID__" class="form-control gallery-tags-input" placeholder="landscape, nature, portfolio">
-                        </div>
-                    </div>
-                </div>
+            <div class="gallery-item-actions">
+              <button
+                type="button"
+                class="btn btn-sm btn-icon edit-item-btn"
+                title="Edit"
+              >
+                <i class="fas fa-edit"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-icon preview-item-btn"
+                title="Preview"
+              >
+                <i class="fas fa-eye"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-icon duplicate-item-btn"
+                title="Duplicate"
+              >
+                <i class="fas fa-copy"></i>
+              </button>
+              <button
+                type="button"
+                class="btn btn-sm btn-icon remove-item-btn"
+                title="Remove"
+              >
+                <i class="fas fa-trash-alt"></i>
+              </button>
             </div>
+          </div>
+          <div class="gallery-item-footer">
+            <h3 class="gallery-item-title">Image Title</h3>
+            <div class="gallery-item-category">Category</div>
+          </div>
+          <div class="drag-handle">
+            <i class="fas fa-grip-lines"></i>
+          </div>
         </div>
+
+        <div id="gallery-content-__ID__" class="item-content collapse">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="gallery-title-__ID__"
+                >Image Title <span class="required">*</span></label
+              >
+              <input
+                type="text"
+                id="gallery-title-__ID__"
+                class="form-control gallery-title-input"
+                placeholder="Beautiful Sunset"
+                required
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="gallery-category-__ID__">Category</label>
+              <input
+                type="text"
+                id="gallery-category-__ID__"
+                class="form-control gallery-category-input"
+                placeholder="Photography, UI/UX, etc."
+              />
+            </div>
+
+            <div class="form-group form-checkbox">
+              <input
+                type="checkbox"
+                id="gallery-featured-__ID__"
+                class="gallery-featured-input"
+              />
+              <label for="gallery-featured-__ID__">Featured Image</label>
+            </div>
+
+            <div class="form-group">
+              <label for="gallery-date-__ID__">Date</label>
+              <input
+                type="date"
+                id="gallery-date-__ID__"
+                class="form-control gallery-date-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="gallery-description-__ID__">Description</label>
+              <textarea
+                id="gallery-description-__ID__"
+                class="form-control gallery-description-input"
+                rows="3"
+                placeholder="Describe this image"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="form-section-divider"></div>
+
+          <div class="form-grid image-upload-grid">
+            <!-- Main Image Upload -->
+            <div class="form-group">
+              <label for="gallery-image-__ID__"
+                >Main Image <span class="required">*</span></label
+              >
+              <div class="image-upload-container">
+                <div class="image-upload-controls">
+                  <input
+                    type="file"
+                    id="gallery-image-upload-__ID__"
+                    class="image-upload-input"
+                    data-target="gallery-image-__ID__"
+                    data-path="gallery/full"
+                    accept="image/*"
+                  />
+                  <label for="gallery-image-upload-__ID__" class="upload-label">
+                    <i class="fas fa-cloud-upload-alt"></i> Choose Image
+                  </label>
+                  <div class="upload-actions">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline image-edit-btn"
+                      data-target="gallery-image-upload-__ID__"
+                    >
+                      <i class="fas fa-crop-alt"></i> Edit
+                    </button>
+                  </div>
+                  <div class="upload-info">
+                    <span>Max 5MB, JPG, PNG or WebP</span>
+                  </div>
+                </div>
+                <div class="image-preview">
+                  <div class="no-image">No image selected</div>
+                </div>
+              </div>
+              <input
+                type="hidden"
+                id="gallery-image-__ID__"
+                class="gallery-image-input"
+                required
+              />
+            </div>
+
+            <!-- Thumbnail Image Upload -->
+            <div class="form-group">
+              <label for="gallery-thumb-__ID__">Thumbnail Image</label>
+              <div class="image-upload-container">
+                <div class="image-upload-controls">
+                  <input
+                    type="file"
+                    id="gallery-thumb-upload-__ID__"
+                    class="image-upload-input"
+                    data-target="gallery-thumb-__ID__"
+                    data-path="gallery/thumbnails"
+                    accept="image/*"
+                  />
+                  <label for="gallery-thumb-upload-__ID__" class="upload-label">
+                    <i class="fas fa-cloud-upload-alt"></i> Choose Thumbnail
+                  </label>
+                  <div class="upload-actions">
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline image-edit-btn"
+                      data-target="gallery-thumb-upload-__ID__"
+                    >
+                      <i class="fas fa-crop-alt"></i> Edit
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-sm btn-outline auto-thumb-btn"
+                      data-source="gallery-image-upload-__ID__"
+                      data-target="gallery-thumb-upload-__ID__"
+                    >
+                      <i class="fas fa-magic"></i> Auto Generate
+                    </button>
+                  </div>
+                  <div class="upload-info">
+                    <span>Leave empty to auto-generate</span>
+                  </div>
+                </div>
+                <div class="image-preview thumbnail-preview">
+                  <div class="no-image">No thumbnail selected</div>
+                </div>
+              </div>
+              <input
+                type="hidden"
+                id="gallery-thumb-__ID__"
+                class="gallery-thumb-input"
+              />
+            </div>
+          </div>
+
+          <div class="form-section-divider"></div>
+
+          <div class="form-group">
+            <label>Advanced Options</label>
+            <div class="advanced-options">
+              <div class="form-group">
+                <label for="gallery-alt-__ID__">Alt Text</label>
+                <input
+                  type="text"
+                  id="gallery-alt-__ID__"
+                  class="form-control gallery-alt-input"
+                  placeholder="Alternative text for accessibility"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="gallery-tags-__ID__">Tags (comma separated)</label>
+                <input
+                  type="text"
+                  id="gallery-tags-__ID__"
+                  class="form-control gallery-tags-input"
+                  placeholder="landscape, nature, portfolio"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </template>
-    
+
     <!-- Modal Templates -->
     <div id="modal-container"></div>
-    
+
     <template id="bulk-upload-modal">
-        <div class="modal-header">
-            <h2>Bulk Upload Images</h2>
-            <button class="modal-close" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
+      <div class="modal-header">
+        <h2>Bulk Upload Images</h2>
+        <button class="modal-close" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label>Upload Multiple Images</label>
+          <div class="bulk-upload-zone" id="bulk-upload-zone">
+            <input
+              type="file"
+              id="bulk-upload-input"
+              multiple
+              accept="image/*"
+            />
+            <div class="upload-zone-content">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <h3>Drop Images Here</h3>
+              <p>Or click to select files</p>
+              <p class="upload-limits">Max 20 images, 5MB each</p>
+            </div>
+          </div>
         </div>
-        <div class="modal-body">
+
+        <div class="form-group">
+          <label>Default Settings</label>
+          <p class="section-description">
+            These settings will be applied to all uploaded images
+          </p>
+
+          <div class="form-grid">
             <div class="form-group">
-                <label>Upload Multiple Images</label>
-                <div class="bulk-upload-zone" id="bulk-upload-zone">
-                    <input type="file" id="bulk-upload-input" multiple accept="image/*">
-                    <div class="upload-zone-content">
-                        <i class="fas fa-cloud-upload-alt"></i>
-                        <h3>Drop Images Here</h3>
-                        <p>Or click to select files</p>
-                        <p class="upload-limits">Max 20 images, 5MB each</p>
-                    </div>
-                </div>
+              <label for="bulk-category">Category</label>
+              <input
+                type="text"
+                id="bulk-category"
+                class="form-control"
+                placeholder="Photography, UI/UX, etc."
+              />
             </div>
-            
+
             <div class="form-group">
-                <label>Default Settings</label>
-                <p class="section-description">These settings will be applied to all uploaded images</p>
-                
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="bulk-category">Category</label>
-                        <input type="text" id="bulk-category" class="form-control" placeholder="Photography, UI/UX, etc.">
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="bulk-featured">
-                            <label for="bulk-featured">Featured Images</label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="bulk-date">Date</label>
-                        <input type="date" id="bulk-date" class="form-control">
-                    </div>
-                    
-                    <div class="form-group">
-                        <div class="checkbox-group">
-                            <input type="checkbox" id="bulk-auto-thumbnails" checked>
-                            <label for="bulk-auto-thumbnails">Auto-generate thumbnails</label>
-                        </div>
-                    </div>
-                </div>
+              <div class="checkbox-group">
+                <input type="checkbox" id="bulk-featured" />
+                <label for="bulk-featured">Featured Images</label>
+              </div>
             </div>
-            
-            <div class="bulk-upload-preview hidden">
-                <h3>Selected Files (<span id="selected-file-count">0</span>)</h3>
-                <div id="bulk-preview-container" class="bulk-preview-grid"></div>
+
+            <div class="form-group">
+              <label for="bulk-date">Date</label>
+              <input type="date" id="bulk-date" class="form-control" />
             </div>
+
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="bulk-auto-thumbnails" checked />
+                <label for="bulk-auto-thumbnails"
+                  >Auto-generate thumbnails</label
+                >
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline modal-close">Cancel</button>
-            <button id="bulk-upload-start" class="btn btn-primary" disabled>
-                <i class="fas fa-upload"></i> Upload Images
-            </button>
+
+        <div class="bulk-upload-preview hidden">
+          <h3>Selected Files (<span id="selected-file-count">0</span>)</h3>
+          <div id="bulk-preview-container" class="bulk-preview-grid"></div>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close">Cancel</button>
+        <button id="bulk-upload-start" class="btn btn-primary" disabled>
+          <i class="fas fa-upload"></i> Upload Images
+        </button>
+      </div>
     </template>
-    
+
     <template id="image-crop-modal">
-        <div class="modal-header">
-            <h2>Adjust Image</h2>
-            <button class="modal-close" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="image-editor-container">
-                <div class="image-preview-container">
-                    <img id="crop-preview-image" src="" alt="Image to crop">
-                </div>
-                
-                <div class="image-editor-controls">
-                    <div class="control-group">
-                        <label>Crop Ratio</label>
-                        <div class="button-group">
-                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="free">Free</button>
-                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn active" data-ratio="16:9">16:9</button>
-                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="4:3">4:3</button>
-                            <button type="button" class="btn btn-sm btn-outline crop-ratio-btn" data-ratio="1:1">1:1</button>
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Rotation</label>
-                        <div class="button-group">
-                            <button type="button" class="btn btn-sm btn-outline rotate-btn" data-rotate="-90">
-                                <i class="fas fa-undo"></i> 90°
-                            </button>
-                            <button type="button" class="btn btn-sm btn-outline rotate-btn" data-rotate="90">
-                                <i class="fas fa-redo"></i> 90°
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="control-group">
-                        <label>Adjustment</label>
-                        <div class="range-control">
-                            <span>Brightness</span>
-                            <input type="range" id="brightness-slider" min="-100" max="100" value="0" class="image-adjustment-slider">
-                        </div>
-                        <div class="range-control">
-                            <span>Contrast</span>
-                            <input type="range" id="contrast-slider" min="-100" max="100" value="0" class="image-adjustment-slider">
-                        </div>
-                    </div>
-                </div>
+      <div class="modal-header">
+        <h2>Adjust Image</h2>
+        <button class="modal-close" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="image-editor-container">
+          <div class="image-preview-container">
+            <img id="crop-preview-image" src="" alt="Image to crop" />
+          </div>
+
+          <div class="image-editor-controls">
+            <div class="control-group">
+              <label>Crop Ratio</label>
+              <div class="button-group">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline crop-ratio-btn"
+                  data-ratio="free"
+                >
+                  Free
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline crop-ratio-btn active"
+                  data-ratio="16:9"
+                >
+                  16:9
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline crop-ratio-btn"
+                  data-ratio="4:3"
+                >
+                  4:3
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline crop-ratio-btn"
+                  data-ratio="1:1"
+                >
+                  1:1
+                </button>
+              </div>
             </div>
+
+            <div class="control-group">
+              <label>Rotation</label>
+              <div class="button-group">
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline rotate-btn"
+                  data-rotate="-90"
+                >
+                  <i class="fas fa-undo"></i> 90°
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-sm btn-outline rotate-btn"
+                  data-rotate="90"
+                >
+                  <i class="fas fa-redo"></i> 90°
+                </button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <label>Adjustment</label>
+              <div class="range-control">
+                <span>Brightness</span>
+                <input
+                  type="range"
+                  id="brightness-slider"
+                  min="-100"
+                  max="100"
+                  value="0"
+                  class="image-adjustment-slider"
+                />
+              </div>
+              <div class="range-control">
+                <span>Contrast</span>
+                <input
+                  type="range"
+                  id="contrast-slider"
+                  min="-100"
+                  max="100"
+                  value="0"
+                  class="image-adjustment-slider"
+                />
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline modal-close">Cancel</button>
-            <button id="crop-reset-btn" class="btn btn-outline">Reset</button>
-            <button id="crop-apply-btn" class="btn btn-primary">Apply Changes</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close">Cancel</button>
+        <button id="crop-reset-btn" class="btn btn-outline">Reset</button>
+        <button id="crop-apply-btn" class="btn btn-primary">
+          Apply Changes
+        </button>
+      </div>
     </template>
-    
+
     <template id="gallery-preview-modal">
-        <div class="modal-header">
-            <h2>Image Preview</h2>
-            <button class="modal-close" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <div class="modal-body">
-            <div class="gallery-preview">
-                <div class="gallery-preview-image">
-                    <img src="" alt="Gallery Preview" id="preview-gallery-image">
-                </div>
-                <div class="gallery-preview-content">
-                    <h3 id="preview-gallery-title">Image Title</h3>
-                    <div class="gallery-preview-category" id="preview-gallery-category">Category</div>
-                    <p id="preview-gallery-description">Image description will appear here...</p>
-                    <div class="gallery-preview-date" id="preview-gallery-date">March 15, 2025</div>
-                </div>
+      <div class="modal-header">
+        <h2>Image Preview</h2>
+        <button class="modal-close" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="gallery-preview">
+          <div class="gallery-preview-image">
+            <img src="" alt="Gallery Preview" id="preview-gallery-image" />
+          </div>
+          <div class="gallery-preview-content">
+            <h3 id="preview-gallery-title">Image Title</h3>
+            <div class="gallery-preview-category" id="preview-gallery-category">
+              Category
             </div>
+            <p id="preview-gallery-description">
+              Image description will appear here...
+            </p>
+            <div class="gallery-preview-date" id="preview-gallery-date">
+              March 15, 2025
+            </div>
+          </div>
         </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline modal-close">Close</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close">Close</button>
+      </div>
     </template>
 
     <!-- Scripts -->
@@ -602,5 +848,5 @@
     <script src="../assets/js/admin/editor.js"></script>
     <script src="../assets/js/admin/main.js"></script>
     <script src="../assets/js/admin/notifications.js"></script>
-</body>
+  </body>
 </html>

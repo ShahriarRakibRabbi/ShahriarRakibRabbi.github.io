@@ -1,231 +1,480 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Login | My Portfolio</title>
-    <meta name="description" content="Admin login for my portfolio website">
-    <meta name="robots" content="noindex, nofollow">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | Md. Shahriar Rakib Rabbi Portfolio</title>
+    <meta name="description" content="Admin login for my portfolio website" />
+    <meta name="robots" content="noindex, nofollow" />
     <!-- Favicon -->
-    <link rel="shortcut icon" href="../assets/images/favicon.ico" type="image/x-icon">
+    <link
+      rel="shortcut icon"
+      href="../assets/images/favicon.ico"
+      type="image/x-icon"
+    />
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../assets/css/main.css">
-    <link rel="stylesheet" href="../assets/css/admin.css">
-</head>
-<body class="login-page">
+    <link rel="stylesheet" href="../assets/css/main.css" />
+    <link rel="stylesheet" href="../assets/css/admin.css" />
+    <link rel="stylesheet" href="../assets/css/style-fixes.css" />
+  </head>
+  <body class="login-page">
     <div class="admin-login-container">
-        <div class="login-card">
-            <div class="login-card-header">
-                <div class="login-logo">
-                    <i class="fas fa-code"></i>
-                    <h1>Portfolio Admin</h1>
-                </div>
-                <p class="login-subtitle">Enter your credentials to access the admin panel</p>
-            </div>
-            
-            <div class="login-card-body">
-                <!-- Alert Messages -->
-                <div id="login-error" class="alert alert-danger hidden"></div>
-                <div id="login-success" class="alert alert-success hidden"></div>
-                
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-user"></i>
-                            <input type="text" id="username" name="username" class="form-control" placeholder="Enter your username" autocomplete="username" required>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <div class="input-with-icon">
-                            <i class="fas fa-lock"></i>
-                            <input type="password" id="password" name="password" class="form-control" placeholder="Enter your password" autocomplete="current-password" required>
-                            <button type="button" id="password-toggle" class="password-toggle" tabindex="-1">
-                                <i class="fas fa-eye"></i>
-                            </button>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group login-options">
-                        <div class="remember-me">
-                            <input type="checkbox" id="remember-me" name="remember-me">
-                            <label for="remember-me">Remember me</label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-block btn-submit">
-                            <i class="fas fa-sign-in-alt"></i> Login
-                        </button>
-                    </div>
-                </form>
-                
-                <div class="login-security-notice">
-                    <i class="fas fa-shield-alt"></i>
-                    <p>This area is protected by secure password hashing and session management. Multiple failed login attempts will result in temporary lockout.</p>
-                </div>
-            </div>
-            
-            <div class="login-card-footer">
-                <a href="../index.html" class="back-to-site">
-                    <i class="fas fa-arrow-left"></i> Back to website
-                </a>
-                
-                <div class="password-recovery">
-                    <a href="#" id="forgot-password-link" data-modal-target="password-recovery-modal">Forgot password?</a>
-                </div>
-            </div>
+      <!-- Standard Login Form -->
+      <div class="login-card login-container">
+        <div class="login-card-header">
+          <div class="login-logo">
+            <i class="fas fa-code"></i>
+            <h1>Admin Panel</h1>
+          </div>
+          <p class="login-subtitle">
+            Enter your credentials to access the admin panel
+          </p>
         </div>
-        
-        <div class="login-theme-toggle">
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-                <i class="fas fa-moon"></i>
-            </button>
+
+        <div class="login-card-body">
+          <!-- Alert Messages -->
+          <div id="login-message" class="login-message hidden"></div>
+
+          <form id="login-form">
+            <div class="form-group">
+              <label for="username">Username</label>
+              <div class="input-with-icon">
+                <i class="fas fa-user"></i>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  class="form-control"
+                  placeholder="Enter your username"
+                  autocomplete="username"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <div class="input-with-icon">
+                <i class="fas fa-lock"></i>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  class="form-control"
+                  placeholder="Enter your password"
+                  autocomplete="current-password"
+                  required
+                />
+                <button
+                  type="button"
+                  id="password-toggle"
+                  class="password-toggle"
+                  tabindex="-1"
+                >
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="form-group login-options">
+              <div class="remember-me">
+                <input type="checkbox" id="remember-me" name="remember-me" />
+                <label for="remember-me">Remember me</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block btn-submit"
+              >
+                <i class="fas fa-sign-in-alt"></i> Login
+              </button>
+            </div>
+          </form>
+
+          <div class="login-security-notice">
+            <i class="fas fa-shield-alt"></i>
+            <p>
+              This area is protected by secure password hashing and session
+              management. Multiple failed login attempts will result in
+              temporary lockout.
+            </p>
+          </div>
         </div>
+
+        <div class="login-card-footer">
+          <a href="../index.html" class="back-to-site">
+            <i class="fas fa-arrow-left"></i> Back to website
+          </a>
+
+          <div class="password-recovery">
+            <a
+              href="#"
+              id="forgot-password-link"
+              data-modal-target="password-recovery-modal"
+              >Forgot password?</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Two-Factor Authentication Form -->
+      <div class="login-card tfa-container hidden">
+        <div class="login-card-header">
+          <div class="login-logo">
+            <i class="fas fa-shield-alt"></i>
+            <h1>Two-Factor Authentication</h1>
+          </div>
+          <p class="login-subtitle">
+            Enter the verification code from your authenticator app
+          </p>
+        </div>
+
+        <div class="login-card-body">
+          <!-- Alert Messages -->
+          <div id="tfa-message" class="login-message hidden"></div>
+
+          <form id="tfa-form">
+            <div class="form-group">
+              <label for="tfa-code">Verification Code</label>
+              <div class="input-with-icon">
+                <i class="fas fa-key"></i>
+                <input
+                  type="text"
+                  id="tfa-code"
+                  name="tfa-code"
+                  class="form-control"
+                  placeholder="Enter 6-digit code"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  maxlength="6"
+                  autocomplete="one-time-code"
+                  required
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <button
+                type="submit"
+                class="btn btn-primary btn-block btn-submit"
+              >
+                <i class="fas fa-check-circle"></i> Verify
+              </button>
+            </div>
+
+            <div class="form-group text-center">
+              <button type="button" id="back-to-login" class="btn btn-link">
+                <i class="fas fa-arrow-left"></i> Back to login
+              </button>
+            </div>
+          </form>
+
+          <div class="tfa-info">
+            <div class="tfa-timer">
+              <div class="tfa-timer-circle">
+                <svg class="tfa-timer-svg" viewBox="0 0 36 36">
+                  <path
+                    class="tfa-timer-bg"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                  <path
+                    id="tfa-timer-progress"
+                    class="tfa-timer-progress"
+                    stroke-dasharray="100, 100"
+                    d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
+                  />
+                </svg>
+                <div id="tfa-timer-count" class="tfa-timer-count">30</div>
+              </div>
+              <p>Code expires in <span id="tfa-timer-text">30</span> seconds</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="login-card-footer">
+          <div class="tfa-help">
+            <a href="#" data-modal-target="tfa-help-modal">Need help?</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-theme-toggle">
+        <button
+          id="theme-toggle"
+          class="theme-toggle"
+          aria-label="Toggle Theme"
+        >
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
     </div>
-    
+
     <!-- Modal Templates -->
     <div id="modal-container"></div>
-    
+
     <template id="password-recovery-modal">
-        <div class="modal-header">
-            <h2>Password Recovery</h2>
-            <button class="modal-close" aria-label="Close">
-                <i class="fas fa-times"></i>
-            </button>
+      <div class="modal-header">
+        <h2>Password Recovery</h2>
+        <button class="modal-close" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          For security reasons, password recovery must be performed manually.
+        </p>
+        <p>Please contact the site administrator for assistance.</p>
+
+        <div class="info-box info">
+          <i class="fas fa-info-circle"></i>
+          <div>
+            <p>Alternative recovery methods:</p>
+            <ol>
+              <li>
+                Edit the auth.json file in the data folder with a new hashed
+                password
+              </li>
+              <li>Use the password reset utility in the GitHub repository</li>
+            </ol>
+          </div>
         </div>
-        <div class="modal-body">
-            <p>For security reasons, password recovery must be performed manually.</p>
-            <p>Please contact the site administrator for assistance.</p>
-            
-            <div class="info-box info">
-                <i class="fas fa-info-circle"></i>
-                <div>
-                    <p>Alternative recovery methods:</p>
-                    <ol>
-                        <li>Edit the auth.json file in the data folder with a new hashed password</li>
-                        <li>Use the password reset utility in the GitHub repository</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-outline modal-close">Close</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close">Close</button>
+      </div>
     </template>
-    
+
+    <template id="tfa-help-modal">
+      <div class="modal-header">
+        <h2>Two-Factor Authentication Help</h2>
+        <button class="modal-close" aria-label="Close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Two-Factor Authentication requires a verification code from your
+          authenticator app.
+        </p>
+
+        <div class="info-box info">
+          <i class="fas fa-info-circle"></i>
+          <div>
+            <p>If you're having trouble with 2FA:</p>
+            <ol>
+              <li>Make sure your device's time is synchronized correctly</li>
+              <li>Try generating a new code in your authenticator app</li>
+              <li>
+                If you've lost access to your authenticator app, contact the
+                site administrator
+              </li>
+            </ol>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline modal-close">Close</button>
+      </div>
+    </template>
+
     <!-- Scripts -->
     <script src="../assets/js/auth.js"></script>
     <script>
+      document.addEventListener("DOMContentLoaded", function () {
         // Password visibility toggle
-        document.addEventListener('DOMContentLoaded', function() {
-            const passwordField = document.getElementById('password');
-            const toggleBtn = document.getElementById('password-toggle');
-            
-            if (toggleBtn && passwordField) {
-                toggleBtn.addEventListener('click', function() {
-                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordField.setAttribute('type', type);
-                    
-                    // Toggle icon
-                    const icon = toggleBtn.querySelector('i');
-                    icon.classList.toggle('fa-eye');
-                    icon.classList.toggle('fa-eye-slash');
-                });
+        const passwordField = document.getElementById("password");
+        const toggleBtn = document.getElementById("password-toggle");
+
+        if (toggleBtn && passwordField) {
+          toggleBtn.addEventListener("click", function () {
+            const type =
+              passwordField.getAttribute("type") === "password"
+                ? "text"
+                : "password";
+            passwordField.setAttribute("type", type);
+
+            // Toggle icon
+            const icon = toggleBtn.querySelector("i");
+            icon.classList.toggle("fa-eye");
+            icon.classList.toggle("fa-eye-slash");
+          });
+        }
+
+        // Back to login from 2FA screen
+        const backToLoginBtn = document.getElementById("back-to-login");
+        if (backToLoginBtn) {
+          backToLoginBtn.addEventListener("click", function () {
+            const loginContainer = document.querySelector(".login-container");
+            const tfaContainer = document.querySelector(".tfa-container");
+
+            if (loginContainer && tfaContainer) {
+              tfaContainer.classList.add("hidden");
+              loginContainer.classList.remove("hidden");
             }
-            
-            // Theme toggle
-            const themeToggle = document.getElementById('theme-toggle');
-            const html = document.documentElement;
-            
-            if (themeToggle) {
-                themeToggle.addEventListener('click', function() {
-                    html.classList.toggle('dark-mode');
-                    
-                    // Update localStorage
-                    const isDarkMode = html.classList.contains('dark-mode');
-                    localStorage.setItem('theme_preference', isDarkMode ? 'dark' : 'light');
-                    
-                    // Update toggle icon
-                    const icon = themeToggle.querySelector('i');
-                    if (isDarkMode) {
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                    } else {
-                        icon.classList.remove('fa-sun');
-                        icon.classList.add('fa-moon');
-                    }
-                });
-                
-                // Check saved theme preference
-                const savedPreference = localStorage.getItem('theme_preference');
-                const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-                
-                if (savedPreference === 'dark' || (savedPreference === null && prefersDarkMode)) {
-                    html.classList.add('dark-mode');
-                    const icon = themeToggle.querySelector('i');
-                    if (icon) {
-                        icon.classList.remove('fa-moon');
-                        icon.classList.add('fa-sun');
-                    }
-                }
+
+            // Clear any pending authentication data
+            sessionStorage.removeItem("pending_auth_username");
+            sessionStorage.removeItem("pending_auth_role");
+          });
+        }
+
+        // 2FA Timer
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get("tfa") === "required") {
+          // Show 2FA form if required by URL parameter
+          const loginContainer = document.querySelector(".login-container");
+          const tfaContainer = document.querySelector(".tfa-container");
+
+          if (loginContainer && tfaContainer) {
+            loginContainer.classList.add("hidden");
+            tfaContainer.classList.remove("hidden");
+            startTFATimer();
+          }
+        }
+
+        function startTFATimer() {
+          const timerCount = document.getElementById("tfa-timer-count");
+          const timerText = document.getElementById("tfa-timer-text");
+          const timerProgress = document.getElementById("tfa-timer-progress");
+
+          if (!timerCount || !timerText || !timerProgress) return;
+
+          let timeLeft = 30;
+          timerCount.textContent = timeLeft;
+          timerText.textContent = timeLeft;
+
+          const timerInterval = setInterval(function () {
+            timeLeft--;
+            timerCount.textContent = timeLeft;
+            timerText.textContent = timeLeft;
+
+            // Update progress circle
+            const progressValue = (timeLeft / 30) * 100;
+            timerProgress.style.strokeDasharray = `${progressValue}, 100`;
+
+            if (timeLeft <= 0) {
+              clearInterval(timerInterval);
+              // Reset timer
+              setTimeout(function () {
+                timeLeft = 30;
+                timerCount.textContent = timeLeft;
+                timerText.textContent = timeLeft;
+                timerProgress.style.strokeDasharray = "100, 100";
+                startTFATimer();
+              }, 1000);
             }
-            
-            // Modal handling
-            document.addEventListener('click', function(e) {
-                if (e.target.matches('[data-modal-target]')) {
-                    const modalId = e.target.getAttribute('data-modal-target');
-                    openModal(modalId);
-                }
-                
-                if (e.target.matches('.modal-close') || e.target.matches('.modal-backdrop')) {
-                    closeModal();
-                }
-            });
-            
-            function openModal(modalId) {
-                const modalTemplate = document.querySelector(`#${modalId}`);
-                if (!modalTemplate) return;
-                
-                const modalContainer = document.getElementById('modal-container');
-                const modal = document.createElement('div');
-                modal.className = 'modal-wrapper';
-                modal.innerHTML = `
+          }, 1000);
+        }
+
+        // Theme toggle
+        const themeToggle = document.getElementById("theme-toggle");
+        const html = document.documentElement;
+
+        if (themeToggle) {
+          themeToggle.addEventListener("click", function () {
+            html.classList.toggle("dark-mode");
+
+            // Update localStorage
+            const isDarkMode = html.classList.contains("dark-mode");
+            localStorage.setItem(
+              "theme_preference",
+              isDarkMode ? "dark" : "light"
+            );
+
+            // Update toggle icon
+            const icon = themeToggle.querySelector("i");
+            if (isDarkMode) {
+              icon.classList.remove("fa-moon");
+              icon.classList.add("fa-sun");
+            } else {
+              icon.classList.remove("fa-sun");
+              icon.classList.add("fa-moon");
+            }
+          });
+
+          // Check saved theme preference
+          const savedPreference = localStorage.getItem("theme_preference");
+          const prefersDarkMode =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+          if (
+            savedPreference === "dark" ||
+            (savedPreference === null && prefersDarkMode)
+          ) {
+            html.classList.add("dark-mode");
+            const icon = themeToggle.querySelector("i");
+            if (icon) {
+              icon.classList.remove("fa-moon");
+              icon.classList.add("fa-sun");
+            }
+          }
+        }
+
+        // Modal handling
+        document.addEventListener("click", function (e) {
+          if (e.target.matches("[data-modal-target]")) {
+            const modalId = e.target.getAttribute("data-modal-target");
+            openModal(modalId);
+          }
+
+          if (
+            e.target.matches(".modal-close") ||
+            e.target.matches(".modal-backdrop")
+          ) {
+            closeModal();
+          }
+        });
+
+        function openModal(modalId) {
+          const modalTemplate = document.querySelector(`#${modalId}`);
+          if (!modalTemplate) return;
+
+          const modalContainer = document.getElementById("modal-container");
+          const modal = document.createElement("div");
+          modal.className = "modal-wrapper";
+          modal.innerHTML = `
                     <div class="modal-backdrop"></div>
                     <div class="modal">
                         ${modalTemplate.innerHTML}
                     </div>
                 `;
-                
-                modalContainer.appendChild(modal);
-                
-                setTimeout(() => {
-                    modal.classList.add('active');
-                }, 10);
-                
-                document.body.classList.add('modal-open');
-            }
-            
-            function closeModal() {
-                const modal = document.querySelector('.modal-wrapper');
-                if (!modal) return;
-                
-                modal.classList.remove('active');
-                
-                setTimeout(() => {
-                    modal.remove();
-                    document.body.classList.remove('modal-open');
-                }, 300);
-            }
-        });
+
+          modalContainer.appendChild(modal);
+
+          setTimeout(() => {
+            modal.classList.add("active");
+          }, 10);
+
+          document.body.classList.add("modal-open");
+        }
+
+        function closeModal() {
+          const modal = document.querySelector(".modal-wrapper");
+          if (!modal) return;
+
+          modal.classList.remove("active");
+
+          setTimeout(() => {
+            modal.remove();
+            document.body.classList.remove("modal-open");
+          }, 300);
+        }
+      });
     </script>
-</body>
+  </body>
 </html>

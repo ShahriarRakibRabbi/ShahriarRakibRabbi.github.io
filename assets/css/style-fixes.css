@@ -1,0 +1,120 @@
+/* Fix for form labels in dark mode */
+html.dark-mode .contact-form label,
+html.dark-mode .admin-login-container label {
+  color: var(--color-text-primary);
+}
+
+html.dark-mode input,
+html.dark-mode textarea {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-secondary);
+  border-color: var(--color-border);
+}
+
+/* Fix for password toggle button placement */
+.input-with-icon {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--color-text-secondary);
+  cursor: pointer;
+}
+
+/* Fix for remember me checkbox alignment */
+.remember-me {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.remember-me input[type="checkbox"] {
+  margin: 0;
+}
+
+/* Header Menu Fixes */
+.site-header {
+  background-color: var(--color-bg-primary);
+  border-bottom: 1px solid var(--color-border);
+  position: fixed;
+  width: 100%;
+  z-index: 1000;
+}
+
+.nav-menu {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-menu li {
+  list-style: none;
+}
+
+.nav-menu a {
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  transition: color 0.3s;
+}
+
+.nav-menu a.active {
+  color: var(--color-primary);
+  font-weight: 500;
+}
+
+.nav-contact-link {
+  background-color: var(--color-primary);
+  color: white !important;
+  border-radius: var(--radius-md);
+  padding: 0.5rem 1rem;
+}
+
+.nav-contact-link:hover {
+  background-color: var(--color-primary-dark);
+  color: white !important;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Dark mode specific fixes */
+html.dark-mode .site-header {
+  background-color: rgba(18, 18, 18, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* Mobile menu fixes */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: var(--color-bg-primary);
+    padding: 1rem;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}

@@ -1,563 +1,636 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Skills | Md. Shahriar Rakib Rabbi</title>
-    <meta name="description" content="A comprehensive overview of my technical skills and expertise in web development, design, and software engineering">
-    
+    <meta
+      name="description"
+      content="Technical skills and expertise of Md. Shahriar Rakib Rabbi - AI Engineer & Full Stack Developer"
+    />
+
     <!-- Favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
-    
+    <link
+      rel="shortcut icon"
+      href="assets/images/favicon.ico"
+      type="image/x-icon"
+    />
+
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
-    
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+    />
+
     <!-- Chart.js for skills visualization -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header Section -->
     <header class="site-header">
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <span class="logo-text">Rakib Rabbi</span>
-                </a>
-            </div>
-            
-            <nav class="main-nav">
-                <button class="menu-toggle" aria-label="Toggle navigation menu">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                
-                <ul class="nav-menu">
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="projects.html">Projects</a></li>
-                    <li><a href="skills.html" class="active">Skills</a></li>
-                    <li><a href="achievements.html">Achievements</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="testimonials.html">Testimonials</a></li>
-                    <li><a href="index.html#contact">Contact</a></li>
-                </ul>
-            </nav>
-            
-            <div class="header-actions">
-                <!-- Dark Mode Toggle -->
-                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">
-                    <i class="fas fa-sun"></i>
-                    <i class="fas fa-moon"></i>
-                </button>
-                
-                <!-- Admin Login Link -->
-                <a href="admin/index.html" class="admin-login-link" aria-label="Admin login">
-                    <i class="fas fa-lock"></i>
-                    <span>Admin</span>
-                </a>
-            </div>
+      <div class="container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-text">SRR</span>
+          </a>
         </div>
+
+        <nav class="main-nav">
+          <button class="menu-toggle" aria-label="Toggle navigation menu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="skills.html" class="active">Skills</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="testimonials.html">Testimonials</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <!-- Dark Mode Toggle -->
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+          </button>
+
+          <!-- Admin Login Link -->
+          <a
+            href="admin/index.html"
+            class="admin-login-link"
+            aria-label="Admin login"
+          >
+            <i class="fas fa-lock"></i>
+            <span>Admin</span>
+          </a>
+        </div>
+      </div>
     </header>
-    
+
     <!-- Page Hero -->
     <section class="page-hero">
-        <div class="container">
-            <h1>My Skills</h1>
-            <p>A comprehensive overview of my technical expertise and proficiency</p>
-        </div>
-        <div class="hero-bg-pattern"></div>
+      <div class="container">
+        <h1>My Skills</h1>
+        <p>
+          A comprehensive overview of my technical expertise and proficiency
+        </p>
+      </div>
+      <div class="hero-bg-pattern"></div>
     </section>
-    
+
     <!-- Skills Overview -->
     <section class="skills-overview section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Technical Arsenal</h2>
-                <p>The tools and technologies I use to bring ideas to life</p>
-            </div>
-            
-            <div class="skills-categories">
-                <div class="category-tabs">
-                    <button class="category-tab active" data-category="frontend">Frontend</button>
-                    <button class="category-tab" data-category="backend">Backend</button>
-                    <button class="category-tab" data-category="devops">DevOps</button>
-                    <button class="category-tab" data-category="mobile">Mobile</button>
-                    <button class="category-tab" data-category="design">Design</button>
-                    <button class="category-tab" data-category="languages">Languages</button>
-                </div>
-                
-                <div class="category-content">
-                    <div class="category-panel active" id="frontend-skills">
-                        <!-- Frontend Skills will be loaded dynamically -->
-                        <div class="loading-spinner">
-                            <i class="fas fa-circle-notch fa-spin"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="category-panel" id="backend-skills">
-                        <!-- Backend Skills will be loaded dynamically -->
-                        <div class="loading-spinner">
-                            <i class="fas fa-circle-notch fa-spin"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="category-panel" id="devops-skills">
-                        <!-- DevOps Skills will be loaded dynamically -->
-                        <div class="loading-spinner">
-                            <i class="fas fa-circle-notch fa-spin"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="category-panel" id="mobile-skills">
-                        <!-- Mobile Skills will be loaded dynamically -->
-                        <div class="loading-spinner">
-                            <i class="fas fa-circle-notch fa-spin"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="category-panel" id="design-skills">
-                        <!-- Design Skills will be loaded dynamically -->
-                        <div class="loading-spinner">
-                            <i class="fas fa-circle-notch fa-spin"></i>
-                        </div>
-                    </div>
-                    
-                    <div class="category-panel" id="languages-skills">
-                        <!-- Programming Languages will be loaded dynamically -->
-                        <div class="skills-grid">
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-html5"></i>
-                                </div>
-                                <h3>HTML5</h3>
-                                <div class="skill-level">Expert</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 95%;"></div>
-                                </div>
-                                <p>Semantic markup, accessibility, SVG, Canvas</p>
-                            </div>
-                            
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-css3-alt"></i>
-                                </div>
-                                <h3>CSS3</h3>
-                                <div class="skill-level">Expert</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 90%;"></div>
-                                </div>
-                                <p>Flexbox, Grid, animations, responsive design</p>
-                            </div>
-                            
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-js"></i>
-                                </div>
-                                <h3>JavaScript</h3>
-                                <div class="skill-level">Expert</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 95%;"></div>
-                                </div>
-                                <p>ES6+, async/await, functional programming</p>
-                            </div>
-                            
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-python"></i>
-                                </div>
-                                <h3>Python</h3>
-                                <div class="skill-level">Advanced</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 85%;"></div>
-                                </div>
-                                <p>Django, FastAPI, data processing, automation</p>
-                            </div>
-                            
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <h3>C</h3>
-                                <div class="skill-level">Intermediate</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 75%;"></div>
-                                </div>
-                                <p>System programming, algorithms, data structures</p>
-                            </div>
-                            
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fas fa-code"></i>
-                                </div>
-                                <h3>C++</h3>
-                                <div class="skill-level">Intermediate</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 70%;"></div>
-                                </div>
-                                <p>OOP, STL, algorithm implementation</p>
-                            </div>
-                            
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <i class="fab fa-java"></i>
-                                </div>
-                                <h3>Java</h3>
-                                <div class="skill-level">Intermediate</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 80%;"></div>
-                                </div>
-                                <p>OOP, Spring Boot, enterprise applications</p>
-                            </div>
-                            
-                            <div class="skill-card">
-                                <div class="skill-icon">
-                                    <span class="icon-text">TS</span>
-                                </div>
-                                <h3>TypeScript</h3>
-                                <div class="skill-level">Advanced</div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 85%;"></div>
-                                </div>
-                                <p>Interfaces, generics, utility types, strict typing</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Technical Arsenal</h2>
+          <p>
+            The skills and technologies that Md. Shahriar Rakib Rabbi uses to
+            bring ideas to life
+          </p>
         </div>
+
+        <div class="skills-categories">
+          <div class="category-tabs">
+            <button class="category-tab active" data-category="frontend">
+              Frontend
+            </button>
+            <button class="category-tab" data-category="backend">
+              Backend
+            </button>
+            <button class="category-tab" data-category="devops">DevOps</button>
+            <button class="category-tab" data-category="mobile">Mobile</button>
+            <button class="category-tab" data-category="design">Design</button>
+            <button class="category-tab" data-category="languages">
+              Languages
+            </button>
+          </div>
+
+          <div class="category-content">
+            <div class="category-panel active" id="frontend-skills">
+              <!-- Frontend Skills will be loaded dynamically -->
+              <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </div>
+            </div>
+
+            <div class="category-panel" id="backend-skills">
+              <!-- Backend Skills will be loaded dynamically -->
+              <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </div>
+            </div>
+
+            <div class="category-panel" id="devops-skills">
+              <!-- DevOps Skills will be loaded dynamically -->
+              <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </div>
+            </div>
+
+            <div class="category-panel" id="mobile-skills">
+              <!-- Mobile Skills will be loaded dynamically -->
+              <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </div>
+            </div>
+
+            <div class="category-panel" id="design-skills">
+              <!-- Design Skills will be loaded dynamically -->
+              <div class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i>
+              </div>
+            </div>
+
+            <div class="category-panel" id="languages-skills">
+              <!-- Programming Languages will be loaded dynamically -->
+              <div class="skills-grid">
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <i class="fab fa-html5"></i>
+                  </div>
+                  <h3>HTML5</h3>
+                  <div class="skill-level">Expert</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 95%"></div>
+                  </div>
+                  <p>Semantic markup, accessibility, SVG, Canvas</p>
+                </div>
+
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <i class="fab fa-css3-alt"></i>
+                  </div>
+                  <h3>CSS3</h3>
+                  <div class="skill-level">Expert</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 90%"></div>
+                  </div>
+                  <p>Flexbox, Grid, animations, responsive design</p>
+                </div>
+
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <i class="fab fa-js"></i>
+                  </div>
+                  <h3>JavaScript</h3>
+                  <div class="skill-level">Expert</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 95%"></div>
+                  </div>
+                  <p>ES6+, async/await, functional programming</p>
+                </div>
+
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <i class="fab fa-python"></i>
+                  </div>
+                  <h3>Python</h3>
+                  <div class="skill-level">Advanced</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 85%"></div>
+                  </div>
+                  <p>Django, FastAPI, data processing, automation</p>
+                </div>
+
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <i class="fas fa-code"></i>
+                  </div>
+                  <h3>C</h3>
+                  <div class="skill-level">Intermediate</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 75%"></div>
+                  </div>
+                  <p>System programming, algorithms, data structures</p>
+                </div>
+
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <i class="fas fa-code"></i>
+                  </div>
+                  <h3>C++</h3>
+                  <div class="skill-level">Intermediate</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 70%"></div>
+                  </div>
+                  <p>OOP, STL, algorithm implementation</p>
+                </div>
+
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <i class="fab fa-java"></i>
+                  </div>
+                  <h3>Java</h3>
+                  <div class="skill-level">Intermediate</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 80%"></div>
+                  </div>
+                  <p>OOP, Spring Boot, enterprise applications</p>
+                </div>
+
+                <div class="skill-card">
+                  <div class="skill-icon">
+                    <span class="icon-text">TS</span>
+                  </div>
+                  <h3>TypeScript</h3>
+                  <div class="skill-level">Advanced</div>
+                  <div class="skill-bar">
+                    <div class="skill-progress" style="width: 85%"></div>
+                  </div>
+                  <p>Interfaces, generics, utility types, strict typing</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-    
+
     <!-- Skills Visualization -->
     <section class="skills-visualization section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Skills Visualization</h2>
-                <p>A graphical representation of my technical expertise</p>
-            </div>
-            
-            <div class="visualization-container">
-                <div class="chart-container">
-                    <canvas id="skillsRadarChart"></canvas>
-                </div>
-                
-                <div class="chart-container">
-                    <canvas id="experienceBarChart"></canvas>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Skills Visualization</h2>
+          <p>A graphical representation of my technical expertise</p>
         </div>
+
+        <div class="visualization-container">
+          <div class="chart-container">
+            <canvas id="skillsRadarChart"></canvas>
+          </div>
+
+          <div class="chart-container">
+            <canvas id="experienceBarChart"></canvas>
+          </div>
+        </div>
+      </div>
     </section>
-    
+
     <!-- Learning Journey -->
     <section class="learning-journey section">
-        <div class="container">
-            <div class="section-header">
-                <h2>My Learning Journey</h2>
-                <p>Continuous growth and skill acquisition over time</p>
-            </div>
-            
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-code"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Web Development Foundations</h3>
-                        <p class="timeline-date">2017-2018</p>
-                        <p>Started my journey with HTML, CSS, and JavaScript, building simple websites and exploring the fundamentals of web development.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fab fa-react"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Frontend Frameworks</h3>
-                        <p class="timeline-date">2019</p>
-                        <p>Delved into React.js and expanded my frontend skills, learning component-based architecture and state management.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-server"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Backend Development</h3>
-                        <p class="timeline-date">2020</p>
-                        <p>Mastered Node.js, Express, and database technologies to build full-stack applications and RESTful APIs.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>Mobile Development</h3>
-                        <p class="timeline-date">2021</p>
-                        <p>Expanded into mobile app development with React Native and Flutter, creating cross-platform solutions.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-cloud"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>DevOps & Cloud</h3>
-                        <p class="timeline-date">2022</p>
-                        <p>Gained expertise in deployment pipelines, containerization with Docker, and cloud services with AWS.</p>
-                    </div>
-                </div>
-                
-                <div class="timeline-item">
-                    <div class="timeline-marker">
-                        <i class="fas fa-brain"></i>
-                    </div>
-                    <div class="timeline-content">
-                        <h3>AI & Advanced Technologies</h3>
-                        <p class="timeline-date">2023-Present</p>
-                        <p>Currently exploring AI integration in web applications, machine learning, and advanced frontend optimizations.</p>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>My Learning Journey</h2>
+          <p>Continuous growth and skill acquisition over time</p>
         </div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <i class="fas fa-code"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>Web Development Foundations</h3>
+              <p class="timeline-date">2017-2018</p>
+              <p>
+                Started my journey with HTML, CSS, and JavaScript, building
+                simple websites and exploring the fundamentals of web
+                development.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <i class="fab fa-react"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>Frontend Frameworks</h3>
+              <p class="timeline-date">2019</p>
+              <p>
+                Delved into React.js and expanded my frontend skills, learning
+                component-based architecture and state management.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <i class="fas fa-server"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>Backend Development</h3>
+              <p class="timeline-date">2020</p>
+              <p>
+                Mastered Node.js, Express, and database technologies to build
+                full-stack applications and RESTful APIs.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <i class="fas fa-mobile-alt"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>Mobile Development</h3>
+              <p class="timeline-date">2021</p>
+              <p>
+                Expanded into mobile app development with React Native and
+                Flutter, creating cross-platform solutions.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <i class="fas fa-cloud"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>DevOps & Cloud</h3>
+              <p class="timeline-date">2022</p>
+              <p>
+                Gained expertise in deployment pipelines, containerization with
+                Docker, and cloud services with AWS.
+              </p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-marker">
+              <i class="fas fa-brain"></i>
+            </div>
+            <div class="timeline-content">
+              <h3>AI & Advanced Technologies</h3>
+              <p class="timeline-date">2023-Present</p>
+              <p>
+                Currently exploring AI integration in web applications, machine
+                learning, and advanced frontend optimizations.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
-    
+
     <!-- Certifications -->
     <section class="certifications section">
-        <div class="container">
-            <div class="section-header">
-                <h2>Certifications & Training</h2>
-                <p>Formal education and professional certifications</p>
-            </div>
-            
-            <div class="certificates-grid">
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>AWS Certified Developer - Associate</h3>
-                    <p class="certificate-issuer">Amazon Web Services</p>
-                    <p class="certificate-date">March 2023</p>
-                    <a href="#" class="certificate-link">View Certificate</a>
-                </div>
-                
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>Frontend Development Specialization</h3>
-                    <p class="certificate-issuer">Coursera & Meta</p>
-                    <p class="certificate-date">September 2022</p>
-                    <a href="#" class="certificate-link">View Certificate</a>
-                </div>
-                
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>Responsive Web Design</h3>
-                    <p class="certificate-issuer">freeCodeCamp</p>
-                    <p class="certificate-date">July 2021</p>
-                    <a href="#" class="certificate-link">View Certificate</a>
-                </div>
-                
-                <div class="certificate-card">
-                    <div class="certificate-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>JavaScript Algorithms and Data Structures</h3>
-                    <p class="certificate-issuer">freeCodeCamp</p>
-                    <p class="certificate-date">April 2021</p>
-                    <a href="#" class="certificate-link">View Certificate</a>
-                </div>
-            </div>
+      <div class="container">
+        <div class="section-header">
+          <h2>Certifications & Training</h2>
+          <p>Formal education and professional certifications</p>
         </div>
+
+        <div class="certificates-grid">
+          <div class="certificate-card">
+            <div class="certificate-icon">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <h3>AWS Certified Developer - Associate</h3>
+            <p class="certificate-issuer">Amazon Web Services</p>
+            <p class="certificate-date">March 2023</p>
+            <a href="#" class="certificate-link">View Certificate</a>
+          </div>
+
+          <div class="certificate-card">
+            <div class="certificate-icon">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <h3>Frontend Development Specialization</h3>
+            <p class="certificate-issuer">Coursera & Meta</p>
+            <p class="certificate-date">September 2022</p>
+            <a href="#" class="certificate-link">View Certificate</a>
+          </div>
+
+          <div class="certificate-card">
+            <div class="certificate-icon">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <h3>Responsive Web Design</h3>
+            <p class="certificate-issuer">freeCodeCamp</p>
+            <p class="certificate-date">July 2021</p>
+            <a href="#" class="certificate-link">View Certificate</a>
+          </div>
+
+          <div class="certificate-card">
+            <div class="certificate-icon">
+              <i class="fas fa-certificate"></i>
+            </div>
+            <h3>JavaScript Algorithms and Data Structures</h3>
+            <p class="certificate-issuer">freeCodeCamp</p>
+            <p class="certificate-date">April 2021</p>
+            <a href="#" class="certificate-link">View Certificate</a>
+          </div>
+        </div>
+      </div>
     </section>
-    
+
     <!-- CTA Section -->
     <section class="cta-section section">
-        <div class="container">
-            <div class="cta-content">
-                <h2>Let's Work Together</h2>
-                <p>Looking for a skilled developer to bring your ideas to life?</p>
-                <a href="index.html#contact" class="btn btn-primary">Contact Me</a>
-            </div>
+      <div class="container">
+        <div class="cta-content">
+          <h2>Let's Work Together</h2>
+          <p>Looking for a skilled developer to bring your ideas to life?</p>
+          <a href="index.html#contact" class="btn btn-primary">Contact Me</a>
         </div>
+      </div>
     </section>
-    
+
     <!-- Footer -->
     <footer class="site-footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-logo">
-                    <span class="logo-text">Rakib Rabbi</span>
-                    <p class="footer-tagline">Web Developer & UI/UX Designer</p>
-                </div>
-                
-                <div class="footer-nav">
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="projects.html">Projects</a></li>
-                        <li><a href="skills.html">Skills</a></li>
-                        <li><a href="achievements.html">Achievements</a></li>
-                        <li><a href="gallery.html">Gallery</a></li>
-                        <li><a href="testimonials.html">Testimonials</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-social">
-                    <h3>Connect</h3>
-                    <div class="social-links">
-                        <a href="https://linkedin.com/in/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                        <a href="https://github.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                            <i class="fab fa-github"></i>
-                        </a>
-                        <a href="https://twitter.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                        <a href="https://dribbble.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="Dribbble">
-                            <i class="fab fa-dribbble"></i>
-                        </a>
-                        <a href="https://instagram.com/mrakibbd" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                    </div>
-                </div>
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <span class="logo-text">Rakib Rabbi</span>
+            <p class="footer-tagline">Web Developer & UI/UX Designer</p>
+          </div>
+
+          <div class="footer-nav">
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="skills.html">Skills</a></li>
+              <li><a href="achievements.html">Achievements</a></li>
+              <li><a href="gallery.html">Gallery</a></li>
+              <li><a href="testimonials.html">Testimonials</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-social">
+            <h3>Connect With Me</h3>
+            <div class="social-links">
+              <a
+                href="https://github.com/ShahriarRakibRabbi"
+                aria-label="GitHub"
+                target="_blank"
+                ><i class="fab fa-github"></i
+              ></a>
+              <a
+                href="https://www.linkedin.com/in/md-shahriar-rakib-rabbi/"
+                aria-label="LinkedIn"
+                target="_blank"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="mailto:contact@shahriarrabbi.com" aria-label="Email"
+                ><i class="fas fa-envelope"></i
+              ></a>
             </div>
-            
-            <div class="footer-bottom">
-                <div class="copyright">
-                    &copy; <span id="current-year">2023</span> Md. Shahriar Rakib Rabbi. All rights reserved.
-                </div>
-                <div class="footer-signature">
-                    Made with <i class="fas fa-heart"></i> and <i class="fas fa-coffee"></i> in Dhaka, Bangladesh
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="footer-bottom">
+          <div class="copyright">
+            &copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi.
+            All rights reserved.
+          </div>
+          <div class="footer-signature">
+            Made with <i class="fas fa-heart"></i> using modern web technologies
+          </div>
+        </div>
+      </div>
     </footer>
-    
+
     <!-- Back to top button -->
     <button id="back-to-top" class="back-to-top" aria-label="Back to top">
-        <i class="fas fa-arrow-up"></i>
+      <i class="fas fa-arrow-up"></i>
     </button>
-    
+
     <!-- Scripts -->
     <script src="assets/js/data-loader.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Load skills data and populate the category panels except the languages one
-            // which is hardcoded in the HTML for the requested languages
-            
-            // Initialize radar chart for skills
-            const radarChartCtx = document.getElementById('skillsRadarChart').getContext('2d');
-            const skillsRadarChart = new Chart(radarChartCtx, {
-                type: 'radar',
-                data: {
-                    labels: ['Frontend', 'Backend', 'Mobile Dev', 'DevOps', 'Design', 'Languages'],
-                    datasets: [{
-                        label: 'Skill Level',
-                        data: [90, 85, 75, 70, 80, 85],
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        pointBackgroundColor: 'rgba(75, 192, 192, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(75, 192, 192, 1)'
-                    }]
+      document.addEventListener("DOMContentLoaded", function () {
+        // Load skills data and populate the category panels except the languages one
+        // which is hardcoded in the HTML for the requested languages
+
+        // Initialize radar chart for skills
+        const radarChartCtx = document
+          .getElementById("skillsRadarChart")
+          .getContext("2d");
+        const skillsRadarChart = new Chart(radarChartCtx, {
+          type: "radar",
+          data: {
+            labels: [
+              "Frontend",
+              "Backend",
+              "Mobile Dev",
+              "DevOps",
+              "Design",
+              "Languages",
+            ],
+            datasets: [
+              {
+                label: "Skill Level",
+                data: [90, 85, 75, 70, 80, 85],
+                backgroundColor: "rgba(75, 192, 192, 0.2)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                pointBackgroundColor: "rgba(75, 192, 192, 1)",
+                pointBorderColor: "#fff",
+                pointHoverBackgroundColor: "#fff",
+                pointHoverBorderColor: "rgba(75, 192, 192, 1)",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              r: {
+                beginAtZero: true,
+                max: 100,
+                ticks: {
+                  stepSize: 20,
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        r: {
-                            beginAtZero: true,
-                            max: 100,
-                            ticks: {
-                                stepSize: 20
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Initialize bar chart for experience
-            const barChartCtx = document.getElementById('experienceBarChart').getContext('2d');
-            const experienceBarChart = new Chart(barChartCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['JavaScript', 'React', 'Node.js', 'HTML/CSS', 'Python', 'Java', 'C/C++'],
-                    datasets: [{
-                        label: 'Years of Experience',
-                        data: [5, 4, 3, 6, 3, 2, 4],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(54, 162, 235, 0.2)',
-                            'rgba(255, 206, 86, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(153, 102, 255, 0.2)',
-                            'rgba(255, 159, 64, 0.2)',
-                            'rgba(199, 199, 199, 0.2)'
-                        ],
-                        borderColor: [
-                            'rgba(255, 99, 132, 1)',
-                            'rgba(54, 162, 235, 1)',
-                            'rgba(255, 206, 86, 1)',
-                            'rgba(75, 192, 192, 1)',
-                            'rgba(153, 102, 255, 1)',
-                            'rgba(255, 159, 64, 1)',
-                            'rgba(199, 199, 199, 1)'
-                        ],
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: 7,
-                            ticks: {
-                                stepSize: 1
-                            }
-                        }
-                    }
-                }
-            });
-            
-            // Category tab switching
-            const categoryTabs = document.querySelectorAll('.category-tab');
-            const categoryPanels = document.querySelectorAll('.category-panel');
-            
-            categoryTabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    const targetCategory = this.getAttribute('data-category');
-                    
-                    // Remove active class from all tabs
-                    categoryTabs.forEach(t => t.classList.remove('active'));
-                    
-                    // Add active class to clicked tab
-                    this.classList.add('active');
-                    
-                    // Hide all panels
-                    categoryPanels.forEach(panel => panel.classList.remove('active'));
-                    
-                    // Show target panel
-                    document.getElementById(targetCategory + '-skills').classList.add('active');
-                });
-            });
+              },
+            },
+          },
         });
+
+        // Initialize bar chart for experience
+        const barChartCtx = document
+          .getElementById("experienceBarChart")
+          .getContext("2d");
+        const experienceBarChart = new Chart(barChartCtx, {
+          type: "bar",
+          data: {
+            labels: [
+              "JavaScript",
+              "React",
+              "Node.js",
+              "HTML/CSS",
+              "Python",
+              "Java",
+              "C/C++",
+            ],
+            datasets: [
+              {
+                label: "Years of Experience",
+                data: [5, 4, 3, 6, 3, 2, 4],
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                  "rgba(199, 199, 199, 0.2)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(153, 102, 255, 1)",
+                  "rgba(255, 159, 64, 1)",
+                  "rgba(199, 199, 199, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                beginAtZero: true,
+                max: 7,
+                ticks: {
+                  stepSize: 1,
+                },
+              },
+            },
+          },
+        });
+
+        // Category tab switching
+        const categoryTabs = document.querySelectorAll(".category-tab");
+        const categoryPanels = document.querySelectorAll(".category-panel");
+
+        categoryTabs.forEach((tab) => {
+          tab.addEventListener("click", function () {
+            const targetCategory = this.getAttribute("data-category");
+
+            // Remove active class from all tabs
+            categoryTabs.forEach((t) => t.classList.remove("active"));
+
+            // Add active class to clicked tab
+            this.classList.add("active");
+
+            // Hide all panels
+            categoryPanels.forEach((panel) => panel.classList.remove("active"));
+
+            // Show target panel
+            document
+              .getElementById(targetCategory + "-skills")
+              .classList.add("active");
+          });
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

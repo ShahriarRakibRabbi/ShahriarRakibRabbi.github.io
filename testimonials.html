@@ -1,90 +1,315 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Testimonials | Md. Shahriar Rakib Rabbi</title>
-    <meta name="description" content="Testimonials and recommendations for Md. Shahriar Rakib Rabbi">
-    <link rel="stylesheet" href="assets/css/main.css">
-    <link rel="stylesheet" href="assets/css/components.css">
-    <link rel="stylesheet" href="assets/css/responsive.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
-</head>
-<body>
-    <!-- Navigation -->
-    <header class="header">
-        <div class="container">
-            <div class="header__inner">
-                <a href="index.html" class="logo">
-                    <span class="logo__text">Shahriar Rabbi</span>
-                </a>
-                <nav class="nav">
-                    <ul class="nav__list">
-                        <li class="nav__item"><a href="index.html" class="nav__link">Home</a></li>
-                        <li class="nav__item"><a href="index.html#about" class="nav__link">About</a></li>
-                        <li class="nav__item"><a href="skills.html" class="nav__link">Skills</a></li>
-                        <li class="nav__item"><a href="projects.html" class="nav__link">Projects</a></li>
-                        <li class="nav__item"><a href="achievements.html" class="nav__link">Achievements</a></li>
-                        <li class="nav__item"><a href="gallery.html" class="nav__link">Gallery</a></li>
-                        <li class="nav__item"><a href="testimonials.html" class="nav__link active">Testimonials</a></li>
-                        <li class="nav__item"><a href="index.html#contact" class="nav__link">Contact</a></li>
-                    </ul>
-                </nav>
-                <div class="header__buttons">
-                    <a href="assets/docs/resume.pdf" class="btn btn--primary" download>Download CV</a>
-                </div>
-                <button class="nav-toggle" aria-label="Toggle navigation">
-                    <span class="nav-toggle__bar"></span>
-                    <span class="nav-toggle__bar"></span>
-                    <span class="nav-toggle__bar"></span>
-                </button>
-            </div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Testimonials | SRR</title>
+    <meta
+      name="description"
+      content="Testimonials and recommendations for SRR"
+    />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <link rel="stylesheet" href="assets/css/components.css" />
+    <link rel="stylesheet" href="assets/css/responsive.css" />
+    <link rel="stylesheet" href="assets/css/projects.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+    />
+    <link rel="icon" type="image/png" href="assets/images/favicon.png" />
+  </head>
+  <body class="testimonials-page">
+    <!-- Header Section -->
+    <header class="site-header">
+      <div class="container">
+        <div class="logo">
+          <a href="index.html">
+            <span class="logo-text">SRR</span>
+          </a>
         </div>
+
+        <nav class="main-nav">
+          <button class="menu-toggle" aria-label="Toggle navigation menu">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <ul class="nav-menu">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="projects.html">Projects</a></li>
+            <li><a href="skills.html">Skills</a></li>
+            <li><a href="achievements.html">Achievements</a></li>
+            <li><a href="gallery.html">Gallery</a></li>
+            <li><a href="testimonials.html" class="active">Testimonials</a></li>
+            <li>
+              <a href="index.html#contact" class="nav-contact-link">Contact</a>
+            </li>
+          </ul>
+        </nav>
+
+        <div class="header-actions">
+          <!-- Dark Mode Toggle -->
+          <button
+            id="theme-toggle"
+            class="theme-toggle"
+            aria-label="Toggle dark mode"
+          >
+            <i class="fas fa-sun"></i>
+            <i class="fas fa-moon"></i>
+          </button>
+
+          <!-- Admin Login Link -->
+          <a
+            href="admin/index.html"
+            class="admin-login-link"
+            aria-label="Admin login"
+          >
+            <i class="fas fa-lock"></i>
+            <span>Admin</span>
+          </a>
+
+          <!-- Download CV -->
+          <a
+            href="assets/files/shahriar_rakib_cv.pdf"
+            class="btn btn-primary"
+            download
+          >
+            <i class="fas fa-download"></i> Download CV
+          </a>
+        </div>
+      </div>
     </header>
 
     <!-- Page Header -->
     <section class="page-header">
-        <div class="container">
-            <h1 class="page-header__title">Testimonials</h1>
-            <p class="page-header__subtitle">What people say about my work</p>
-        </div>
-        <div class="page-header__shape"></div>
+      <div class="container">
+        <h1 class="page-header__title">Client Testimonials</h1>
+        <p class="page-header__subtitle">
+          What others say about my work and collaboration
+        </p>
+      </div>
+      <div class="page-header__shape"></div>
     </section>
 
     <!-- Testimonials Section -->
-    <section class="testimonials-page section">
-        <div class="container">
-            <div class="testimonials-filter">
-                <button class="testimonials-filter__btn active" data-filter="all">All</button>
-                <button class="testimonials-filter__btn" data-filter="professor">Professors</button>
-                <button class="testimonials-filter__btn" data-filter="employer">Employers</button>
-                <button class="testimonials-filter__btn" data-filter="peer">Peers</button>
+    <section class="testimonials-section section">
+      <div class="container">
+        <!-- Testimonials Stats -->
+        <div class="projects-overview">
+          <div class="projects-stats">
+            <div class="stat-card">
+              <div class="stat-number" id="total-testimonials">0</div>
+              <div class="stat-label">Total Testimonials</div>
             </div>
-            
-            <div class="testimonials-grid" id="testimonials-full-grid">
-                <!-- Testimonials will be loaded dynamically from testimonials.json -->
+            <div class="stat-card">
+              <div class="stat-number" id="average-rating">0.0</div>
+              <div class="stat-label">Average Rating</div>
             </div>
+            <div class="stat-card">
+              <div class="stat-number" id="client-satisfaction">0%</div>
+              <div class="stat-label">Client Satisfaction</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-number" id="projects-completed">0</div>
+              <div class="stat-label">Projects Completed</div>
+            </div>
+          </div>
         </div>
+
+        <div class="section-header">
+          <h2 class="section-title">Client Feedback</h2>
+          <p class="section-description">
+            Kind words from clients, colleagues, and collaborators
+          </p>
+        </div>
+
+        <!-- Testimonial Controls -->
+        <div class="projects-controls">
+          <div class="projects-filter">
+            <button class="projects-filter__btn active" data-filter="all">
+              All
+            </button>
+            <button class="projects-filter__btn" data-filter="professor">
+              Professors
+            </button>
+            <button class="projects-filter__btn" data-filter="employer">
+              Employers
+            </button>
+            <button class="projects-filter__btn" data-filter="client">
+              Clients
+            </button>
+            <button class="projects-filter__btn" data-filter="peer">
+              Peers
+            </button>
+          </div>
+
+          <div class="projects-search-sort">
+            <div class="projects-search">
+              <input
+                type="text"
+                id="testimonial-search"
+                placeholder="Search testimonials..."
+              />
+              <button class="search-btn" aria-label="Search">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="projects-sort">
+              <select id="testimonials-sort">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="highest">Highest Rating</option>
+                <option value="name-asc">Name (A-Z)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset Filters -->
+        <div class="text-center mb-3">
+          <button id="reset-filters" class="btn btn-outline">
+            Reset Filters
+          </button>
+        </div>
+
+        <!-- Featured Testimonial -->
+        <div class="featured-testimonial" id="featured-testimonial">
+          <!-- Featured testimonial will be loaded dynamically -->
+        </div>
+
+        <!-- Testimonials Grid -->
+        <div class="projects-container">
+          <div class="testimonials-grid" id="testimonials-full-grid">
+            <!-- Testimonials will be loaded dynamically from testimonials.json -->
+          </div>
+
+          <!-- Pagination -->
+          <div class="pagination" id="testimonials-pagination"></div>
+
+          <!-- No Results -->
+          <div id="no-results" class="no-results" style="display: none">
+            <img
+              src="assets/images/no-results.svg"
+              alt="No results found"
+              width="200"
+            />
+            <h3>No Testimonials Found</h3>
+            <p>Try adjusting your search criteria or filters.</p>
+            <button id="clear-filters" class="btn btn--primary">
+              Clear Filters
+            </button>
+          </div>
+
+          <!-- Loading State -->
+          <div id="testimonials-loading" class="loading-container">
+            <div class="loading-spinner"></div>
+            <p>Loading testimonials...</p>
+          </div>
+
+          <!-- Error State -->
+          <div
+            id="testimonials-error"
+            class="error-container"
+            style="display: none"
+          >
+            <div class="error-icon">
+              <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <h3>Failed to load testimonials</h3>
+            <p class="error-message">
+              There was a problem loading the testimonials data. Please try
+              again later.
+            </p>
+            <button
+              class="btn btn--primary retry-btn"
+              id="retry-testimonials-btn"
+            >
+              <i class="fas fa-sync-alt"></i> Try Again
+            </button>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer__inner">
-                <div class="footer__copyright">
-                    <p>&copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi. All rights reserved.</p>
-                </div>
-                <div class="footer__social">
-                    <a href="https://github.com/ShahriarRakibRabbi" class="footer__social-link" aria-label="GitHub" target="_blank"><i class="fab fa-github"></i></a>
-                    <a href="https://www.linkedin.com/in/md-shahriar-rakib-rabbi/" class="footer__social-link" aria-label="LinkedIn" target="_blank"><i class="fab fa-linkedin"></i></a>
-                </div>
-            </div>
+    <!-- Add Testimonial CTA -->
+    <section class="projects-cta">
+      <div class="container">
+        <div class="cta-content">
+          <h3>Worked with me before?</h3>
+          <p>
+            If you've collaborated with me on a project and would like to share
+            your experience, I'd appreciate your feedback.
+          </p>
+          <a href="index.html#contact" class="btn--primary"
+            >Leave a Testimonial</a
+          >
         </div>
+      </div>
+    </section>
+
+    <!-- Back to top button -->
+    <button id="back-to-top" class="back-to-top" aria-label="Back to top">
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-logo">
+            <h3>Shahriar Rabbi</h3>
+            <p class="footer-tagline">AI Engineer & Full Stack Developer</p>
+          </div>
+          <div class="footer-nav">
+            <h3>Quick Links</h3>
+            <ul>
+              <li><a href="index.html">Home</a></li>
+              <li><a href="projects.html">Projects</a></li>
+              <li><a href="skills.html">Skills</a></li>
+              <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+          </div>
+          <div class="footer-social">
+            <h3>Connect With Me</h3>
+            <div class="social-links">
+              <a
+                href="https://github.com/ShahriarRakibRabbi"
+                aria-label="GitHub"
+                target="_blank"
+                ><i class="fab fa-github"></i
+              ></a>
+              <a
+                href="https://www.linkedin.com/in/md-shahriar-rakib-rabbi/"
+                aria-label="LinkedIn"
+                target="_blank"
+                ><i class="fab fa-linkedin"></i
+              ></a>
+              <a href="mailto:contact@shahriarrabbi.com" aria-label="Email"
+                ><i class="fas fa-envelope"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <div class="footer-copyright">
+            &copy; <span id="current-year">2024</span> Md. Shahriar Rakib Rabbi.
+            All rights reserved.
+          </div>
+          <div class="footer-signature">
+            Made with <i class="fas fa-heart"></i> using modern web technologies
+          </div>
+        </div>
+      </div>
     </footer>
 
     <!-- Scripts -->
     <script src="assets/js/data-loader.js"></script>
     <script src="assets/js/main.js"></script>
-</body>
+    <script src="assets/js/testimonials.js"></script>
+  </body>
 </html>
