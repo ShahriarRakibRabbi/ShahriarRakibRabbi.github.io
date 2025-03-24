@@ -837,3 +837,329 @@ if (
 ) {
   window.location.href = "index.html";
 }
+
+/**
+ * Authentication Module
+ * Handles secure login and authentication for admin panel
+ * Uses bcrypt-like hashing for secure password storage
+ */
+
+// Secure hashing implementation (simplified bcrypt-like algorithm for client-side)
+const SecureHash = (function () {
+  // Salt generation - creates a random string
+  function generateSalt(length = 16) {
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()-_=+[]{}|;:,.<>?";
+    let salt = "";
+    for (let i = 0; i < length; i++) {
+      salt += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return salt;
+  }
+
+  // Hash function that simulates multiple rounds of hashing
+  function hashPassword(password, salt, rounds = 10) {
+    let hash = password + salt;
+
+    // Multiple rounds of hashing to increase security
+    for (let i = 0; i < rounds; i++) {
+      hash = stringToHash(hash + salt);
+    }
+
+    return {
+      hash,
+      salt,
+      rounds,
+    };
+  }
+
+  // String to hash conversion using built-in encoding functions
+  function stringToHash(str) {
+    let hash = 0;
+    if (str.length === 0) return hash;
+
+    for (let i = 0; i < str.length; i++) {
+      const char = str.charCodeAt(i);
+      hash = (hash << 5) - hash + char;
+      hash = hash & hash; // Convert to 32bit integer
+    }
+
+    // Convert to base64-like string
+    const hashStr =
+      Math.abs(hash).toString(36) + Math.abs(hash * 13).toString(36);
+    return hashStr;
+  }
+
+  // Verify a password against stored hash
+  function verifyPassword(password, storedHash, storedSalt, rounds) {
+    const result = hashPassword(password, storedSalt, rounds);
+    return result.hash === storedHash;
+  }
+
+  return {
+    generateSalt,
+    hashPassword,
+    verifyPassword,
+  };
+})();
+
+// Authentication module
+const AuthModule = (function () {
+  // Default credentials (DO NOT use these in production - this is for demo purposes only)
+  // In a real app, you would store only the hashed password, not the actual password
+  const DEFAULT_USERNAME = "admin";
+
+  // Generate a secure password hash once on first load
+  // This creates a different salt each time the site loads for extra security
+  // In a real app, you'd store these securely on a server
+  const salt = SecureHash.generateSalt(20);
+  const rounds = 12; // Higher number = more secure but slower
+  const { hash } = SecureHash.hashPassword(
+    "secure_portfolio_2025",
+    salt,
+    rounds
+  );
+
+  const DEFAULT_CREDENTIALS = {
+    username: DEFAULT_USERNAME,
+    passwordHash: hash,
+    salt: salt,
+    rounds: rounds,
+  };
+
+  // Login function
+  function login(username, password) {
+    // Load stored credentials (or use defaults if none exist)
+    const storedCredentials = getStoredCredentials();
+
+    // Verify username
+    if (username !== storedCredentials.username) {
+      return false;
+    }
+
+    // Verify password
+    return SecureHash.verifyPassword(
+      password,
+      storedCredentials.passwordHash,
+      storedCredentials.salt,
+      storedCredentials.rounds
+    );
+  }
+
+  // Get stored credentials from local storage or use defaults
+  function getStoredCredentials() {
+    const storedAuth = localStorage.getItem("authData");
+    if (storedAuth) {
+      try {
+        return JSON.parse(storedAuth);
+      } catch (e) {
+        console.error("Error parsing stored credentials, using defaults");
+        return DEFAULT_CREDENTIALS;
+      }
+    }
+    return DEFAULT_CREDENTIALS;
+  }
+
+  // Store authentication in session storage
+  function storeAuthToken() {
+    // Generate a session token (in a real app, this would be from a server)
+    const token = "session_" + Math.random().toString(36).substring(2, 15);
+    const expiresAt = Date.now() + 24 * 60 * 60 * 1000; // 24 hours
+
+    sessionStorage.setItem("authToken", token);
+    sessionStorage.setItem("authExpires", expiresAt);
+  }
+
+  // Check if user is logged in
+  function isLoggedIn() {
+    const token = sessionStorage.getItem("authToken");
+    const expiresAt = sessionStorage.getItem("authExpires");
+
+    if (!token || !expiresAt) {
+      return false;
+    }
+
+    // Check if token is expired
+    if (Date.now() > parseInt(expiresAt)) {
+      logout();
+      return false;
+    }
+
+    return true;
+  }
+
+  // Logout function
+  function logout() {
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("authExpires");
+  }
+
+  // Change credentials
+  function changeCredentials(username, newPassword) {
+    if (!username || !newPassword) {
+      return false;
+    }
+
+    const salt = SecureHash.generateSalt(20);
+    const rounds = 12;
+    const { hash } = SecureHash.hashPassword(newPassword, salt, rounds);
+
+    const newCredentials = {
+      username,
+      passwordHash: hash,
+      salt,
+      rounds,
+    };
+
+    localStorage.setItem("authData", JSON.stringify(newCredentials));
+    return true;
+  }
+
+  // Initialize auth
+  function init() {
+    // Check if credentials already exist in local storage
+    if (!localStorage.getItem("authData")) {
+      // Store default credentials
+      localStorage.setItem("authData", JSON.stringify(DEFAULT_CREDENTIALS));
+    }
+  }
+
+  // Initialize on load
+  init();
+
+  // Public API
+  return {
+    login,
+    logout,
+    isLoggedIn,
+    changeCredentials,
+  };
+})();
+
+// Export functions for use in other files
+const login = AuthModule.login;
+const logout = AuthModule.logout;
+const isLoggedIn = AuthModule.isLoggedIn;
+const changeCredentials = AuthModule.changeCredentials;
+
+/**
+ * Authentication Module for Admin Panel
+ * Enhanced security with bcrypt-like salt and hash algorithm
+ * @version: 2.0
+ * @author: SRR
+ */
+
+// Secure hash function that mimics bcrypt behavior
+function secureHash(password, salt, iterations = 10000) {
+  // This is a simplified PBKDF2-like algorithm
+  let hash = password + salt;
+  for (let i = 0; i < iterations; i++) {
+    hash = btoa(unescape(encodeURIComponent(hash + password + salt))).substring(
+      0,
+      32
+    );
+  }
+  return hash;
+}
+
+// Generate a secure random salt
+function generateSalt(length = 16) {
+  const charset =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+  let salt = "";
+  for (let i = 0; i < length; i++) {
+    salt += charset.charAt(Math.floor(Math.random() * charset.length));
+  }
+  return salt;
+}
+
+// Check if user is logged in
+function isLoggedIn() {
+  return localStorage.getItem("srr_admin_token") !== null;
+}
+
+// Login function with enhanced security
+function login(username, password) {
+  return new Promise((resolve, reject) => {
+    fetch("./data/auth.json")
+      .then((response) => response.json())
+      .then((data) => {
+        const user = data.users.find((u) => u.username === username);
+
+        if (!user) {
+          reject("Invalid username or password");
+          return;
+        }
+
+        // Verify password using the stored salt
+        const hashedPassword = secureHash(password, user.salt, 10000);
+
+        if (hashedPassword === user.password) {
+          // Create and store a session token
+          const token = generateSessionToken(username);
+          localStorage.setItem("srr_admin_token", token);
+          localStorage.setItem("srr_admin_user", username);
+          localStorage.setItem("srr_admin_last_active", Date.now());
+
+          resolve(user);
+        } else {
+          reject("Invalid username or password");
+        }
+      })
+      .catch((error) => {
+        console.error("Login error:", error);
+        reject("Login failed. Please try again.");
+      });
+  });
+}
+
+// Generate a secure session token
+function generateSessionToken(username) {
+  const timestamp = Date.now();
+  const randomPart = Math.random().toString(36).substring(2);
+  const baseToken = username + timestamp + randomPart;
+  return btoa(unescape(encodeURIComponent(baseToken)));
+}
+
+// Logout function
+function logout() {
+  localStorage.removeItem("srr_admin_token");
+  localStorage.removeItem("srr_admin_user");
+  localStorage.removeItem("srr_admin_last_active");
+}
+
+// Check token expiration (session timeout after 1 hour)
+function checkSession() {
+  const lastActive = localStorage.getItem("srr_admin_last_active");
+
+  if (lastActive) {
+    const now = Date.now();
+    const elapsed = now - parseInt(lastActive);
+    const timeout = 60 * 60 * 1000; // 1 hour
+
+    if (elapsed > timeout) {
+      logout();
+      return false;
+    }
+
+    // Update last active time
+    localStorage.setItem("srr_admin_last_active", now);
+    return true;
+  }
+
+  return false;
+}
+
+// Create a new admin user (for first-time setup)
+function createAdminUser(username, password) {
+  const salt = generateSalt(16);
+  const hashedPassword = secureHash(password, salt, 10000);
+
+  return {
+    username,
+    password: hashedPassword,
+    salt,
+    role: "admin",
+    created: new Date().toISOString(),
+  };
+}

@@ -28,6 +28,16 @@
   gap: 1rem;
 }
 
+/* Fix skills page spacing - add more space between header and content */
+.skills-hero {
+  margin-bottom: 2.5rem; /* Increased space below skills hero section */
+  padding-top: 150px; /* Increased space at top between menu and content */
+}
+
+.page-hero {
+  padding-top: 100px; /* Consistent spacing across all pages */
+}
+
 .stat-card {
   background-color: var(--color-bg-secondary);
   border-radius: var(--radius-md);
@@ -53,6 +63,21 @@
 .stat-label {
   font-size: 0.9rem;
   color: var(--color-text-secondary);
+}
+
+/* Fix dark mode visibility for stats and experience numbers */
+html.dark-mode .stat-count,
+html.dark-mode .stat-number,
+html.dark-mode .stat-card h3,
+html.dark-mode .timeline-marker {
+  color: var(
+    --color-primary-light
+  ) !important; /* Ensure visibility in dark mode */
+  text-shadow: 0 0 10px rgba(var(--primary-color-rgb), 0.4); /* Add glow effect for better visibility */
+}
+
+html.dark-mode .stat-card {
+  border: 1px solid rgba(var(--primary-color-rgb), 0.3); /* Adds subtle border in dark mode */
 }
 
 .visualization-container {
@@ -245,6 +270,22 @@ html.dark-mode .category-tab:hover {
 
 html.dark-mode .category-tab.active {
   background-color: var(--color-primary-dark);
+}
+
+/* Dark mode visibility fixes */
+html.dark-mode .stat-number {
+  color: var(--color-primary-light);
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.15);
+}
+
+html.dark-mode .stat-label {
+  color: var(--color-text-light);
+}
+
+html.dark-mode .cta-section h2,
+html.dark-mode .cta-section p {
+  color: var(--color-text-light);
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Mobile responsiveness for skills page */
@@ -470,15 +511,20 @@ html.dark-mode .category-tab:hover {
 /* Mobile menu fixes */
 @media (max-width: 768px) {
   .nav-menu {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
+    position: fixed;
+    top: 70px; /* Add specific top position to avoid overlap */
+    right: 0;
     width: 100%;
     background-color: var(--color-bg-primary);
     padding: 1rem;
     flex-direction: column;
     align-items: flex-start;
+    display: none;
+    z-index: 999; /* Increase z-index to ensure menu is on top */
+    border-top: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
   }
 
   .nav-menu.active {
@@ -487,6 +533,7 @@ html.dark-mode .category-tab:hover {
 
   .menu-toggle {
     display: block;
+    z-index: 1000; /* Ensure toggle is above other elements */
   }
 
   .header-actions {
@@ -549,4 +596,162 @@ html.dark-mode .category-tab:hover {
   );
   clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
   z-index: -1;
+}
+
+/* Enhance experience and impact visibility */
+.timeline-item {
+  position: relative;
+  padding-left: 70px;
+  margin-bottom: var(--space-xl);
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s forwards;
+  animation-delay: calc(var(--animation-order, 0) * 0.2s);
+}
+
+.timeline-marker {
+  position: absolute;
+  left: 0;
+  width: 50px;
+  height: 50px;
+  background-color: var(--color-bg-primary);
+  border: 3px solid var(--color-primary); /* Thicker border */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  z-index: 1;
+  box-shadow: 0 0 15px rgba(var(--color-primary-rgb), 0.2); /* Add glow */
+}
+
+.timeline-content {
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  border-left: 3px solid var(--color-primary); /* Add colored border */
+}
+
+.timeline-date {
+  color: var(--color-primary);
+  font-weight: 600; /* Make bolder */
+  font-size: 0.95rem; /* Slightly larger */
+  margin-bottom: var(--space-sm);
+}
+
+.timeline-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: var(--space-xs);
+  color: var(--color-text-primary);
+}
+
+/* Fix CTA "Get in Touch" text visibility */
+.cta-section {
+  position: relative;
+  padding: var(--space-xl) 0;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-primary-dark) 100%
+  );
+}
+
+.cta-content h2 {
+  color: white;
+  font-size: 2rem;
+  margin-bottom: var(--space-md);
+  text-shadow: 0px 2px 4px rgba(0, 0, 0, 0.3); /* Add shadow for better contrast */
+}
+
+.cta-content p {
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.1rem;
+  margin-bottom: var(--space-lg);
+  text-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* Add shadow for better contrast */
+}
+
+.cta-section .btn-primary {
+  background-color: white;
+  color: var(--color-primary);
+  font-weight: 600;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.cta-section .btn-primary:hover {
+  background-color: white;
+  color: var(--color-primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fix Technical Arsenal section responsiveness */
+.skills-preview {
+  flex: 2;
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-sm);
+  margin-top: 1rem; /* Add some spacing at the top */
+}
+
+.skills-preview h3 {
+  margin-bottom: var(--space-md);
+  color: var(--color-text-primary);
+  font-size: 1.125rem; /* Slightly smaller font size */
+  text-align: center; /* Center the heading */
+}
+
+.skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center the tags */
+  gap: 0.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.skill-tag {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-secondary);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.875rem;
+  border: 1px solid var(--color-border);
+  transition: all 0.2s ease;
+}
+
+/* Responsive adjustments for about section and skills-preview */
+@media (max-width: 992px) {
+  .about-content {
+    flex-direction: column;
+    gap: var(--space-lg);
+  }
+
+  .skills-preview {
+    width: 100%;
+  }
+}
+
+@media (max-width: 576px) {
+  .skill-tags {
+    gap: 0.4rem;
+  }
+
+  .skill-tag {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.8rem;
+  }
+
+  .skills-preview {
+    padding: var(--space-md);
+  }
 }

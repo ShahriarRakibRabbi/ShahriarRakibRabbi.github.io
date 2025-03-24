@@ -1,345 +1,280 @@
-{
-    "skills": [
-      {
-        "category": "frontend",
-        "items": [
-          {
-            "name": "HTML5",
-            "level": 95,
-            "levelText": "Expert",
-            "icon": "fab fa-html5",
-            "description": "Semantic markup, accessibility, SVG, Canvas",
-            "yearsExperience": 6
-          },
-          {
-            "name": "CSS3",
-            "level": 90,
-            "levelText": "Expert",
-            "icon": "fab fa-css3-alt",
-            "description": "Flexbox, Grid, animations, responsive design",
-            "yearsExperience": 6
-          },
-          {
-            "name": "JavaScript",
-            "level": 95,
-            "levelText": "Expert",
-            "icon": "fab fa-js",
-            "description": "ES6+, async/await, functional programming",
-            "yearsExperience": 5
-          },
-          {
-            "name": "React.js",
-            "level": 90,
-            "levelText": "Expert",
-            "icon": "fab fa-react",
-            "description": "React hooks, context API, Redux, Next.js",
-            "yearsExperience": 4
-          },
-          {
-            "name": "Vue.js",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fab fa-vuejs",
-            "description": "Vue 3, Composition API, Vuex, Nuxt.js",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Angular",
-            "level": 75,
-            "levelText": "Intermediate",
-            "icon": "fab fa-angular",
-            "description": "Components, services, RxJS, NgRx",
-            "yearsExperience": 2
-          },
-          {
-            "name": "SASS/SCSS",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fab fa-sass",
-            "description": "Variables, mixins, functions, architecture",
-            "yearsExperience": 4
-          },
-          {
-            "name": "TypeScript",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "icon-text",
-            "iconText": "TS",
-            "description": "Interfaces, generics, utility types, strict typing",
-            "yearsExperience": 3
-          }
-        ]
-      },
-      {
-        "category": "backend",
-        "items": [
-          {
-            "name": "Node.js",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fab fa-node-js",
-            "description": "Express.js, REST APIs, authentication, middleware",
-            "yearsExperience": 4
-          },
-          {
-            "name": "Python",
-            "level": 80,
-            "levelText": "Advanced",
-            "icon": "fab fa-python",
-            "description": "Django, FastAPI, data processing, automation",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Java",
-            "level": 75,
-            "levelText": "Intermediate",
-            "icon": "fab fa-java",
-            "description": "Spring Boot, Hibernate, RESTful services",
-            "yearsExperience": 2
-          },
-          {
-            "name": "PHP",
-            "level": 70,
-            "levelText": "Intermediate",
-            "icon": "fab fa-php",
-            "description": "Laravel, WordPress, custom CMS development",
-            "yearsExperience": 3
-          },
-          {
-            "name": "GraphQL",
-            "level": 80,
-            "levelText": "Advanced",
-            "icon": "icon-text",
-            "iconText": "GQL",
-            "description": "Schema design, resolvers, Apollo Server",
-            "yearsExperience": 2
-          },
-          {
-            "name": "SQL",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fas fa-database",
-            "description": "MySQL, PostgreSQL, query optimization",
-            "yearsExperience": 4
-          },
-          {
-            "name": "NoSQL",
-            "level": 80,
-            "levelText": "Advanced",
-            "icon": "fas fa-database",
-            "description": "MongoDB, Firebase, Redis, data modeling",
-            "yearsExperience": 3
-          }
-        ]
-      },
-      {
-        "category": "devops",
-        "items": [
-          {
-            "name": "Git",
-            "level": 90,
-            "levelText": "Expert",
-            "icon": "fab fa-git-alt",
-            "description": "Version control, branching strategies, CI/CD integration",
-            "yearsExperience": 5
-          },
-          {
-            "name": "Docker",
-            "level": 80,
-            "levelText": "Advanced",
-            "icon": "fab fa-docker",
-            "description": "Containerization, Docker Compose, multi-stage builds",
-            "yearsExperience": 3
-          },
-          {
-            "name": "AWS",
-            "level": 75,
-            "levelText": "Intermediate",
-            "icon": "fab fa-aws",
-            "description": "EC2, S3, Lambda, RDS, CloudFront, Route 53",
-            "yearsExperience": 3
-          },
-          {
-            "name": "CI/CD",
-            "level": 80,
-            "levelText": "Advanced",
-            "icon": "fas fa-code-branch",
-            "description": "GitHub Actions, Jenkins, automation pipelines",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Nginx",
-            "level": 75,
-            "levelText": "Intermediate",
-            "icon": "fas fa-server",
-            "description": "Web server configuration, load balancing, caching",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Linux",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fab fa-linux",
-            "description": "Shell scripting, system administration, automation",
-            "yearsExperience": 4
-          }
-        ]
-      },
-      {
-        "category": "mobile",
-        "items": [
-          {
-            "name": "React Native",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fab fa-react",
-            "description": "Cross-platform mobile app development, Expo",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Flutter",
-            "level": 70,
-            "levelText": "Intermediate",
-            "icon": "icon-text",
-            "iconText": "FL",
-            "description": "Dart, widgets, state management, animations",
-            "yearsExperience": 2
-          },
-          {
-            "name": "Progressive Web Apps",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fas fa-mobile-alt",
-            "description": "Service workers, offline caching, push notifications",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Android",
-            "level": 60,
-            "levelText": "Basic",
-            "icon": "fab fa-android",
-            "description": "Java, XML layouts, Android SDK",
-            "yearsExperience": 1
-          }
-        ]
-      },
-      {
-        "category": "design",
-        "items": [
-          {
-            "name": "UI/UX Design",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fas fa-pencil-ruler",
-            "description": "User research, wireframing, prototyping",
-            "yearsExperience": 4
-          },
-          {
-            "name": "Figma",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fab fa-figma",
-            "description": "Design systems, prototyping, collaboration",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Adobe XD",
-            "level": 80,
-            "levelText": "Advanced",
-            "icon": "icon-text",
-            "iconText": "XD",
-            "description": "Interface design, interactive prototypes",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Adobe Photoshop",
-            "level": 75,
-            "levelText": "Intermediate",
-            "icon": "icon-text",
-            "iconText": "PS",
-            "description": "Image editing, digital compositions, web assets",
-            "yearsExperience": 4
-          },
-          {
-            "name": "Adobe Illustrator",
-            "level": 70,
-            "levelText": "Intermediate",
-            "icon": "icon-text",
-            "iconText": "AI",
-            "description": "Vector graphics, logos, icons, illustrations",
-            "yearsExperience": 3
-          }
-        ]
-      },
-      {
-        "category": "languages",
-        "items": [
-          {
-            "name": "JavaScript",
-            "level": 95,
-            "levelText": "Expert",
-            "icon": "fab fa-js",
-            "description": "ES6+, async/await, functional programming",
-            "yearsExperience": 5
-          },
-          {
-            "name": "TypeScript",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "icon-text",
-            "iconText": "TS",
-            "description": "Interfaces, generics, utility types, strict typing",
-            "yearsExperience": 3
-          },
-          {
-            "name": "Python",
-            "level": 80,
-            "levelText": "Advanced",
-            "icon": "fab fa-python",
-            "description": "Django, FastAPI, data processing, automation",
-            "yearsExperience": 3
-          },
-          {
-            "name": "C",
-            "level": 75,
-            "levelText": "Intermediate",
-            "icon": "fas fa-code",
-            "description": "System programming, algorithms, data structures",
-            "yearsExperience": 3
-          },
-          {
-            "name": "C++",
-            "level": 70,
-            "levelText": "Intermediate",
-            "icon": "fas fa-code",
-            "description": "OOP, STL, algorithm implementation",
-            "yearsExperience": 2
-          },
-          {
-            "name": "Java",
-            "level": 75,
-            "levelText": "Intermediate",
-            "icon": "fab fa-java",
-            "description": "OOP, Spring Boot, enterprise applications",
-            "yearsExperience": 2
-          },
-          {
-            "name": "PHP",
-            "level": 70,
-            "levelText": "Intermediate",
-            "icon": "fab fa-php",
-            "description": "Laravel, WordPress, custom CMS development",
-            "yearsExperience": 3
-          },
-          {
-            "name": "SQL",
-            "level": 85,
-            "levelText": "Advanced",
-            "icon": "fas fa-database",
-            "description": "Relational database querying and management",
-            "yearsExperience": 4
-          }
-        ]
-      }
-    ]
+[
+  {
+    "name": "JavaScript",
+    "icon": "fab fa-js",
+    "color": "#f7df1e",
+    "level": 90,
+    "description": "Advanced JavaScript programming including ES6+ features, async/await, and functional programming",
+    "category": "languages",
+    "experience": "6 years",
+    "certifications": [
+      "JavaScript Advanced",
+      "JS Algorithms & Data Structures"
+    ],
+    "projects": ["Portfolio Website", "Task Management App"]
+  },
+  {
+    "name": "React.js",
+    "icon": "fab fa-react",
+    "color": "#61dafb",
+    "level": 85,
+    "description": "Building modern SPA with React hooks, context API, and Redux state management",
+    "category": "frontend",
+    "experience": "4 years",
+    "certifications": ["React Developer"],
+    "projects": ["E-Commerce Dashboard", "Social Media App"]
+  },
+  {
+    "name": "HTML5",
+    "icon": "fab fa-html5",
+    "color": "#e34f26",
+    "level": 95,
+    "description": "Semantic HTML, accessibility best practices, and modern markup techniques",
+    "category": "frontend",
+    "experience": "6 years",
+    "certifications": ["Web Accessibility"],
+    "projects": ["Portfolio Website", "Company Landing Page"]
+  },
+  {
+    "name": "CSS3",
+    "icon": "fab fa-css3-alt",
+    "color": "#264de4",
+    "level": 90,
+    "description": "Advanced CSS including Flexbox, Grid, animations, and responsive design",
+    "category": "frontend",
+    "experience": "6 years",
+    "certifications": ["CSS Advanced"],
+    "projects": ["Portfolio Website", "E-Commerce Frontend"]
+  },
+  {
+    "name": "Node.js",
+    "icon": "fab fa-node-js",
+    "color": "#339933",
+    "level": 80,
+    "description": "Building RESTful APIs, authentication systems, and backend services",
+    "category": "backend",
+    "experience": "3 years",
+    "certifications": ["Node.js Developer"],
+    "projects": ["REST API Service", "Authentication Server"]
+  },
+  {
+    "name": "Express.js",
+    "icon": "fas fa-server",
+    "color": "#000000",
+    "level": 78,
+    "description": "Creating robust backends with middleware, routing, and MVC architecture",
+    "category": "backend",
+    "experience": "3 years",
+    "certifications": [],
+    "projects": ["Blog API", "E-Commerce Backend"]
+  },
+  {
+    "name": "MongoDB",
+    "icon": "fas fa-database",
+    "color": "#47A248",
+    "level": 75,
+    "description": "NoSQL database design, aggregation framework, and data modeling",
+    "category": "backend",
+    "experience": "3 years",
+    "certifications": ["MongoDB Basics"],
+    "projects": ["Content Management System", "User Management DB"]
+  },
+  {
+    "name": "TypeScript",
+    "icon": "fas fa-code",
+    "color": "#007acc",
+    "level": 75,
+    "description": "Type-safe JavaScript development with interfaces, generics, and advanced types",
+    "category": "languages",
+    "experience": "2 years",
+    "certifications": [],
+    "projects": ["TypeScript API", "React+TypeScript App"]
+  },
+  {
+    "name": "Python",
+    "icon": "fab fa-python",
+    "color": "#3776ab",
+    "level": 82,
+    "description": "Backend development, data analysis, and automation scripts",
+    "category": "languages",
+    "experience": "4 years",
+    "certifications": ["Python Developer"],
+    "projects": ["Data Analysis Tool", "Web Scraper"]
+  },
+  {
+    "name": "Git",
+    "icon": "fab fa-git-alt",
+    "color": "#f05032",
+    "level": 85,
+    "description": "Version control, branching strategies, and collaborative workflows",
+    "category": "tools",
+    "experience": "5 years",
+    "certifications": [],
+    "projects": ["All Projects"]
+  },
+  {
+    "name": "Docker",
+    "icon": "fab fa-docker",
+    "color": "#2496ed",
+    "level": 70,
+    "description": "Containerization of applications and services with Docker and Docker Compose",
+    "category": "tools",
+    "experience": "2 years",
+    "certifications": [],
+    "projects": ["Containerized API", "Microservices Platform"]
+  },
+  {
+    "name": "AWS",
+    "icon": "fab fa-aws",
+    "color": "#232f3e",
+    "level": 65,
+    "description": "Cloud services including EC2, S3, Lambda, and API Gateway",
+    "category": "tools",
+    "experience": "2 years",
+    "certifications": ["AWS Cloud Practitioner"],
+    "projects": ["Serverless API", "Cloud Storage App"]
+  },
+  {
+    "name": "GraphQL",
+    "icon": "fas fa-project-diagram",
+    "color": "#e535ab",
+    "level": 68,
+    "description": "Building and consuming GraphQL APIs with Apollo Client/Server",
+    "category": "backend",
+    "experience": "1.5 years",
+    "certifications": [],
+    "projects": ["GraphQL API", "Data Fetching Layer"]
+  },
+  {
+    "name": "Next.js",
+    "icon": "fas fa-forward",
+    "color": "#000000",
+    "level": 78,
+    "description": "Server-side rendering, static site generation, and API routes",
+    "category": "frontend",
+    "experience": "2 years",
+    "certifications": [],
+    "projects": ["Marketing Website", "Blog Platform"]
+  },
+  {
+    "name": "Vue.js",
+    "icon": "fab fa-vuejs",
+    "color": "#4fc08d",
+    "level": 65,
+    "description": "Building reactive interfaces with Vue components and Vuex",
+    "category": "frontend",
+    "experience": "1 year",
+    "certifications": [],
+    "projects": ["Admin Dashboard", "Personal Project"]
+  },
+  {
+    "name": "TensorFlow",
+    "icon": "fas fa-brain",
+    "color": "#ff6f00",
+    "level": 50,
+    "description": "Building and deploying machine learning models for image classification",
+    "category": "aiml",
+    "experience": "1 year",
+    "certifications": [],
+    "projects": ["Image Recognition App", "ML Experiments"]
+  },
+  {
+    "name": "PyTorch",
+    "icon": "fas fa-fire",
+    "color": "#ee4c2c",
+    "level": 45,
+    "description": "Deep learning models and neural networks for NLP tasks",
+    "category": "aiml",
+    "experience": "8 months",
+    "certifications": [],
+    "projects": ["Sentiment Analysis", "Text Generator"]
+  },
+  {
+    "name": "NLP",
+    "icon": "fas fa-comment-dots",
+    "color": "#5a67d8",
+    "level": 55,
+    "description": "Natural language processing for text analysis and sentiment detection",
+    "category": "aiml",
+    "experience": "1 year",
+    "certifications": [],
+    "projects": ["Chatbot", "Text Classifier"]
+  },
+  {
+    "name": "UI Design",
+    "icon": "fas fa-palette",
+    "color": "#ff7c7c",
+    "level": 75,
+    "description": "Creating user interfaces with Figma and implementing with CSS",
+    "category": "frontend",
+    "experience": "3 years",
+    "certifications": ["UI/UX Fundamentals"],
+    "projects": ["Portfolio Design", "Mobile App UI"]
+  },
+  {
+    "name": "SQL",
+    "icon": "fas fa-database",
+    "color": "#336791",
+    "level": 70,
+    "description": "Database design, queries, and performance optimization",
+    "category": "backend",
+    "experience": "4 years",
+    "certifications": [],
+    "projects": ["Inventory System", "Analytics Dashboard"]
+  },
+  {
+    "name": "Jest",
+    "icon": "fas fa-vial",
+    "color": "#c21325",
+    "level": 72,
+    "description": "Unit testing and integration testing for JavaScript applications",
+    "category": "tools",
+    "experience": "2.5 years",
+    "certifications": [],
+    "projects": ["Tested API", "React Component Tests"]
+  },
+  {
+    "name": "Cypress",
+    "icon": "fas fa-check-circle",
+    "color": "#04c38e",
+    "level": 68,
+    "description": "End-to-end testing for web applications with real browser testing",
+    "category": "tools",
+    "experience": "1.5 years",
+    "certifications": [],
+    "projects": ["E2E Test Suite", "User Flow Tests"]
+  },
+  {
+    "name": "CI/CD",
+    "icon": "fas fa-sync-alt",
+    "color": "#40b5a4",
+    "level": 70,
+    "description": "Automated testing and deployment pipelines with GitHub Actions and Jenkins",
+    "category": "tools",
+    "experience": "2 years",
+    "certifications": [],
+    "projects": ["Automated Deployment", "Build Pipeline"]
+  },
+  {
+    "name": "Java",
+    "icon": "fab fa-java",
+    "color": "#007396",
+    "level": 60,
+    "description": "OOP principles, multithreading, and enterprise applications",
+    "category": "languages",
+    "experience": "2 years",
+    "certifications": [],
+    "projects": ["Backend Services", "Utility Applications"]
+  },
+  {
+    "name": "C++",
+    "icon": "fas fa-code",
+    "color": "#00599c",
+    "level": 55,
+    "description": "Systems programming, algorithms, and data structures",
+    "category": "languages",
+    "experience": "1.5 years",
+    "certifications": [],
+    "projects": ["Algorithm Implementations", "Desktop Utilities"]
   }
+]
